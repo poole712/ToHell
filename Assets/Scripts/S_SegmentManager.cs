@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class S_SegmentManager : MonoBehaviour
@@ -11,6 +13,7 @@ public class S_SegmentManager : MonoBehaviour
     // Start is called before the first frame update
 
     private void Awake() {
+        UsedSegments = new List<GameObject>();
         foreach(GameObject segment in Segments) {
             segment.GetComponent<S_Segment>().SegmentManager = this;
         }
@@ -18,7 +21,7 @@ public class S_SegmentManager : MonoBehaviour
     void Start()
     {
         currentSegment = Segments[Random.Range(0, Segments.Count)];
-        currentSegment.transform.position = new Vector2(0, -4);
+        currentSegment.transform.position = new Vector2(0, -4.5f);
     }
 
     // Update is called once per frame
@@ -29,12 +32,15 @@ public class S_SegmentManager : MonoBehaviour
 
     public void SpawnNextSegment() 
     {
-        if(Segments.Count >= 3) 
+        if(Segments.Count >= 1) 
         {
             int index = Random.Range(0, Segments.Count);
-            Segments[index].transform.position = currentSegment.transform.GetChild(0).transform.position;
-            UsedSegments.Add(Segments[index]);
+            GameObject nextSegment = Segments[index];
+            nextSegment.transform.position = currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
+            currentSegment = nextSegment;
+            UsedSegments.Add(currentSegment);
             Segments.RemoveAt(index);
+
         }
         else
         {
