@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,10 @@ public class S_SegmentManager : MonoBehaviour
     }
     void Start()
     {
-        currentSegment = Segments[Random.Range(0, Segments.Count)];
+        currentSegment = Segments[UnityEngine.Random.Range(0, Segments.Count)];
         currentSegment.transform.position = new Vector2(0, -4.5f);
+        UsedSegments.Add(currentSegment);
+        Segments.Remove(currentSegment);
     }
 
     // Update is called once per frame
@@ -34,7 +37,7 @@ public class S_SegmentManager : MonoBehaviour
     {
         if(Segments.Count >= 1) 
         {
-            int index = Random.Range(0, Segments.Count);
+            int index = UnityEngine.Random.Range(0, Segments.Count);
             GameObject nextSegment = Segments[index];
             nextSegment.transform.position = currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
             currentSegment = nextSegment;
