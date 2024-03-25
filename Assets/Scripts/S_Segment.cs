@@ -16,7 +16,7 @@ public class S_Segment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //hello
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
