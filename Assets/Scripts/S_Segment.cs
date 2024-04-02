@@ -7,6 +7,7 @@ public class S_Segment : MonoBehaviour
     [HideInInspector]public S_SegmentManager SegmentManager;
 
     public GameObject Segment;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,11 +24,14 @@ public class S_Segment : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             SegmentManager.SpawnNextSegment();
-            if(Segment != null)
-            {
-                Segment.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                Segment.GetComponent<Explodable>().explode();
-            }
         }
     }
+
+    public void Explode()
+    {
+        Segment.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        Segment.GetComponent<Explodable>().explode();
+    }
+
+    
 }

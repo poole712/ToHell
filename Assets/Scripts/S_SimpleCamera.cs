@@ -5,6 +5,9 @@ using UnityEngine;
 public class S_SimpleCamera : MonoBehaviour
 {
     [SerializeField]private GameObject player;
+
+    public float XOffset;
+    public float YOffset;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +21,6 @@ public class S_SimpleCamera : MonoBehaviour
     }
 
     private void LateUpdate() {
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+        transform.position = new Vector3(player.transform.position.x + XOffset, player.transform.position.y + YOffset, -10);
     }
 }

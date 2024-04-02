@@ -39,7 +39,6 @@ public class S_GrassExternalVelocityTrigger : MonoBehaviour
 
             if (!_easeInCoroutineRunning && Mathf.Abs(_playerRB.velocity.x) > Mathf.Abs(_grassVelocityController.VelocityThreshold))
             {
-                Debug.Log("Hit player, Vel: " + Mathf.Abs(_playerRB.velocity.x));
 
                 StartCoroutine(EaseIn(_playerRB.velocity.x * _grassVelocityController.ExternalInfluenceStrength));
 
