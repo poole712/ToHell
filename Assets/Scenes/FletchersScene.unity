@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 83811615}
   m_Layer: 7
   m_Name: Segment
-  m_TagString: Untagged
+  m_TagString: Layer 1 (Top)
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1371,7 +1371,7 @@ GameObject:
   - component: {fileID: 133588581}
   m_Layer: 7
   m_Name: Segment (4)
-  m_TagString: Untagged
+  m_TagString: Layer 1 (Top)
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5538,7 +5538,7 @@ GameObject:
   - component: {fileID: 544019495}
   m_Layer: 7
   m_Name: Segment (2)
-  m_TagString: Untagged
+  m_TagString: Layer 1 (Top)
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9503,7 +9503,7 @@ GameObject:
   - component: {fileID: 991300130}
   m_Layer: 7
   m_Name: Segment (3)
-  m_TagString: Untagged
+  m_TagString: Layer 1 (Top)
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14882,7 +14882,7 @@ GameObject:
   - component: {fileID: 1721833958}
   m_Layer: 7
   m_Name: Segment (1)
-  m_TagString: Untagged
+  m_TagString: Layer 1 (Top)
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17799,6 +17799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e25d0ea48fa2fa4aaf46689e1ad5b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  specifiedLayer: Layer 1 (Top)
   Segments:
   - {fileID: 83811612}
   - {fileID: 1721833957}
