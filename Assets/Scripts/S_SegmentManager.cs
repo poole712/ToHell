@@ -17,7 +17,7 @@ public class S_SegmentManager : MonoBehaviour
     [S_SegmentManager(layer = new string[] { "Layer 1 (Top)", "Layer 2", "Layer 3", "Layer 4", "Layer 5 (Bottom)" })]
     public string specifiedLayer;
 
-    [SerializeField]private List<GameObject> Segments;
+    public List<GameObject> Segments;
     private List<GameObject> usedSegments; 
 
     private GameObject currentSegment;
@@ -30,14 +30,14 @@ public class S_SegmentManager : MonoBehaviour
         foreach(GameObject segment in Segments) {
             segment.GetComponent<S_Segment>().SegmentManager = this;
         }
-    }
-    void Start()
-    {
-        layerHealthBar.fillAmount = layerHealth / 100;
         currentSegment = Segments[UnityEngine.Random.Range(0, Segments.Count)];
         currentSegment.transform.position = new Vector2(0, -4.5f);
         usedSegments.Add(currentSegment);
         Segments.Remove(currentSegment);
+    }
+    void Start()
+    {
+        layerHealthBar.fillAmount = layerHealth / 100;
     }
 
     public void DamageLayer(float damage)
@@ -56,6 +56,7 @@ public class S_SegmentManager : MonoBehaviour
     {
         if(Segments.Count >= 1) 
         {
+            Debug.Log("Spawn Next Segment");
             int index = UnityEngine.Random.Range(0, Segments.Count);
             GameObject nextSegment = Segments[index];
             if(nextSegment != null)
@@ -66,11 +67,15 @@ public class S_SegmentManager : MonoBehaviour
                 Segments.RemoveAt(index);
             }
         }
-        else
+        else if (usedSegments.Count > 0)
         {
             Segments.AddRange(usedSegments);
             usedSegments.Clear();
             SpawnNextSegment();
+        }
+        else
+        {
+            Debug.Log("No segments available to spawn.");
         }
     }
 }
@@ -117,7 +122,12 @@ public class S_SegmentManagerEditor : Editor
     {
         serializedObject.Update();
 
+        var segmentsProperty = serializedObject.FindProperty("Segments");
+        EditorGUILayout.PropertyField(segmentsProperty, true);
+
         serializedObject.ApplyModifiedProperties();
+
+
 
         buttonStyle = new GUIStyle(GUI.skin.button);
         buttonStyle.normal.textColor = Color.white;
@@ -129,6 +139,7 @@ public class S_SegmentManagerEditor : Editor
         // Fetching specifiedLayer value using reflection
         var targetObject = (S_SegmentManager)target;
         var specifiedLayer = targetObject.specifiedLayer;
+
 
         using (new EditorGUILayout.HorizontalScope())
         {
@@ -152,14 +163,35 @@ public class S_SegmentManagerEditor : Editor
             if (GUILayout.Button("Disable/Enable all Segments", buttonStyle))
             {
 
-                foreach (var seg in GameObject.FindObjectsOfType<S_Segment>(true))
+                foreach (var seg in GameObject.FindGameObjectsWithTag(specifiedLayer.ToString()))
                 {
                     Undo.RecordObject(seg.gameObject, "Disable/Enable segment");
                     seg.gameObject.SetActive(!seg.gameObject.activeSelf);
                 }
             }
 
+            if(GUILayout.Button("Regenerate Segment/s Destruction", buttonStyle))
+            {
+                foreach (var seg in GameObject.FindGameObjectsWithTag(specifiedLayer.ToString()))
+                {
+                    Undo.RecordObject(seg.gameObject, "Regenerate Segment/s Destruction");
+                    seg.GetComponentInChildren<Explodable>().fragmentInEditor();
+                }
+            }
+
         }
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button("Randomise Ground decor", buttonStyle))
+            {
+                foreach (var seg in GameObject.FindGameObjectsWithTag(specifiedLayer.ToString()))
+                {
+                    Undo.RecordObject(seg.gameObject, "Randomise Ground Decor");
+                    seg.GetComponent<S_Segment>().RandomizeDecor();
+                }
+            }
+        }
+
 
 
 
