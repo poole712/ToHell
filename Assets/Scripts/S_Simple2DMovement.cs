@@ -36,7 +36,7 @@ public class S_Simple2DMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if(rb2d.velocity.x < 5)
+        if(rb2d.velocity.x < 3)
         {
             rb2d.AddForce(speed);
         }

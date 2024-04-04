@@ -28,8 +28,9 @@ public class S_Segment : MonoBehaviour
     {
         foreach(GameObject go in GroundDecorations)
         {
-            go.transform.localPosition = new Vector2(Random.Range(1, 14), 0.25f);
-            go.GetComponent<SpriteRenderer>().sprite = GroundDecorSprites[Random.Range(0, GroundDecorSprites.Length - 1)];
+            float xLoc = Random.Range(1.0f, 14.0f);
+            go.transform.localPosition = new Vector2(xLoc, 0.1f);
+            go.GetComponent<SpriteRenderer>().sprite = GroundDecorSprites[Random.Range(0, GroundDecorSprites.Length)];
             go.GetComponent<SpriteRenderer>().material = GroundDecorMaterial;
         }
     }
