@@ -18,6 +18,7 @@ public class S_SegmentManager : MonoBehaviour
     public string specifiedLayer;
 
     public List<GameObject> Segments;
+    public Sprite GroundSprite;
     private List<GameObject> usedSegments; 
 
     private GameObject currentSegment;
@@ -125,9 +126,10 @@ public class S_SegmentManagerEditor : Editor
         var segmentsProperty = serializedObject.FindProperty("Segments");
         EditorGUILayout.PropertyField(segmentsProperty, true);
 
+        var groundSprite = serializedObject.FindProperty("GroundSprite");
+        EditorGUILayout.PropertyField(groundSprite, true);
+
         serializedObject.ApplyModifiedProperties();
-
-
 
         buttonStyle = new GUIStyle(GUI.skin.button);
         buttonStyle.normal.textColor = Color.white;
@@ -192,12 +194,23 @@ public class S_SegmentManagerEditor : Editor
             }
         }
 
-
-
-
-
-
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button("Set Ground Material", buttonStyle))
+            {
+                foreach (var seg in GameObject.FindGameObjectsWithTag(specifiedLayer.ToString()))
+                {
+                    Undo.RecordObject(seg.gameObject, "Set Ground Material");
+                    seg.GetComponent<S_Segment>().SetGroundMaterial((Sprite)groundSprite.objectReferenceValue);
+                }
+            }
         }
+
+
+
+
+
+    }
 }
 
 

@@ -10,7 +10,8 @@ public class S_Segment : MonoBehaviour
     public GameObject[] GroundDecorations;
     public Sprite[] GroundDecorSprites;
     public Material GroundDecorMaterial;
-    
+
+
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag("Player"))
         {
@@ -33,5 +34,10 @@ public class S_Segment : MonoBehaviour
             go.GetComponent<SpriteRenderer>().sprite = GroundDecorSprites[Random.Range(0, GroundDecorSprites.Length)];
             go.GetComponent<SpriteRenderer>().material = GroundDecorMaterial;
         }
+    }
+
+    public void SetGroundMaterial(Sprite groundSprite)
+    {
+        Segment.GetComponent<SpriteRenderer>().sprite = groundSprite;
     }
 }
