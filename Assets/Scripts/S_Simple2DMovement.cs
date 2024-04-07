@@ -7,7 +7,7 @@ public class S_Simple2DMovement : MonoBehaviour
     private Rigidbody2D rb2d;
 
     [SerializeField] private Vector2 speed;
-    [SerializeField] private S_SegmentManager segmentManager;
+    public GameObject segmentManager;
 
     public LayerMask HitLayerMask; 
     // Start is called before the first frame update
@@ -28,7 +28,7 @@ public class S_Simple2DMovement : MonoBehaviour
             {
                 Debug.Log("Hit ground");
 
-                segmentManager.DamageLayer(10);
+                segmentManager.GetComponent<S_SegmentManager>().DamageLayer(10);
             }
         }
     }

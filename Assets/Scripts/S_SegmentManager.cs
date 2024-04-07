@@ -17,14 +17,16 @@ public class S_SegmentManager : MonoBehaviour
     [S_SegmentManager(layer = new string[] { "Layer 1 (Top)", "Layer 2", "Layer 3", "Layer 4", "Layer 5 (Bottom)" })]
     public string specifiedLayer;
 
+    public S_Simple2DMovement Player;
+    public Image layerHealthBar;
     public List<GameObject> Segments;
     public Sprite GroundSprite;
-    private List<GameObject> usedSegments; 
+    public GameObject NextLayer;
+    public Vector2 StartOffset;
 
+    private List<GameObject> usedSegments; 
     private GameObject currentSegment;
     private float layerHealth = 100;
-
-    public Image layerHealthBar;
 
     private void Awake() {
         usedSegments = new List<GameObject>();
@@ -32,7 +34,7 @@ public class S_SegmentManager : MonoBehaviour
             segment.GetComponent<S_Segment>().SegmentManager = this;
         }
         currentSegment = Segments[UnityEngine.Random.Range(0, Segments.Count)];
-        currentSegment.transform.position = new Vector2(0, -4.5f);
+        currentSegment.transform.position = StartOffset;
         usedSegments.Add(currentSegment);
         Segments.Remove(currentSegment);
     }
@@ -51,6 +53,12 @@ public class S_SegmentManager : MonoBehaviour
             {
                 segment.GetComponent<S_Segment>().Explode();
             }
+
+            NextLayer.SetActive(true);
+            NextLayer.GetComponent<S_SegmentManager>().StartOffset = new Vector2(currentSegment.transform.position.x, -5);
+            NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
+            Player.segmentManager = NextLayer;
+
         }
     }
     public void SpawnNextSegment() 
@@ -128,6 +136,15 @@ public class S_SegmentManagerEditor : Editor
 
         var groundSprite = serializedObject.FindProperty("GroundSprite");
         EditorGUILayout.PropertyField(groundSprite, true);
+
+        var startOffset = serializedObject.FindProperty("StartOffset");
+        EditorGUILayout.PropertyField(startOffset, true);
+
+        var nextLayer = serializedObject.FindProperty("NextLayer");
+        EditorGUILayout.PropertyField(nextLayer, true);
+
+        var player = serializedObject.FindProperty("Player");
+        EditorGUILayout.PropertyField(player, true);
 
         serializedObject.ApplyModifiedProperties();
 
