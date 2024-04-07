@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Layer 1 (Top)
   - Layer 2
+  - Layer 5 (Hell)
   layers:
   - Default
   - TransparentFX

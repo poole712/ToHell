@@ -43,6 +43,7 @@ public class Explodable : MonoBehaviour
                 frag.transform.parent = null;
                 frag.SetActive(true);
                 frag.GetComponent<Rigidbody2D>().AddForce(new Vector2(100, 100));
+                Destroy(frag, 5);
             }
         }
         //if fragments exist destroy the original
@@ -50,6 +51,8 @@ public class Explodable : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+
     }
     /// <summary>
     /// Creates fragments and then disables them
@@ -68,6 +71,13 @@ public class Explodable : MonoBehaviour
             frag.SetActive(false);
         }
     }
+
+    private IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(5f);
+        deleteFragments();
+    }
+
     public void deleteFragments()
     {
         foreach (GameObject frag in fragments)

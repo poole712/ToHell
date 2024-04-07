@@ -24,20 +24,36 @@ public class S_SegmentManager : MonoBehaviour
     public GameObject NextLayer;
     public Vector2 StartOffset;
 
-    private List<GameObject> usedSegments; 
+    public List<GameObject> UsedSegments; 
     private GameObject currentSegment;
     private float layerHealth = 100;
-
-    private void Awake() {
-        usedSegments = new List<GameObject>();
-        foreach(GameObject segment in Segments) {
+    
+    private void OnEnable()
+    {
+        //usedSegments = new List<GameObject>();
+        foreach (GameObject segment in Segments)
+        {
             segment.GetComponent<S_Segment>().SegmentManager = this;
         }
+
         currentSegment = Segments[UnityEngine.Random.Range(0, Segments.Count)];
-        currentSegment.transform.position = StartOffset;
-        usedSegments.Add(currentSegment);
-        Segments.Remove(currentSegment);
+
+        Debug.Log("On enable");
+        if (currentSegment.CompareTag("Layer 1 (Top)"))
+        {
+            currentSegment.transform.position = StartOffset;
+            UsedSegments.Add(currentSegment);
+            Segments.Remove(currentSegment);
+        }
+        else
+        {
+            currentSegment.transform.position = new Vector2(Player.transform.position.x, StartOffset.y);
+            UsedSegments.Add(currentSegment);
+            Segments.Remove(currentSegment);
+        }
+        
     }
+
     void Start()
     {
         layerHealthBar.fillAmount = layerHealth / 100;
@@ -49,21 +65,19 @@ public class S_SegmentManager : MonoBehaviour
         layerHealthBar.fillAmount = layerHealth / 100;
         if(layerHealth <= 0)
         {
-            foreach(GameObject segment in usedSegments)
+            foreach(GameObject segment in UsedSegments)
             {
                 segment.GetComponent<S_Segment>().Explode();
             }
 
             NextLayer.SetActive(true);
-            NextLayer.GetComponent<S_SegmentManager>().StartOffset = new Vector2(currentSegment.transform.position.x, -5);
-            NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
             Player.segmentManager = NextLayer;
-
         }
     }
+
     public void SpawnNextSegment() 
     {
-        if(Segments.Count >= 1) 
+        if(Segments.Count > 2) 
         {
             Debug.Log("Spawn Next Segment");
             int index = UnityEngine.Random.Range(0, Segments.Count);
@@ -72,14 +86,14 @@ public class S_SegmentManager : MonoBehaviour
             {
                 nextSegment.transform.position = currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
                 currentSegment = nextSegment;
-                usedSegments.Add(currentSegment);
+                UsedSegments.Add(currentSegment);
                 Segments.RemoveAt(index);
             }
         }
-        else if (usedSegments.Count > 0)
+        else if (UsedSegments.Count > 0)
         {
-            Segments.AddRange(usedSegments);
-            usedSegments.Clear();
+            Segments.AddRange(UsedSegments);
+            UsedSegments.Clear();
             SpawnNextSegment();
         }
         else
@@ -133,6 +147,9 @@ public class S_SegmentManagerEditor : Editor
 
         var segmentsProperty = serializedObject.FindProperty("Segments");
         EditorGUILayout.PropertyField(segmentsProperty, true);
+
+        var usedSegments = serializedObject.FindProperty("UsedSegments");
+        EditorGUILayout.PropertyField(usedSegments, true);
 
         var groundSprite = serializedObject.FindProperty("GroundSprite");
         EditorGUILayout.PropertyField(groundSprite, true);
