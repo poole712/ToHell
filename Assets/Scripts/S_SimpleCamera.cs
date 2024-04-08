@@ -8,19 +8,23 @@ public class S_SimpleCamera : MonoBehaviour
 
     public float XOffset;
     public float YOffset;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private Animator animator;
+
+    private Vector2 originalPosition;
+
+    private void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     private void LateUpdate() {
+
         transform.position = new Vector3(player.transform.position.x + XOffset, player.transform.position.y + YOffset, -10);
+    }
+
+    public void Shake()
+    {
+        animator.SetTrigger("Shake");
     }
 }

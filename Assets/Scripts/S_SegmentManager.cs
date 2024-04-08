@@ -21,6 +21,7 @@ public class S_SegmentManager : MonoBehaviour
     public Image layerHealthBar;
     public List<GameObject> Segments;
     public Sprite GroundSprite;
+    public Sprite[] GroundDecor;
     public GameObject NextLayer;
     public Vector2 StartOffset;
 
@@ -47,7 +48,7 @@ public class S_SegmentManager : MonoBehaviour
         }
         else
         {
-            currentSegment.transform.position = new Vector2(Player.transform.position.x, StartOffset.y);
+            currentSegment.transform.position = new Vector2(Player.transform.position.x - 4, StartOffset.y);
             UsedSegments.Add(currentSegment);
             Segments.Remove(currentSegment);
         }
@@ -72,6 +73,8 @@ public class S_SegmentManager : MonoBehaviour
 
             NextLayer.SetActive(true);
             Player.segmentManager = NextLayer;
+            NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
+            this.gameObject.SetActive(false);
         }
     }
 
@@ -154,6 +157,9 @@ public class S_SegmentManagerEditor : Editor
         var groundSprite = serializedObject.FindProperty("GroundSprite");
         EditorGUILayout.PropertyField(groundSprite, true);
 
+        var groundDecor = serializedObject.FindProperty("GroundDecor");
+        EditorGUILayout.PropertyField(groundDecor, true);
+
         var startOffset = serializedObject.FindProperty("StartOffset");
         EditorGUILayout.PropertyField(startOffset, true);
 
@@ -223,6 +229,24 @@ public class S_SegmentManagerEditor : Editor
                 foreach (var seg in GameObject.FindGameObjectsWithTag(specifiedLayer.ToString()))
                 {
                     Undo.RecordObject(seg.gameObject, "Randomise Ground Decor");
+                    seg.GetComponent<S_Segment>().RandomizeDecor();
+                    
+                }
+            }
+            if (GUILayout.Button("Set Ground decor", buttonStyle))
+            {
+                foreach (var seg in GameObject.FindGameObjectsWithTag(specifiedLayer.ToString()))
+                {
+                    Undo.RecordObject(seg.gameObject, "Set Ground Decor");
+                    // Clear existing array
+                    seg.GetComponent<S_Segment>().GroundDecorSprites = new Sprite[groundDecor.arraySize];
+
+                    // Assign each element of the array
+                    for (int i = 0; i < groundDecor.arraySize; i++)
+                    {
+                        var sprite = groundDecor.GetArrayElementAtIndex(i).objectReferenceValue as Sprite;
+                        seg.GetComponent<S_Segment>().GroundDecorSprites[i] = sprite;
+                    }
                     seg.GetComponent<S_Segment>().RandomizeDecor();
                 }
             }

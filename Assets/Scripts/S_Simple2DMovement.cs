@@ -8,12 +8,14 @@ public class S_Simple2DMovement : MonoBehaviour
 
     [SerializeField] private Vector2 speed;
     public GameObject segmentManager;
+    public ParticleSystem slamParticle;
 
     public LayerMask HitLayerMask; 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        rb2d.velocity = speed;
     }
 
     private void Update()
@@ -21,14 +23,15 @@ public class S_Simple2DMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
 
-            RaycastHit2D rayHit = Physics2D.Raycast(transform.position, Vector2.down, 50, HitLayerMask);
-            Debug.DrawRay(transform.position, Vector2.down * 50, Color.green, 3f);
+            RaycastHit2D rayHit = Physics2D.Raycast(transform.position, new Vector2(Vector2.down.x + 5, Vector2.down.y), 5, HitLayerMask);
+            Debug.DrawRay(transform.position, new Vector2(Vector2.down.x + 5, Vector2.down.y * 5), Color.green, 3f);
 
             if (rayHit.collider != null)
             {
                 Debug.Log("Hit ground");
-
+                Instantiate(slamParticle, rayHit.point, Quaternion.identity);
                 segmentManager.GetComponent<S_SegmentManager>().DamageLayer(10);
+                Camera.main.GetComponent<S_SimpleCamera>().Shake();
             }
         }
     }
