@@ -26,7 +26,7 @@ public class S_Simple2DMovement : MonoBehaviour
             RaycastHit2D rayHit = Physics2D.Raycast(transform.position, new Vector2(Vector2.down.x + 5, Vector2.down.y), 5, HitLayerMask);
             Debug.DrawRay(transform.position, new Vector2(Vector2.down.x + 5, Vector2.down.y * 5), Color.green, 3f);
 
-            if (rayHit.collider != null)
+            if (rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
             {
                 Debug.Log("Hit ground");
                 Instantiate(slamParticle, rayHit.point, Quaternion.identity);
