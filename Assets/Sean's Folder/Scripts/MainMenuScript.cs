@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,6 +11,8 @@ public class MainMenuScript : MonoBehaviour
     private UIDocument doc;
     private Button playButton, settingsButton, shopButton;
     private List<Button> mainMenuButtons = new List<Button>();
+    public LoginPageScript userDetails;
+    public DatabaseScript dbHandler;
     void OnEnable()
     {
         doc = GetComponent<UIDocument>();
@@ -31,6 +34,14 @@ public class MainMenuScript : MonoBehaviour
         for (int i = 0; i < mainMenuButtons.Count; i++) {
             mainMenuButtons[i].RegisterCallback<ClickEvent>(onAllButtonsClicked);
         }
+
+        // for user saving
+        Boolean exist = dbHandler.checkUserExist(userDetails.getUsername());
+        if (exist) {
+            Debug.Log("Welcome back, " + userDetails.getUsername());
+        } else {
+            Debug.Log("New User, welcome to the family: "+userDetails.getUsername());
+        }
     }
 
     private void clickedPlay(ClickEvent evt) {
@@ -46,7 +57,7 @@ public class MainMenuScript : MonoBehaviour
     }
 
     private void onAllButtonsClicked(ClickEvent evt) {
-        Debug.Log("Test");
+        // delete if not needed, goood for applying sounds to all buttons etc
     }
 
 }
