@@ -7,7 +7,7 @@ using System.Data;
 
 public class DatabaseScript : MonoBehaviour
 {
-    private string dbName = "URI=file:ToHell.db";
+    private string databaseName = "URI=file:ToHell.db";
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +17,7 @@ public class DatabaseScript : MonoBehaviour
     //CREATE THE DATABASE
     public void CreateDB()
     {
-        using (var connection = new SqliteConnection(dbName))
+        using (var connection = new SqliteConnection(databaseName))
         {
             connection.Open();
 
@@ -27,7 +27,7 @@ public class DatabaseScript : MonoBehaviour
                 command.ExecuteNonQuery();
             }
 
-            Debug.Log("Database Created" + connection.ConnectionString);
+            Debug.Log("Succesfuly Connected to the Database");
             connection.Close();
         }
     }
@@ -35,7 +35,7 @@ public class DatabaseScript : MonoBehaviour
     //INSERT INTO DATABASE
     public void AddUser(String userName)
     {
-        using (var connection = new SqliteConnection(dbName))
+        using (var connection = new SqliteConnection(databaseName))
         {
             connection.Open();
 
@@ -53,7 +53,7 @@ public class DatabaseScript : MonoBehaviour
     //READ INTO THE DATABASE
     public void DisplayNames()
     {
-        using (var connection = new SqliteConnection(dbName))
+        using (var connection = new SqliteConnection(databaseName))
         {
             connection.Open();
 
@@ -67,9 +67,9 @@ public class DatabaseScript : MonoBehaviour
         }
     }
 
-    public Boolean checkUserExist(String userName)
+    public Boolean CheckUserExist(String userName)
     {
-        using (var connection = new SqliteConnection(dbName))
+        using (var connection = new SqliteConnection(databaseName))
         {
             connection.Open();
 

@@ -9,55 +9,70 @@ using UnityEngine.UIElements;
 public class MainMenuScript : MonoBehaviour
 {
     private UIDocument doc;
-    private Button playButton, settingsButton, shopButton;
-    private List<Button> mainMenuButtons = new List<Button>();
+    private Button playButton, settingsButton, shopButton, logoutButton;
     public LoginPageScript userDetails;
-    public DatabaseScript dbHandler;
+    public DatabaseScript DBHandler;
+    public GameObject mainPage, loginPage, gameShop;
+
     void OnEnable()
     {
+        InitialiseUI();
+        GetUserStats();
+    }
+    private void OnDisable() {
+        UnregisterUI();
+        //add code here for disabling, potentially sound queue?
+    }
+
+    private void InitialiseUI() {
         doc = GetComponent<UIDocument>();
 
         //referencing and registering evt per button
         playButton = doc.rootVisualElement.Q("Start") as Button;
-        playButton.RegisterCallback<ClickEvent>(clickedPlay);
+        playButton.RegisterCallback<ClickEvent>(ClickedPlay);
 
         settingsButton = doc.rootVisualElement.Q("Settings") as Button;
-        settingsButton.RegisterCallback<ClickEvent>(clickedSettings);
+        settingsButton.RegisterCallback<ClickEvent>(ClickedSettings);
 
         shopButton = doc.rootVisualElement.Q("Shop") as Button;
-        shopButton.RegisterCallback<ClickEvent>(clickedShop);
+        shopButton.RegisterCallback<ClickEvent>(ClickedShop);
 
-        //reference all current buttons (will most likely delete if not needed)
-        //can be useful for if we want to apply sound queues or any other components to every button
-        mainMenuButtons = doc.rootVisualElement.Query<Button>().ToList();
+        logoutButton = doc.rootVisualElement.Q("Logout") as Button;
+        logoutButton.RegisterCallback<ClickEvent>(ClickedLogout);
+    }
 
-        for (int i = 0; i < mainMenuButtons.Count; i++) {
-            mainMenuButtons[i].RegisterCallback<ClickEvent>(onAllButtonsClicked);
-        }
+    private void UnregisterUI() {
+        playButton.UnregisterCallback<ClickEvent>(ClickedPlay);
+        settingsButton.UnregisterCallback<ClickEvent>(ClickedSettings);
+        shopButton.UnregisterCallback<ClickEvent>(ClickedShop);
+        logoutButton.UnregisterCallback<ClickEvent>(ClickedLogout);
+    }
 
-        // for user saving
-        Boolean exist = dbHandler.checkUserExist(userDetails.getUsername());
+    private void GetUserStats() {
+         // for user saving
+        Boolean exist = DBHandler.CheckUserExist(userDetails.GetUsername());
         if (exist) {
-            Debug.Log("Welcome back, " + userDetails.getUsername());
+            Debug.Log("Welcome back, " + userDetails.GetUsername());
         } else {
-            Debug.Log("New User, welcome to the family: "+userDetails.getUsername());
+            Debug.Log("New User, welcome to the family: "+userDetails.GetUsername());
         }
     }
 
-    private void clickedPlay(ClickEvent evt) {
+    private void ClickedPlay(ClickEvent evt) {
         Debug.Log("Clicked Play");
     }
 
-    private void clickedSettings(ClickEvent evt) {
+    private void ClickedSettings(ClickEvent evt) {
         Debug.Log("Clicked Settings");
     }
 
-    private void clickedShop(ClickEvent evt) {
-        Debug.Log("Clicked Shop");
+    private void ClickedShop(ClickEvent evt) {
+        gameShop.SetActive(true);
+        mainPage.SetActive(false);
     }
 
-    private void onAllButtonsClicked(ClickEvent evt) {
-        // delete if not needed, goood for applying sounds to all buttons etc
+    private void ClickedLogout(ClickEvent evt) {
+        loginPage.SetActive(true);
+        mainPage.SetActive(false);
     }
-
 }

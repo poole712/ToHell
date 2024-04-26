@@ -16,21 +16,33 @@ public class LoginPageScript : MonoBehaviour
 
     void OnEnable()
     {
+        InitialiseUI();
+    }
+
+    void OnDisable() {
+        UnregisterUI();
+    }
+
+    private void InitialiseUI() {
         doc = GetComponent<UIDocument>();
 
         enterButton = doc.rootVisualElement.Q("Enter") as Button;
-        enterButton.RegisterCallback<ClickEvent>(clickedEnter);
+        enterButton.RegisterCallback<ClickEvent>(ClickedEnter);
 
         userInput = doc.rootVisualElement.Q("Username") as TextField;
     }
 
-    private void clickedEnter(ClickEvent evt) {
+    private void UnregisterUI(){
+        enterButton.UnregisterCallback<ClickEvent>(ClickedEnter);
+    }
+
+    private void ClickedEnter(ClickEvent evt) {
         userName = userInput.text;
         mainMenu.SetActive(true);
         loginPage.SetActive(false);
     }
 
-    public string getUsername() {
+    public string GetUsername() {
         return userName;
     }
 }
