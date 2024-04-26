@@ -12,7 +12,7 @@ public class LoginPageScript : MonoBehaviour
     private Button enterButton;
     private String userName;
     private TextField userInput;
-    public GameObject mainMenu, loginPage;
+    public GameObject mainMenu, loginPage, coinDisplayer;
 
     void OnEnable()
     {
@@ -38,6 +38,7 @@ public class LoginPageScript : MonoBehaviour
 
     private void ClickedEnter(ClickEvent evt) {
         userName = userInput.text;
+        coinDisplayer.SetActive(true);
         mainMenu.SetActive(true);
         loginPage.SetActive(false);
     }

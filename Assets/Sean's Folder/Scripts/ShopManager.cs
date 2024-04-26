@@ -13,19 +13,21 @@ public class ShopManager : MonoBehaviour
     public Button[] purchaseButtons;
     public Button backToMain;
     public GameObject Shop, mainMenu;
+    public CoinHandlerScript coinHandler;
+    public LoginPageScript userDetails;
 
     // Start is called before the first frame update
     void Start()
     {
         DisplayShop();
         CheckPurchaseable();
-        coinText.text = "Coins: " + coins.ToString();
         LoadPanels();
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckPurchaseable();
 
     }
 
@@ -34,14 +36,6 @@ public class ShopManager : MonoBehaviour
         for (int i = 0; i < shopItemSO.Length; i++) {
             shopPanelsGO[i].SetActive(true);
         }
-    }
-
-    //Add coin function
-    public void addCoin()
-    {
-        coins = coins + 10;
-        coinText.text = "Coins: " + coins.ToString();
-        CheckPurchaseable();
     }
 
     //Check if item is purchasable function
@@ -69,13 +63,13 @@ public class ShopManager : MonoBehaviour
         {
             coins = coins - shopItemSO[buttonN].basePrice;
             coinText.text = "Coins: " + coins.ToString();
-            CheckPurchaseable();
             //REST OF IMPLEMENTATION
 
         }
     }
 
     public void ClickedReturn() {
+        coinHandler.SaveCoinToDatabase(userDetails.GetUsername());
         Shop.SetActive(false);
         mainMenu.SetActive(true);
     }

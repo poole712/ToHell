@@ -6,22 +6,27 @@ using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
 public class MainMenuScript : MonoBehaviour
 {
     private UIDocument doc;
     private Button playButton, settingsButton, shopButton, logoutButton;
     public LoginPageScript userDetails;
     public DatabaseScript DBHandler;
-    public GameObject mainPage, loginPage, gameShop;
+    public CoinHandlerScript userCoins;
+    public GameObject mainPage, loginPage, gameShop, levelSelect, coinDisplayer;
+
 
     void OnEnable()
     {
+        //set initial user text coin here
+        userCoins.InitCoinDisplayer(userDetails.GetUsername());
         InitialiseUI();
         GetUserStats();
     }
     private void OnDisable() {
         UnregisterUI();
-        //add code here for disabling, potentially sound queue?
+        //add code here for disabling. potentially sound queue?
     }
 
     private void InitialiseUI() {
@@ -59,7 +64,8 @@ public class MainMenuScript : MonoBehaviour
     }
 
     private void ClickedPlay(ClickEvent evt) {
-        Debug.Log("Clicked Play");
+        levelSelect.SetActive(true);
+        mainPage.SetActive(false);
     }
 
     private void ClickedSettings(ClickEvent evt) {
@@ -72,6 +78,8 @@ public class MainMenuScript : MonoBehaviour
     }
 
     private void ClickedLogout(ClickEvent evt) {
+        userCoins.SaveCoinToDatabase(userDetails.GetUsername());
+        coinDisplayer.SetActive(false);
         loginPage.SetActive(true);
         mainPage.SetActive(false);
     }

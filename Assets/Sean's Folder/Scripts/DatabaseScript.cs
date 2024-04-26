@@ -23,7 +23,7 @@ public class DatabaseScript : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "CREATE TABLE IF NOT EXISTS users (name VARCHAR(30));";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS toHellUsers (name VARCHAR(30), coins INT NOT NULL DEFAULT 0);";
                 command.ExecuteNonQuery();
             }
 
@@ -41,17 +41,16 @@ public class DatabaseScript : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "INSERT INTO users (name) VALUES ('" + userName + "');";
+                command.CommandText = "INSERT INTO toHellUsers (name) VALUES ('" + userName + "');";
                 command.ExecuteNonQuery();
             }
 
-            Debug.Log("User " + userName + " succesfully added.");
+            Debug.Log("User " + userName + " succesfully updated.");
             connection.Close();
         }
     }
 
-    //READ INTO THE DATABASE
-    public void DisplayNames()
+    public void SaveUserData(String userName, int coins)
     {
         using (var connection = new SqliteConnection(databaseName))
         {
@@ -59,10 +58,11 @@ public class DatabaseScript : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM users;";
-                //REST OF THE CODE HERE
+                command.CommandText = "UPDATE toHellUsers SET coins = " + coins + " WHERE name = '" + userName + "'";
+                command.ExecuteNonQuery();
             }
 
+            Debug.Log("User " + userName + " succesfully saved.");
             connection.Close();
         }
     }
@@ -75,7 +75,7 @@ public class DatabaseScript : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM users WHERE name = ('" + userName + "');";
+                command.CommandText = "SELECT * FROM toHellUsers WHERE name = ('" + userName + "');";
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read())
@@ -87,7 +87,7 @@ public class DatabaseScript : MonoBehaviour
                     else
                     {
                         // User does not exist, add them to the database
-                        reader.Close(); // Close reader before executing another command
+                        reader.Close();
                         AddUser(userName);
                         connection.Close();
                         return false;
@@ -95,6 +95,32 @@ public class DatabaseScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    public int GetUserCoins(string userName)
+    {
+        int coinsToReturn = 0;
+        using (var connection = new SqliteConnection(databaseName))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT coins FROM toHellUsers WHERE name = '" + userName + "'";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {  // If a record is found
+                        coinsToReturn = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);  // Get the coins value
+                    }
+                }
+            }
+
+            connection.Close();
+        }
+
+        return coinsToReturn;  // Return the retrieved coins value
     }
 
     // Update is called once per frame
