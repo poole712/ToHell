@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class LevelSelectScript : MonoBehaviour
 {
-    public GameObject levelSelect, mainMenu;
+    public  SceneHandler sceneHandler;
+    public GameObject levelSelectUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,6 @@ public class LevelSelectScript : MonoBehaviour
     }
 
     public void ClickedReturn(){
-        mainMenu.SetActive(true);
-        levelSelect.SetActive(false);
+        sceneHandler.DisplayMainMenu(levelSelectUI);
     }
 }

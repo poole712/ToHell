@@ -612,14 +612,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56157dca8521a4f409c64d2331d7ce3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userDetails: {fileID: 1548184811}
   DBHandler: {fileID: 452992677}
-  userCoins: {fileID: 0}
-  mainPage: {fileID: 310756227}
-  loginPage: {fileID: 1548184808}
-  gameShop: {fileID: 970646320}
-  levelSelect: {fileID: 747185581}
-  coinDisplayer: {fileID: 1841744207}
+  userHandler: {fileID: 1791085283}
+  sceneManager: {fileID: 1074562718}
 --- !u!1 &378320452
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,7 +880,7 @@ GameObject:
   - component: {fileID: 452992678}
   - component: {fileID: 452992677}
   m_Layer: 0
-  m_Name: DatabaseHandler
+  m_Name: Database Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1048,8 +1043,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16dbf2298cf987849bb336fdad565cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelSelect: {fileID: 747185581}
-  mainMenu: {fileID: 310756227}
+  sceneHandler: {fileID: 1074562718}
+  levelSelectUI: {fileID: 747185581}
 --- !u!1 &897398569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,6 +1249,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29ea6456a4fdd24b812a1263f9319cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1074562717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074562719}
+  - component: {fileID: 1074562718}
+  m_Layer: 0
+  m_Name: Scene Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1074562718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074562717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d75a9375b9fd44b99ece5c0b5a9d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: {fileID: 310756227}
+  loginPage: {fileID: 1548184808}
+  gameShop: {fileID: 970646320}
+  levelSelect: {fileID: 747185581}
+  coinDisplay: {fileID: 1841744207}
+--- !u!4 &1074562719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074562717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960.0685, y: 540.09283, z: 0.0021054363}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1233445141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,6 +1756,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 310756227}
     - target: {fileID: 5670634943844811989, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
+      propertyPath: coinHandler
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670634943844811989, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
+      propertyPath: userDetails
+      value: 
+      objectReference: {fileID: 1548184811}
+    - target: {fileID: 5670634943844811989, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
+      propertyPath: userHandler
+      value: 
+      objectReference: {fileID: 1791085283}
+    - target: {fileID: 5670634943844811989, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
+      propertyPath: sceneHandler
+      value: 
+      objectReference: {fileID: 1074562718}
+    - target: {fileID: 5670634943844811989, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
       propertyPath: purchaseButtons.Array.data[0]
       value: 
       objectReference: {fileID: 151515427}
@@ -1730,14 +1790,14 @@ PrefabInstance:
     - target: {fileID: 6472763986838650679, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1841744211}
+      objectReference: {fileID: 1791085283}
     - target: {fileID: 6472763986838650679, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: addCoin
+      value: AddCoin
       objectReference: {fileID: 0}
     - target: {fileID: 6472763986838650679, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CoinHandlerScript, Assembly-CSharp
+      value: User, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6523460281236915004, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
@@ -2292,9 +2352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb48bb78cf11a045953db1b62a189fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: {fileID: 310756227}
-  loginPage: {fileID: 1548184808}
-  coinDisplayer: {fileID: 1841744207}
+  sceneManager: {fileID: 1074562718}
+  user: {fileID: 1791085283}
 --- !u!1 &1596203987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,6 +2554,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607245789}
   m_CullTransparentMesh: 1
+--- !u!1 &1791085282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1791085284}
+  - component: {fileID: 1791085283}
+  - component: {fileID: 1791085286}
+  m_Layer: 0
+  m_Name: User Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1791085283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791085282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1aef50c50d6c434e8e3a4dd14e940aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopManager: {fileID: 970646322}
+  coinText: {fileID: 1841744208}
+  DBHandler: {fileID: 452992677}
+--- !u!224 &1791085284
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791085282}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0021054363}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 960.0685, y: 540.09283}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1791085286
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791085282}
+  m_CullTransparentMesh: 1
 --- !u!1 &1841744207
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,7 +2625,6 @@ GameObject:
   - component: {fileID: 1841744210}
   - component: {fileID: 1841744209}
   - component: {fileID: 1841744208}
-  - component: {fileID: 1841744211}
   m_Layer: 5
   m_Name: Coin Displayer
   m_TagString: Untagged
@@ -2575,20 +2693,6 @@ RectTransform:
   m_AnchoredPosition: {x: 793, y: 447}
   m_SizeDelta: {x: 268.0721, y: 75.2394}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1841744211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841744207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1aef50c50d6c434e8e3a4dd14e940aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shopManager: {fileID: 970646322}
-  coinText: {fileID: 1841744208}
 --- !u!1 &1874505468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2757,3 +2861,5 @@ SceneRoots:
   - {fileID: 310756229}
   - {fileID: 1548184810}
   - {fileID: 452992678}
+  - {fileID: 1074562719}
+  - {fileID: 1791085284}

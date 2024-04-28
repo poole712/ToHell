@@ -5,7 +5,7 @@ using Mono.Data.Sqlite;
 using System;
 using System.Data;
 
-public class DatabaseScript : MonoBehaviour
+public class DatabaseHandler : MonoBehaviour
 {
     private string databaseName = "URI=file:ToHell.db";
     // Start is called before the first frame update

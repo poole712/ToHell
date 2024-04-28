@@ -5,19 +5,16 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
-    public int coins;
-    public Text coinText;
     public ShopItemSO[] shopItemSO;
     public GameObject[] shopPanelsGO;
     public ShopTemplate[] shopPanels;
     public Button[] purchaseButtons;
-    public Button backToMain;
-    public GameObject Shop, mainMenu;
-    public CoinHandlerScript coinHandler;
-    public LoginPageScript userDetails;
+    public GameObject Shop;
+    public User userHandler;
+    public SceneHandler sceneHandler;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         DisplayShop();
         CheckPurchaseable();
@@ -28,7 +25,6 @@ public class ShopManager : MonoBehaviour
     void Update()
     {
         CheckPurchaseable();
-
     }
 
     public void DisplayShop() {
@@ -43,9 +39,8 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < shopItemSO.Length; i++)
         {
-
             //If player has enough money to buy the item
-            if (coins >= shopItemSO[i].basePrice)
+            if (userHandler.GetCoins() >= shopItemSO[i].basePrice)
             {
                 //set button to be interatable
                 purchaseButtons[i].interactable = true;
@@ -59,19 +54,17 @@ public class ShopManager : MonoBehaviour
 
     public void PurchaseItem(int buttonN)
     {
-        if (coins >= shopItemSO[buttonN].basePrice)
+        if (userHandler.GetCoins() >= shopItemSO[buttonN].basePrice)
         {
-            coins = coins - shopItemSO[buttonN].basePrice;
-            coinText.text = "Coins: " + coins.ToString();
+            userHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
             //REST OF IMPLEMENTATION
 
         }
     }
 
     public void ClickedReturn() {
-        coinHandler.SaveCoinToDatabase(userDetails.GetUsername());
-        Shop.SetActive(false);
-        mainMenu.SetActive(true);
+        userHandler.SaveCoinToDatabase();
+        sceneHandler.DisplayMainMenu(Shop);
     }
 
     //Assign the data in the ShopItemSO to the corresponding  ShopPanel's Text Component

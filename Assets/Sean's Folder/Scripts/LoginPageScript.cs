@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class LoginPageScript : MonoBehaviour
@@ -10,9 +11,10 @@ public class LoginPageScript : MonoBehaviour
     // Start is called before the first frame update
     private UIDocument doc;
     private Button enterButton;
-    private String userName;
     private TextField userInput;
-    public GameObject mainMenu, loginPage, coinDisplayer;
+    public SceneHandler sceneManager;
+    public User user;
+
 
     void OnEnable()
     {
@@ -37,13 +39,7 @@ public class LoginPageScript : MonoBehaviour
     }
 
     private void ClickedEnter(ClickEvent evt) {
-        userName = userInput.text;
-        coinDisplayer.SetActive(true);
-        mainMenu.SetActive(true);
-        loginPage.SetActive(false);
-    }
-
-    public string GetUsername() {
-        return userName;
+        user.SetUsername(userInput.text);
+        sceneManager.StartGame();
     }
 }

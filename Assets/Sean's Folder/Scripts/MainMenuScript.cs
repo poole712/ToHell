@@ -11,16 +11,14 @@ public class MainMenuScript : MonoBehaviour
 {
     private UIDocument doc;
     private Button playButton, settingsButton, shopButton, logoutButton;
-    public LoginPageScript userDetails;
-    public DatabaseScript DBHandler;
-    public CoinHandlerScript userCoins;
-    public GameObject mainPage, loginPage, gameShop, levelSelect, coinDisplayer;
-
-
+    public DatabaseHandler DBHandler;
+    public User userHandler;
+    public SceneHandler sceneManager;
+   
     void OnEnable()
     {
         //set initial user text coin here
-        userCoins.InitCoinDisplayer(userDetails.GetUsername());
+        userHandler.InitCoinDisplayer();
         InitialiseUI();
         GetUserStats();
     }
@@ -55,17 +53,16 @@ public class MainMenuScript : MonoBehaviour
 
     private void GetUserStats() {
          // for user saving
-        Boolean exist = DBHandler.CheckUserExist(userDetails.GetUsername());
+        Boolean exist = DBHandler.CheckUserExist(userHandler.GetUsername());
         if (exist) {
-            Debug.Log("Welcome back, " + userDetails.GetUsername());
+            Debug.Log("Welcome back, " + userHandler.GetUsername());
         } else {
-            Debug.Log("New User, welcome to the family: "+userDetails.GetUsername());
+            Debug.Log("New User, welcome to the family: "+userHandler.GetUsername());
         }
     }
 
     private void ClickedPlay(ClickEvent evt) {
-        levelSelect.SetActive(true);
-        mainPage.SetActive(false);
+        sceneManager.DisplayLevelSelect();
     }
 
     private void ClickedSettings(ClickEvent evt) {
@@ -73,14 +70,11 @@ public class MainMenuScript : MonoBehaviour
     }
 
     private void ClickedShop(ClickEvent evt) {
-        gameShop.SetActive(true);
-        mainPage.SetActive(false);
+        sceneManager.DisplayShop();
     }
 
     private void ClickedLogout(ClickEvent evt) {
-        userCoins.SaveCoinToDatabase(userDetails.GetUsername());
-        coinDisplayer.SetActive(false);
-        loginPage.SetActive(true);
-        mainPage.SetActive(false);
+        userHandler.SaveCoinToDatabase();
+        sceneManager.DisplayLoginScreen();  
     }
 }
