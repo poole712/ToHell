@@ -42,7 +42,8 @@ public class Explodable : MonoBehaviour
             {
                 frag.transform.parent = null;
                 frag.SetActive(true);
-                frag.GetComponent<Rigidbody2D>().AddForce(new Vector2(100, 100));
+                frag.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-500, -250), 250));
+                frag.GetComponent<Rigidbody2D>().AddTorque(Random.Range(250, 500));
                 Destroy(frag, 5);
             }
         }
@@ -147,7 +148,7 @@ public class Explodable : MonoBehaviour
                 polygon.Add(point + offset);
             }
             polygons.Add(polygon);
-            frag.GetComponent<PolygonCollider2D>().excludeLayers = LayerMask.GetMask("Player");
+            frag.GetComponent<PolygonCollider2D>().excludeLayers = LayerMask.GetMask("Player", "Ground");
         }
     }
     private Vector2 rotateAroundPivot(Vector2 point, Vector2 pivot, Quaternion angle)

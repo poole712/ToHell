@@ -20,10 +20,12 @@ public class S_SegmentManager : MonoBehaviour
     public S_Simple2DMovement Player;
     public Image layerHealthBar;
     public List<GameObject> Segments;
+    public List<GameObject> CrackBlocks;
     public Sprite GroundSprite;
     public Sprite[] GroundDecor;
     public GameObject NextLayer;
     public Vector2 StartOffset;
+    public BackgroundColor BackgroundColor;
 
     public List<GameObject> UsedSegments; 
     private GameObject currentSegment;
@@ -57,25 +59,39 @@ public class S_SegmentManager : MonoBehaviour
 
     void Start()
     {
-        layerHealthBar.fillAmount = layerHealth / 100;
+        if(layerHealthBar != null)
+        {
+            layerHealthBar.fillAmount = layerHealth / 100;
+        }
     }
 
     public void DamageLayer(float damage)
     {
-        layerHealth -= damage;
-        layerHealthBar.fillAmount = layerHealth / 100;
-        if(layerHealth <= 0)
+        if(layerHealthBar != null)
         {
-            foreach(GameObject segment in UsedSegments)
+            layerHealth -= damage;
+            layerHealthBar.fillAmount = layerHealth / 100;
+            if (layerHealth <= 0)
             {
-                segment.GetComponent<S_Segment>().Explode();
+                foreach (GameObject segment in UsedSegments)
+                {
+                    segment.GetComponent<S_Segment>().Explode();
+                }
+                BackgroundColor.ChangeColor();
+                NextLayer.SetActive(true);
+                Player.segmentManager = NextLayer;
+                NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
+                this.gameObject.SetActive(false);
             }
-
-            NextLayer.SetActive(true);
-            Player.segmentManager = NextLayer;
-            NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
-            this.gameObject.SetActive(false);
+            if (layerHealth % 20 == 0)
+            {
+                foreach (GameObject crack in CrackBlocks)
+                {
+                    crack.GetComponent<VisualLayerDamage>().ChangeSprite();
+                }
+            }
         }
+        
     }
 
     public void SpawnNextSegment() 
@@ -151,8 +167,12 @@ public class S_SegmentManagerEditor : Editor
         var segmentsProperty = serializedObject.FindProperty("Segments");
         EditorGUILayout.PropertyField(segmentsProperty, true);
 
+
         var usedSegments = serializedObject.FindProperty("UsedSegments");
         EditorGUILayout.PropertyField(usedSegments, true);
+
+        var crackBlocks = serializedObject.FindProperty("CrackBlocks");
+        EditorGUILayout.PropertyField(crackBlocks, true);
 
         var groundSprite = serializedObject.FindProperty("GroundSprite");
         EditorGUILayout.PropertyField(groundSprite, true);
@@ -168,6 +188,9 @@ public class S_SegmentManagerEditor : Editor
 
         var player = serializedObject.FindProperty("Player");
         EditorGUILayout.PropertyField(player, true);
+
+        var backgroundColor = serializedObject.FindProperty("BackgroundColor");
+        EditorGUILayout.PropertyField(backgroundColor, true);
 
         serializedObject.ApplyModifiedProperties();
 
@@ -192,12 +215,31 @@ public class S_SegmentManagerEditor : Editor
                 Selection.objects = allEnemyGameObjects;
             }
 
+            if (GUILayout.Button("Select all Segment Crack blocks", buttonStyle))
+            {
+                var segments = GameObject.FindGameObjectsWithTag(specifiedLayer.ToString());
+                var segmentObjects = new List<GameObject>();
+
+                foreach (var seg in segments)
+                {
+                    // Get the third child of each segment
+                    var thirdChild = seg.transform.GetChild(2);
+                    if (thirdChild != null)
+                    {
+                        segmentObjects.Add(thirdChild.gameObject);
+                    }
+                }
+
+                Selection.objects = segmentObjects.ToArray();
+            }
+        }
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
             if (GUILayout.Button("Clear selection", buttonStyle))
             {
                 Selection.objects = new UnityEngine.Object[0];
             }
-
-
         }
 
         using (new EditorGUILayout.HorizontalScope())
