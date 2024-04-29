@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BackgroundColor : MonoBehaviour
+public class S_BackgroundColor : MonoBehaviour
 {
     public Color[] colors;
     public Transform player;

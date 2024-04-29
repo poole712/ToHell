@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
@@ -18,18 +15,18 @@ public class S_SegmentManager : MonoBehaviour
     public string specifiedLayer;
 
     public S_Simple2DMovement Player;
-    public Image layerHealthBar;
+    public Image LayerHealthBar;
     public List<GameObject> Segments;
     public List<GameObject> CrackBlocks;
     public Sprite GroundSprite;
     public Sprite[] GroundDecor;
     public GameObject NextLayer;
     public Vector2 StartOffset;
-    public BackgroundColor BackgroundColor;
-
+    public S_BackgroundColor BackgroundColor;
     public List<GameObject> UsedSegments; 
-    private GameObject currentSegment;
-    private float layerHealth = 100;
+
+    private GameObject _currentSegment;
+    private float _layerHealth = 100;
     
     private void OnEnable()
     {
@@ -39,39 +36,39 @@ public class S_SegmentManager : MonoBehaviour
             segment.GetComponent<S_Segment>().SegmentManager = this;
         }
 
-        currentSegment = Segments[UnityEngine.Random.Range(0, Segments.Count)];
+        _currentSegment = Segments[Random.Range(0, Segments.Count)];
 
         Debug.Log("On enable");
-        if (currentSegment.CompareTag("Layer 1 (Top)"))
+        if (_currentSegment.CompareTag("Layer 1 (Top)"))
         {
-            currentSegment.transform.position = StartOffset;
-            UsedSegments.Add(currentSegment);
-            Segments.Remove(currentSegment);
+            _currentSegment.transform.position = StartOffset;
+            UsedSegments.Add(_currentSegment);
+            Segments.Remove(_currentSegment);
         }
         else
         {
-            currentSegment.transform.position = new Vector2(Player.transform.position.x - 4, StartOffset.y);
-            UsedSegments.Add(currentSegment);
-            Segments.Remove(currentSegment);
+            _currentSegment.transform.position = new Vector2(Player.transform.position.x - 4, StartOffset.y);
+            UsedSegments.Add(_currentSegment);
+            Segments.Remove(_currentSegment);
         }
         
     }
 
     void Start()
     {
-        if(layerHealthBar != null)
+        if(LayerHealthBar != null)
         {
-            layerHealthBar.fillAmount = layerHealth / 100;
+            LayerHealthBar.fillAmount = _layerHealth / 100;
         }
     }
 
     public void DamageLayer(float damage)
     {
-        if(layerHealthBar != null)
+        if(LayerHealthBar != null)
         {
-            layerHealth -= damage;
-            layerHealthBar.fillAmount = layerHealth / 100;
-            if (layerHealth <= 0)
+            _layerHealth -= damage;
+            LayerHealthBar.fillAmount = _layerHealth / 100;
+            if (_layerHealth <= 0)
             {
                 foreach (GameObject segment in UsedSegments)
                 {
@@ -83,11 +80,11 @@ public class S_SegmentManager : MonoBehaviour
                 NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
                 this.gameObject.SetActive(false);
             }
-            if (layerHealth % 20 == 0)
+            if (_layerHealth % 20 == 0)
             {
                 foreach (GameObject crack in CrackBlocks)
                 {
-                    crack.GetComponent<VisualLayerDamage>().ChangeSprite();
+                    crack.GetComponent<S_VisualLayerDamage>().ChangeSprite();
                 }
             }
         }
@@ -103,9 +100,9 @@ public class S_SegmentManager : MonoBehaviour
             GameObject nextSegment = Segments[index];
             if(nextSegment != null)
             {
-                nextSegment.transform.position = currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
-                currentSegment = nextSegment;
-                UsedSegments.Add(currentSegment);
+                nextSegment.transform.position = _currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
+                _currentSegment = nextSegment;
+                UsedSegments.Add(_currentSegment);
                 Segments.RemoveAt(index);
             }
         }
@@ -167,6 +164,8 @@ public class S_SegmentManagerEditor : Editor
         var segmentsProperty = serializedObject.FindProperty("Segments");
         EditorGUILayout.PropertyField(segmentsProperty, true);
 
+        var layerHealthBar = serializedObject.FindProperty("LayerHealthBar");
+        EditorGUILayout.PropertyField(layerHealthBar, true);
 
         var usedSegments = serializedObject.FindProperty("UsedSegments");
         EditorGUILayout.PropertyField(usedSegments, true);
@@ -201,7 +200,6 @@ public class S_SegmentManagerEditor : Editor
         var layerProperty = serializedObject.FindProperty("specifiedLayer");
         EditorGUILayout.PropertyField(layerProperty);
 
-        // Fetching specifiedLayer value using reflection
         var targetObject = (S_SegmentManager)target;
         var specifiedLayer = targetObject.specifiedLayer;
 
@@ -264,6 +262,7 @@ public class S_SegmentManagerEditor : Editor
             }
 
         }
+
         using (new EditorGUILayout.HorizontalScope())
         {
             if (GUILayout.Button("Randomise Ground decor", buttonStyle))
@@ -305,11 +304,6 @@ public class S_SegmentManagerEditor : Editor
                 }
             }
         }
-
-
-
-
-
     }
 }
 

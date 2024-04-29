@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisualLayerDamage : MonoBehaviour
+public class S_VisualLayerDamage : MonoBehaviour
 {
     public Sprite[] Cracks;
 

@@ -9,13 +9,13 @@ public class S_SimpleCamera : MonoBehaviour
     public float XOffset;
     public float YOffset;
 
-    private Animator animator;
+    private Animator _animator;
 
     private Vector2 originalPosition;
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void LateUpdate() {
@@ -25,6 +25,6 @@ public class S_SimpleCamera : MonoBehaviour
 
     public void Shake()
     {
-        animator.SetTrigger("Shake");
+        _animator.SetTrigger("Shake");
     }
 }
