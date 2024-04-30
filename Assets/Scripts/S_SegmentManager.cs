@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
@@ -18,16 +15,18 @@ public class S_SegmentManager : MonoBehaviour
     public string specifiedLayer;
 
     public S_Simple2DMovement Player;
-    public Image layerHealthBar;
+    public Image LayerHealthBar;
     public List<GameObject> Segments;
+    public List<GameObject> CrackBlocks;
     public Sprite GroundSprite;
     public Sprite[] GroundDecor;
     public GameObject NextLayer;
     public Vector2 StartOffset;
-
+    public S_BackgroundColor BackgroundColor;
     public List<GameObject> UsedSegments; 
-    private GameObject currentSegment;
-    private float layerHealth = 100;
+
+    private GameObject _currentSegment;
+    private float _layerHealth = 100;
     
     private void OnEnable()
     {
@@ -37,45 +36,59 @@ public class S_SegmentManager : MonoBehaviour
             segment.GetComponent<S_Segment>().SegmentManager = this;
         }
 
-        currentSegment = Segments[UnityEngine.Random.Range(0, Segments.Count)];
+        _currentSegment = Segments[Random.Range(0, Segments.Count)];
 
         Debug.Log("On enable");
-        if (currentSegment.CompareTag("Layer 1 (Top)"))
+        if (_currentSegment.CompareTag("Layer 1 (Top)"))
         {
-            currentSegment.transform.position = StartOffset;
-            UsedSegments.Add(currentSegment);
-            Segments.Remove(currentSegment);
+            _currentSegment.transform.position = StartOffset;
+            UsedSegments.Add(_currentSegment);
+            Segments.Remove(_currentSegment);
         }
         else
         {
-            currentSegment.transform.position = new Vector2(Player.transform.position.x - 4, StartOffset.y);
-            UsedSegments.Add(currentSegment);
-            Segments.Remove(currentSegment);
+            _currentSegment.transform.position = new Vector2(Player.transform.position.x - 4, StartOffset.y);
+            UsedSegments.Add(_currentSegment);
+            Segments.Remove(_currentSegment);
         }
         
     }
 
     void Start()
     {
-        layerHealthBar.fillAmount = layerHealth / 100;
+        if(LayerHealthBar != null)
+        {
+            LayerHealthBar.fillAmount = _layerHealth / 100;
+        }
     }
 
     public void DamageLayer(float damage)
     {
-        layerHealth -= damage;
-        layerHealthBar.fillAmount = layerHealth / 100;
-        if(layerHealth <= 0)
+        if(LayerHealthBar != null)
         {
-            foreach(GameObject segment in UsedSegments)
+            _layerHealth -= damage;
+            LayerHealthBar.fillAmount = _layerHealth / 100;
+            if (_layerHealth <= 0)
             {
-                segment.GetComponent<S_Segment>().Explode();
+                foreach (GameObject segment in UsedSegments)
+                {
+                    segment.GetComponent<S_Segment>().Explode();
+                }
+                BackgroundColor.ChangeColor();
+                NextLayer.SetActive(true);
+                Player.segmentManager = NextLayer;
+                NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
+                this.gameObject.SetActive(false);
             }
-
-            NextLayer.SetActive(true);
-            Player.segmentManager = NextLayer;
-            NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
-            this.gameObject.SetActive(false);
+            if (_layerHealth % 20 == 0)
+            {
+                foreach (GameObject crack in CrackBlocks)
+                {
+                    crack.GetComponent<S_VisualLayerDamage>().ChangeSprite();
+                }
+            }
         }
+        
     }
 
     public void SpawnNextSegment() 
@@ -87,9 +100,9 @@ public class S_SegmentManager : MonoBehaviour
             GameObject nextSegment = Segments[index];
             if(nextSegment != null)
             {
-                nextSegment.transform.position = currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
-                currentSegment = nextSegment;
-                UsedSegments.Add(currentSegment);
+                nextSegment.transform.position = _currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
+                _currentSegment = nextSegment;
+                UsedSegments.Add(_currentSegment);
                 Segments.RemoveAt(index);
             }
         }
@@ -151,8 +164,14 @@ public class S_SegmentManagerEditor : Editor
         var segmentsProperty = serializedObject.FindProperty("Segments");
         EditorGUILayout.PropertyField(segmentsProperty, true);
 
+        var layerHealthBar = serializedObject.FindProperty("LayerHealthBar");
+        EditorGUILayout.PropertyField(layerHealthBar, true);
+
         var usedSegments = serializedObject.FindProperty("UsedSegments");
         EditorGUILayout.PropertyField(usedSegments, true);
+
+        var crackBlocks = serializedObject.FindProperty("CrackBlocks");
+        EditorGUILayout.PropertyField(crackBlocks, true);
 
         var groundSprite = serializedObject.FindProperty("GroundSprite");
         EditorGUILayout.PropertyField(groundSprite, true);
@@ -169,6 +188,9 @@ public class S_SegmentManagerEditor : Editor
         var player = serializedObject.FindProperty("Player");
         EditorGUILayout.PropertyField(player, true);
 
+        var backgroundColor = serializedObject.FindProperty("BackgroundColor");
+        EditorGUILayout.PropertyField(backgroundColor, true);
+
         serializedObject.ApplyModifiedProperties();
 
         buttonStyle = new GUIStyle(GUI.skin.button);
@@ -178,7 +200,6 @@ public class S_SegmentManagerEditor : Editor
         var layerProperty = serializedObject.FindProperty("specifiedLayer");
         EditorGUILayout.PropertyField(layerProperty);
 
-        // Fetching specifiedLayer value using reflection
         var targetObject = (S_SegmentManager)target;
         var specifiedLayer = targetObject.specifiedLayer;
 
@@ -192,12 +213,31 @@ public class S_SegmentManagerEditor : Editor
                 Selection.objects = allEnemyGameObjects;
             }
 
+            if (GUILayout.Button("Select all Segment Crack blocks", buttonStyle))
+            {
+                var segments = GameObject.FindGameObjectsWithTag(specifiedLayer.ToString());
+                var segmentObjects = new List<GameObject>();
+
+                foreach (var seg in segments)
+                {
+                    // Get the third child of each segment
+                    var thirdChild = seg.transform.GetChild(2);
+                    if (thirdChild != null)
+                    {
+                        segmentObjects.Add(thirdChild.gameObject);
+                    }
+                }
+
+                Selection.objects = segmentObjects.ToArray();
+            }
+        }
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
             if (GUILayout.Button("Clear selection", buttonStyle))
             {
                 Selection.objects = new UnityEngine.Object[0];
             }
-
-
         }
 
         using (new EditorGUILayout.HorizontalScope())
@@ -222,6 +262,7 @@ public class S_SegmentManagerEditor : Editor
             }
 
         }
+
         using (new EditorGUILayout.HorizontalScope())
         {
             if (GUILayout.Button("Randomise Ground decor", buttonStyle))
@@ -263,11 +304,6 @@ public class S_SegmentManagerEditor : Editor
                 }
             }
         }
-
-
-
-
-
     }
 }
 

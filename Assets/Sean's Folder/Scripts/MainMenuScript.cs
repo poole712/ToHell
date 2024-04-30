@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,48 +6,75 @@ using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
 public class MainMenuScript : MonoBehaviour
 {
     private UIDocument doc;
-    private Button playButton, settingsButton, shopButton;
-    private List<Button> mainMenuButtons = new List<Button>();
+    private Button playButton, settingsButton, shopButton, logoutButton;
+    public DatabaseHandler DBHandler;
+    public User userHandler;
+    public SceneHandler sceneManager;
+   
     void OnEnable()
     {
+        //set initial user text coin here
+        userHandler.InitCoinDisplayer();
+        InitialiseUI();
+        GetUserStats();
+    }
+    private void OnDisable() {
+        UnregisterUI();
+        //add code here for disabling. potentially sound queue?
+    }
+
+    private void InitialiseUI() {
         doc = GetComponent<UIDocument>();
 
         //referencing and registering evt per button
         playButton = doc.rootVisualElement.Q("Start") as Button;
-        playButton.RegisterCallback<ClickEvent>(clickedPlay);
+        playButton.RegisterCallback<ClickEvent>(ClickedPlay);
 
         settingsButton = doc.rootVisualElement.Q("Settings") as Button;
-        settingsButton.RegisterCallback<ClickEvent>(clickedSettings);
+        settingsButton.RegisterCallback<ClickEvent>(ClickedSettings);
 
         shopButton = doc.rootVisualElement.Q("Shop") as Button;
-        shopButton.RegisterCallback<ClickEvent>(clickedShop);
+        shopButton.RegisterCallback<ClickEvent>(ClickedShop);
 
-        //reference all current buttons (will most likely delete if not needed)
-        //can be useful for if we want to apply sound queues or any other components to every button
-        mainMenuButtons = doc.rootVisualElement.Query<Button>().ToList();
+        logoutButton = doc.rootVisualElement.Q("Logout") as Button;
+        logoutButton.RegisterCallback<ClickEvent>(ClickedLogout);
+    }
 
-        for (int i = 0; i < mainMenuButtons.Count; i++) {
-            mainMenuButtons[i].RegisterCallback<ClickEvent>(onAllButtonsClicked);
+    private void UnregisterUI() {
+        playButton.UnregisterCallback<ClickEvent>(ClickedPlay);
+        settingsButton.UnregisterCallback<ClickEvent>(ClickedSettings);
+        shopButton.UnregisterCallback<ClickEvent>(ClickedShop);
+        logoutButton.UnregisterCallback<ClickEvent>(ClickedLogout);
+    }
+
+    private void GetUserStats() {
+         // for user saving
+        Boolean exist = DBHandler.CheckUserExist(userHandler.GetUsername());
+        if (exist) {
+            Debug.Log("Welcome back, " + userHandler.GetUsername());
+        } else {
+            Debug.Log("New User, welcome to the family: "+userHandler.GetUsername());
         }
     }
 
-    private void clickedPlay(ClickEvent evt) {
-        Debug.Log("Clicked Play");
+    private void ClickedPlay(ClickEvent evt) {
+        sceneManager.DisplayLevelSelect();
     }
 
-    private void clickedSettings(ClickEvent evt) {
+    private void ClickedSettings(ClickEvent evt) {
         Debug.Log("Clicked Settings");
     }
 
-    private void clickedShop(ClickEvent evt) {
-        Debug.Log("Clicked Shop");
+    private void ClickedShop(ClickEvent evt) {
+        sceneManager.DisplayShop();
     }
 
-    private void onAllButtonsClicked(ClickEvent evt) {
-        Debug.Log("Test");
+    private void ClickedLogout(ClickEvent evt) {
+        userHandler.SaveCoinToDatabase();
+        sceneManager.DisplayLoginScreen();  
     }
-
 }

@@ -8,12 +8,17 @@
     border-bottom-width: 1px;
     border-left-width: 3px;
     background-image: url("project://database/Assets/Sean's%20Folder/Sprites/sprite%20button%201.png?fileID=2800000&guid=9446289fa6eae774e9193841d8847a96&type=3#sprite button 1");
-    -unity-text-align: middle-center;
+    -unity-text-align: lower-center;
     align-items: center;
     align-self: auto;
     top: auto;
     right: auto;
-    left: 821px;
+    left: 855px;
     font-size: 40px;
     padding-top: 58px;
+    width: 278px;
+    height: 45px;
+    color: rgb(255, 255, 255);
+    -unity-text-outline-width: 0;
+    -unity-font-style: bold;
 }
