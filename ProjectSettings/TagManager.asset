@@ -10,6 +10,7 @@ TagManager:
   - Layer 3
   - Layer 4
   - Layer 5 (Bottom)
+  - Obstacle
   layers:
   - Default
   - TransparentFX
