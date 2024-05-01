@@ -18,6 +18,7 @@ public class S_SegmentManager : MonoBehaviour
     public Image LayerHealthBar;
     public List<GameObject> Segments;
     public List<GameObject> CrackBlocks;
+    public List<GameObject> Enemies;
     public Sprite GroundSprite;
     public Sprite[] GroundDecor;
     public GameObject NextLayer;
@@ -80,7 +81,7 @@ public class S_SegmentManager : MonoBehaviour
                 NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
                 this.gameObject.SetActive(false);
             }
-            if (_layerHealth % 20 == 0)
+            if (_layerHealth % 20 <= 5)
             {
                 foreach (GameObject crack in CrackBlocks)
                 {
@@ -96,14 +97,22 @@ public class S_SegmentManager : MonoBehaviour
         if(Segments.Count > 1) 
         {
             Debug.Log("Spawn Next Segment");
-            int index = UnityEngine.Random.Range(0, Segments.Count);
+            int index = Random.Range(0, Segments.Count - 1);
             GameObject nextSegment = Segments[index];
+            if(nextSegment == _currentSegment)
+            {
+                SpawnNextSegment();
+            }
             if(nextSegment != null)
             {
                 nextSegment.transform.position = _currentSegment.transform.GetChild(0).transform.GetChild(0).transform.position;
                 _currentSegment = nextSegment;
                 UsedSegments.Add(_currentSegment);
                 Segments.RemoveAt(index);
+                if(Random.Range(0, 1) == 0 )
+                {
+                    Instantiate(Enemies[Random.Range(0, Enemies.Count)], nextSegment.transform);
+                }
             }
         }
         else if (UsedSegments.Count > 0)
@@ -190,6 +199,9 @@ public class S_SegmentManagerEditor : Editor
 
         var backgroundColor = serializedObject.FindProperty("BackgroundColor");
         EditorGUILayout.PropertyField(backgroundColor, true);
+
+        var enemies = serializedObject.FindProperty("Enemies");
+        EditorGUILayout.PropertyField(enemies, true);
 
         serializedObject.ApplyModifiedProperties();
 

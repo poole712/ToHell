@@ -10,6 +10,8 @@ public class PlayerAttack : MonoBehaviour
     public float MaxChargeTime = 3f;
     public ParticleSystem slamParticle;
     public LayerMask HitLayerMask;
+    public LayerMask AttackLayerMask;
+
     public GameObject segmentManager;
     public float MaxDamage = 15f;
     public Image PowerBar;
@@ -38,7 +40,7 @@ public class PlayerAttack : MonoBehaviour
         // if the player clicks right 
         if (Input.GetMouseButton(0))
         {
-            
+
             // Start charging if not already charging
             if (!_isCharging)
             {
@@ -50,7 +52,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 PowerBar.fillAmount = _power / MaxDamage;
                 _power += 0.01f;
-                Debug.Log(_power);
+                //Debug.Log(_power);
             }
         }
         if (Input.GetMouseButtonUp(0))
@@ -66,19 +68,38 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    //Can be useful for seeing where the attack sphere is located
+    // void OnDrawGizmos()
+    // {  
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), 3f);
+       
+    // }
+
     public void Attack()
     {
-        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, new Vector2(Vector2.down.x + 5, Vector2.down.y), 5, HitLayerMask);
-        Debug.DrawRay(transform.position, new Vector2(Vector2.down.x + 5, Vector2.down.y * 5), Color.green, 3f);
+        RaycastHit2D rayHit = Physics2D.Raycast(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
+        new Vector2(Vector2.down.x + 5, Vector2.down.y), 5, HitLayerMask);
+
+        RaycastHit2D sphereHit = Physics2D.CircleCast(new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z),
+        1f, new Vector2(Vector2.down.x + 5, Vector2.down.y), 0, AttackLayerMask);
+
+        Debug.DrawRay(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
+        new Vector2(Vector2.down.x + 5, Vector2.down.y * 5), Color.green, 3f);
 
         if (rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
         {
-            Debug.Log("Hit ground");
             Instantiate(slamParticle, rayHit.point, Quaternion.identity);
             segmentManager.GetComponent<S_SegmentManager>().DamageLayer(_power);
             Camera.main.GetComponent<S_SimpleCamera>().Shake();
             _power = 0;
             PowerBar.fillAmount = _power / MaxDamage;
+        }
+        if(sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit enemy");
+            sphereHit.collider.gameObject.GetComponent<Enemy>().speed = 0;
+            Destroy(sphereHit.collider.gameObject);
         }
     }
 }
