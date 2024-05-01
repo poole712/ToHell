@@ -14,7 +14,7 @@ public class S_SegmentManager : MonoBehaviour
     [S_SegmentManager(layer = new string[] { "Layer 1 (Top)", "Layer 2", "Layer 3", "Layer 4", "Layer 5 (Bottom)" })]
     public string specifiedLayer;
 
-    public S_Simple2DMovement Player;
+    public PlayerAttack Player;
     public Image LayerHealthBar;
     public List<GameObject> Segments;
     public List<GameObject> CrackBlocks;
@@ -93,7 +93,7 @@ public class S_SegmentManager : MonoBehaviour
 
     public void SpawnNextSegment() 
     {
-        if(Segments.Count > 2) 
+        if(Segments.Count > 1) 
         {
             Debug.Log("Spawn Next Segment");
             int index = UnityEngine.Random.Range(0, Segments.Count);

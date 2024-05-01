@@ -50,7 +50,7 @@ public class S_GrassExternalVelocityTrigger : MonoBehaviour
     {
         if(collision.gameObject == _player)
         {
-            if(collision.gameObject != null)
+            if(this.gameObject != null)
             {
                 StartCoroutine(EaseOut());
             }
