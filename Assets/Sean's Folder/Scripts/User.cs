@@ -6,42 +6,49 @@ using UnityEngine.UI;
 
 public class User : MonoBehaviour
 {
-    private int coins;
-    private string username;
-    public Text coinText;
+    private int _coins;
+    private string _username;
+    public Text CoinText;
     public DatabaseHandler DBHandler;
 
-    public void InitCoinDisplayer(){
-        coins = DBHandler.GetUserCoins(username);
-        UpdateCoinDisplayer(coins);
+    public void InitCoinDisplayer()
+    {
+        _coins = DBHandler.GetUserCoins(_username);
+        UpdateCoinDisplayer(_coins);
     }
     public void AddCoin()
     {
-        coins = coins + 10;
-        UpdateCoinDisplayer(coins);
+        _coins = _coins + 10;
+        UpdateCoinDisplayer(_coins);
     }
 
-    public void SubtractCoin(int toSubtract) {
-        coins = coins - toSubtract;
-        UpdateCoinDisplayer(coins);
+    public void SubtractCoin(int toSubtract) 
+    {
+        _coins = _coins - toSubtract;
+        UpdateCoinDisplayer(_coins);
     }
 
-    public int GetCoins(){
-        return coins;
+    public int GetCoins()
+    {
+        return _coins;
     }
 
-    public void UpdateCoinDisplayer(int coins){
-        coinText.text = "Coins: " + coins + "";
+    public void UpdateCoinDisplayer(int coins)
+    {
+        CoinText.text = "Coins: " + coins + "";
     }
 
-    public void SaveCoinToDatabase(){
-        DBHandler.SaveUserData(username, coins);
+    public void SaveCoinToDatabase()
+    {
+        DBHandler.SaveUserData(_username, _coins);
     }
 
-    public void SetUsername(string username){
-        this.username = username;
+    public void SetUsername(string username)
+    {
+        this._username = username;
     }
-    public string GetUsername() {
-        return username;
+    public string GetUsername() 
+    {
+        return _username;
     }
 }

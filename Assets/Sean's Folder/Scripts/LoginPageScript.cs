@@ -9,37 +9,40 @@ using UnityEngine.UIElements;
 public class LoginPageScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    private UIDocument doc;
-    private Button enterButton;
-    private TextField userInput;
-    public SceneHandler sceneManager;
-    public User user;
-
+    private UIDocument _doc;
+    private Button _enterButton;
+    private TextField _userInput;
+    public SceneHandler SceneHandler;
+    public User CurrentUser;
 
     void OnEnable()
     {
         InitialiseUI();
     }
 
-    void OnDisable() {
+    void OnDisable() 
+    {
         UnregisterUI();
     }
 
-    private void InitialiseUI() {
-        doc = GetComponent<UIDocument>();
+    private void InitialiseUI() 
+    {
+        _doc = GetComponent<UIDocument>();
 
-        enterButton = doc.rootVisualElement.Q("Enter") as Button;
-        enterButton.RegisterCallback<ClickEvent>(ClickedEnter);
+        _enterButton = _doc.rootVisualElement.Q("Enter") as Button;
+        _enterButton.RegisterCallback<ClickEvent>(ClickedEnter);
 
-        userInput = doc.rootVisualElement.Q("Username") as TextField;
+        _userInput = _doc.rootVisualElement.Q("Username") as TextField;
     }
 
-    private void UnregisterUI(){
-        enterButton.UnregisterCallback<ClickEvent>(ClickedEnter);
+    private void UnregisterUI()
+    {
+        _enterButton.UnregisterCallback<ClickEvent>(ClickedEnter);
     }
 
-    private void ClickedEnter(ClickEvent evt) {
-        user.SetUsername(userInput.text);
-        sceneManager.StartGame();
+    private void ClickedEnter(ClickEvent evt)
+    {
+        CurrentUser.SetUsername(_userInput.text);
+        SceneHandler.StartGame();
     }
 }

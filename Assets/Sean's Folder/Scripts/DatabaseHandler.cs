@@ -7,7 +7,7 @@ using System.Data;
 
 public class DatabaseHandler : MonoBehaviour
 {
-    private string databaseName = "URI=file:ToHell.db";
+    private string _databaseName = "URI=file:ToHell.db";
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +17,7 @@ public class DatabaseHandler : MonoBehaviour
     //CREATE THE DATABASE
     public void CreateDB()
     {
-        using (var connection = new SqliteConnection(databaseName))
+        using (var connection = new SqliteConnection(_databaseName))
         {
             connection.Open();
 
@@ -35,7 +35,7 @@ public class DatabaseHandler : MonoBehaviour
     //INSERT INTO DATABASE
     public void AddUser(String userName)
     {
-        using (var connection = new SqliteConnection(databaseName))
+        using (var connection = new SqliteConnection(_databaseName))
         {
             connection.Open();
 
@@ -52,7 +52,7 @@ public class DatabaseHandler : MonoBehaviour
 
     public void SaveUserData(String userName, int coins)
     {
-        using (var connection = new SqliteConnection(databaseName))
+        using (var connection = new SqliteConnection(_databaseName))
         {
             connection.Open();
 
@@ -69,7 +69,7 @@ public class DatabaseHandler : MonoBehaviour
 
     public Boolean CheckUserExist(String userName)
     {
-        using (var connection = new SqliteConnection(databaseName))
+        using (var connection = new SqliteConnection(_databaseName))
         {
             connection.Open();
 
@@ -100,7 +100,7 @@ public class DatabaseHandler : MonoBehaviour
     public int GetUserCoins(string userName)
     {
         int coinsToReturn = 0;
-        using (var connection = new SqliteConnection(databaseName))
+        using (var connection = new SqliteConnection(_databaseName))
         {
             connection.Open();
 

@@ -10,8 +10,8 @@ public class ShopManager : MonoBehaviour
     public ShopTemplate[] shopPanels;
     public Button[] purchaseButtons;
     public GameObject Shop;
-    public User userHandler;
-    public SceneHandler sceneHandler;
+    public User UserHandler;
+    public SceneHandler SceneHandler;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -27,7 +27,8 @@ public class ShopManager : MonoBehaviour
         CheckPurchaseable();
     }
 
-    public void DisplayShop() {
+    public void DisplayShop()
+    {
         //for loop ensures that only those with assign SO's will be displayed in the shop
         for (int i = 0; i < shopItemSO.Length; i++) {
             shopPanelsGO[i].SetActive(true);
@@ -40,7 +41,7 @@ public class ShopManager : MonoBehaviour
         for (int i = 0; i < shopItemSO.Length; i++)
         {
             //If player has enough money to buy the item
-            if (userHandler.GetCoins() >= shopItemSO[i].basePrice)
+            if (UserHandler.GetCoins() >= shopItemSO[i].basePrice)
             {
                 //set button to be interatable
                 purchaseButtons[i].interactable = true;
@@ -54,17 +55,18 @@ public class ShopManager : MonoBehaviour
 
     public void PurchaseItem(int buttonN)
     {
-        if (userHandler.GetCoins() >= shopItemSO[buttonN].basePrice)
+        if (UserHandler.GetCoins() >= shopItemSO[buttonN].basePrice)
         {
-            userHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
+            UserHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
             //REST OF IMPLEMENTATION
 
         }
     }
 
-    public void ClickedReturn() {
-        userHandler.SaveCoinToDatabase();
-        sceneHandler.DisplayMainMenu(Shop);
+    public void ClickedReturn() 
+    {
+        UserHandler.SaveCoinToDatabase();
+        SceneHandler.DisplayMainMenu(Shop);
     }
 
     //Assign the data in the ShopItemSO to the corresponding  ShopPanel's Text Component

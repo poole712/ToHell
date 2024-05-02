@@ -4,32 +4,37 @@ using UnityEngine;
 
 public class SceneHandler : MonoBehaviour
 {
-    public GameObject mainMenu, loginPage, gameShop, levelSelect, coinDisplay;
+    public GameObject MainMenu, LoginPage, GameShop, LevelSelect, CoinDisplay;
 
-    public void DisplayLevelSelect() {
-        levelSelect.SetActive(true);
-        mainMenu.SetActive(false);
+    public void DisplayLevelSelect()
+    {
+        LevelSelect.SetActive(true);
+        MainMenu.SetActive(false);
     }
 
-    public void DisplayShop(){
-        gameShop.SetActive(true);
-        mainMenu.SetActive(false);
+    public void DisplayShop()
+    {
+        GameShop.SetActive(true);
+        MainMenu.SetActive(false);
     }
 
-    public void DisplayLoginScreen(){
-        coinDisplay.SetActive(false);
-        loginPage.SetActive(true);
-        mainMenu.SetActive(false);
+    public void DisplayLoginScreen()
+    {
+        CoinDisplay.SetActive(false);
+        LoginPage.SetActive(true);
+        MainMenu.SetActive(false);
     }
 
-    public void DisplayMainMenu(GameObject toDeactivate){
-        mainMenu.SetActive(true);
+    public void DisplayMainMenu(GameObject toDeactivate)
+    {
+        MainMenu.SetActive(true);
         toDeactivate.SetActive(false);
     }
 
-    public void StartGame(){
-        coinDisplay.SetActive(true);
-        mainMenu.SetActive(true);
-        loginPage.SetActive(false);
+    public void StartGame()
+    {
+        CoinDisplay.SetActive(true);
+        MainMenu.SetActive(true);
+        LoginPage.SetActive(false);
     }
 }
