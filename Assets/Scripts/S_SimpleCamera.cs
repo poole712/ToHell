@@ -27,4 +27,9 @@ public class S_SimpleCamera : MonoBehaviour
     {
         _animator.SetTrigger("Shake");
     }
+
+    public void Jump()
+    {
+        _animator.SetTrigger("Jump");
+    }
 }

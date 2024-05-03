@@ -31,12 +31,6 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if the player presses the "Jump" button (e.g., spacebar)
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // Trigger the "Jump" animation
-            _animator.SetTrigger("Jump");
-        }
         // if the player clicks right 
         if (Input.GetMouseButton(0))
         {
@@ -98,7 +92,7 @@ public class PlayerAttack : MonoBehaviour
         if(sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
         {
             Debug.Log("Hit enemy");
-            sphereHit.collider.gameObject.GetComponent<Enemy>().speed = 0;
+            sphereHit.collider.gameObject.GetComponent<Enemy>().Speed = 0;
             Destroy(sphereHit.collider.gameObject);
         }
     }
