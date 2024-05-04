@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float MaxHealth = 100f;
     public Image HealthBar;
+    public GameObject DeathMenu;
 
     private CapsuleCollider2D _capsuleCollider;
     private float _health;
@@ -21,6 +22,11 @@ public class PlayerHealth : MonoBehaviour
     public void Damage(float dmg)
     {
         _health -= dmg;
+        if(_health <= 0 )
+        {
+            Time.timeScale = 0.0f;
+            DeathMenu.SetActive(true);
+        }
         HealthBar.fillAmount = _health / MaxHealth;
     }
 

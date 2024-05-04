@@ -28,6 +28,7 @@ public class S_SegmentManager : MonoBehaviour
 
     private GameObject _currentSegment;
     private float _layerHealth = 100;
+    private float _crackThreshold = 80f;
     
     private void OnEnable()
     {
@@ -81,12 +82,13 @@ public class S_SegmentManager : MonoBehaviour
                 NextLayer.GetComponent<S_SegmentManager>().SpawnNextSegment();
                 this.gameObject.SetActive(false);
             }
-            if (_layerHealth % 20 <= 5)
+            if (_layerHealth <= _crackThreshold)
             {
                 foreach (GameObject crack in CrackBlocks)
                 {
                     crack.GetComponent<S_VisualLayerDamage>().ChangeSprite();
                 }
+                _crackThreshold -= 20;
             }
         }
         
