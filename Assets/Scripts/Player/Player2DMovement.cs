@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player2DMovement : MonoBehaviour
 {
     private Rigidbody2D rb2d;
-    private bool _inAir;
+    [HideInInspector]public bool InAir;
     private Animator _animator;
 
     public Vector2 JumpHeight = new Vector2(1, 5f);
@@ -22,10 +22,10 @@ public class Player2DMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump") && !_inAir)
+        if (Input.GetButtonDown("Jump") && !InAir)
         {
             _animator.SetTrigger("Jump");
-            _inAir = true;
+            InAir = true;
             Debug.Log("Jumped");
             rb2d.AddForce(JumpHeight, ForceMode2D.Impulse);
             Camera.Jump();
@@ -45,7 +45,7 @@ public class Player2DMovement : MonoBehaviour
 
     public void Landed()
     {
-        _inAir = false;
+        InAir = false;
     }
 
 }

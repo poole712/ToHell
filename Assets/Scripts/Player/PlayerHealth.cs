@@ -9,13 +9,11 @@ public class PlayerHealth : MonoBehaviour
     public Image HealthBar;
     public GameObject DeathMenu;
 
-    private CapsuleCollider2D _capsuleCollider;
     private float _health;
 
     private void Start()
     {
         _health = MaxHealth;
-        _capsuleCollider = GetComponent<CapsuleCollider2D>();
         HealthBar.fillAmount = _health / MaxHealth;
     }
 

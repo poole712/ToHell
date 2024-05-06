@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class S_Segment : MonoBehaviour
 {
-    [HideInInspector] public S_SegmentManager SegmentManager;
+    [HideInInspector] public SegmentManager SegmentManager;
 
     public GameObject Segment;
     public GameObject[] GroundDecorations;
     public Sprite[] GroundDecorSprites;
     public Material GroundDecorMaterial;
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -43,7 +42,6 @@ public class S_Segment : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void SetGroundMaterial(Sprite groundSprite)

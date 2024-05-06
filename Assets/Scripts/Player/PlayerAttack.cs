@@ -45,7 +45,7 @@ public class PlayerAttack : MonoBehaviour
             if (_power < MaxDamage && _isCharging)
             {
                 PowerBar.fillAmount = _power / MaxDamage;
-                _power += 0.01f;
+                _power += 0.005f;
                 //Debug.Log(_power);
             }
         }
@@ -55,6 +55,7 @@ public class PlayerAttack : MonoBehaviour
             if (_isCharging)
             {
                 _isCharging = false;
+
 
                 _animator.SetBool("Holding", false);
 
@@ -67,33 +68,35 @@ public class PlayerAttack : MonoBehaviour
     // {  
     //     Gizmos.color = Color.red;
     //     Gizmos.DrawWireSphere(new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), 3f);
-       
+
     // }
 
+    //Called in the Attack animation event!
     public void Attack()
     {
         RaycastHit2D rayHit = Physics2D.Raycast(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
-        new Vector2(Vector2.down.x + 5, Vector2.down.y), 5, HitLayerMask);
+        new Vector2(Vector2.down.x + 1, Vector2.down.y), 0.1f, HitLayerMask);
 
         RaycastHit2D sphereHit = Physics2D.CircleCast(new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z),
         1f, new Vector2(Vector2.down.x + 5, Vector2.down.y), 0, AttackLayerMask);
 
         Debug.DrawRay(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
-        new Vector2(Vector2.down.x + 5, Vector2.down.y * 5), Color.green, 3f);
+        new Vector2(Vector2.down.x + 1, Vector2.down.y * 0.1f), Color.green, 3f);
 
-        if (rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
-        {
-            Instantiate(slamParticle, rayHit.point, Quaternion.identity);
-            segmentManager.GetComponent<S_SegmentManager>().DamageLayer(_power);
-            Camera.main.GetComponent<S_SimpleCamera>().Shake();
-            _power = 0;
-            PowerBar.fillAmount = _power / MaxDamage;
-        }
-        if(sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
+        if (sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
         {
             Debug.Log("Hit enemy");
             sphereHit.collider.gameObject.GetComponent<Enemy>().Speed = 0;
             Destroy(sphereHit.collider.gameObject);
         }
+        else if(rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
+        {
+            Instantiate(slamParticle, rayHit.point, Quaternion.identity);
+            segmentManager.GetComponent<SegmentManager>().DamageLayer(_power);
+            Camera.main.GetComponent<S_SimpleCamera>().Shake();
+        }
+
+        _power = 0;
+        PowerBar.fillAmount = _power / MaxDamage;
     }
 }
