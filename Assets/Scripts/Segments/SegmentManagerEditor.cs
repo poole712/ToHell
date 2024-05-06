@@ -51,6 +51,8 @@ public class SegmentManagerEditor : Editor
 
         //How to actually display every variable used in this script.
         //Apparently this is required as soon as you turn the class into a Editor subclass.
+        var layerHealth = serializedObject.FindProperty("MaxHealth");
+        EditorGUILayout.PropertyField(layerHealth, true);
 
         var segmentsProperty = serializedObject.FindProperty("Segments");
         EditorGUILayout.PropertyField(segmentsProperty, true);

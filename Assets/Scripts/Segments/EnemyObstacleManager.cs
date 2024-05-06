@@ -12,7 +12,7 @@ public class EnemyObstacleManager : MonoBehaviour
     private Player2DMovement _playerMovement;
     
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         _playerMovement = FindFirstObjectByType<Player2DMovement>();
         _player = _playerMovement.gameObject;

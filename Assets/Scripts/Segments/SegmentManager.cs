@@ -13,6 +13,7 @@ public class SegmentManager : MonoBehaviour
     public string specifiedLayer;
 
     public PlayerAttack Player;
+    public float MaxHealth = 100f;
     public Image LayerHealthBar;
 
     public List<GameObject> Segments;
@@ -34,6 +35,10 @@ public class SegmentManager : MonoBehaviour
     //When layer becomes active/enabled
     private void OnEnable()
     {
+        if(_enemyObstacleManager == null)
+        {
+            _enemyObstacleManager = GetComponent<EnemyObstacleManager>();
+        }
         //usedSegments = new List<GameObject>();
         //Go through setting each segments manager to this class
         foreach (GameObject segment in Segments)
@@ -62,9 +67,10 @@ public class SegmentManager : MonoBehaviour
     void Start()
     {
         _enemyObstacleManager = GetComponent<EnemyObstacleManager>();
+        _layerHealth = MaxHealth;
         if(LayerHealthBar != null)
         {
-            LayerHealthBar.fillAmount = _layerHealth / 100;
+            LayerHealthBar.fillAmount = _layerHealth / MaxHealth;
         }
     }
 
