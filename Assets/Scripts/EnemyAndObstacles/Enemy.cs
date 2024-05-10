@@ -3,6 +3,7 @@ using UnityEngine;
 public class Enemy : GameEntities
 {
     public float Damage = 5.0f;  // Damage dealt by the enemy
+    public ParticleSystem DestroyParticle;
 
     protected override void OnTriggerEnter2D(Collider2D other)
     {
@@ -10,7 +11,12 @@ public class Enemy : GameEntities
         {
             // Apply damage to the player
             other.gameObject.GetComponent<PlayerHealth>().Damage(Damage);
-            Debug.Log("Enemy hit the player");
         }
+    }
+
+    protected void OnDestroy() 
+    {
+        if(!this.gameObject.scene.isLoaded) return;
+        Instantiate(DestroyParticle, transform.position, Quaternion.identity);
     }
 }

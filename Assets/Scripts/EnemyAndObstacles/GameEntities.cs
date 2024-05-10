@@ -55,4 +55,6 @@ public abstract class GameEntities : MonoBehaviour
     {
         // Base implementation, if any general behavior is needed
     }
+
+    
 }

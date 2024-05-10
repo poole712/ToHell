@@ -26,7 +26,6 @@ public class Player2DMovement : MonoBehaviour
         {
             _animator.SetTrigger("Jump");
             InAir = true;
-            Debug.Log("Jumped");
             rb2d.AddForce(JumpHeight, ForceMode2D.Impulse);
             Camera.Jump();
         }
@@ -41,6 +40,13 @@ public class Player2DMovement : MonoBehaviour
             rb2d.AddForce(Speed, ForceMode2D.Force);
         }
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Landed();
+        }
     }
 
     public void Landed()

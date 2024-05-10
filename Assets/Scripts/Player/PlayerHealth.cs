@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float MaxHealth = 100f;
     public Image HealthBar;
-    public TextMeshPro CoinCounterText;
+    public TextMeshProUGUI CoinCounterText;
     public GameObject DeathMenu;
 
     private float _health;
@@ -29,11 +29,13 @@ public class PlayerHealth : MonoBehaviour
         HealthBar.fillAmount = _health / MaxHealth;
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter2D(Collider2D other) {
+
         if(other.CompareTag("Coin"))
         {
             _coins++;
             CoinCounterText.text = _coins.ToString();
+            Destroy(other.gameObject);
         }
     }
 

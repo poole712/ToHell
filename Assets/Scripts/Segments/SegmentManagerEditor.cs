@@ -88,7 +88,7 @@ public class SegmentManagerEditor : Editor
 
         buttonStyle = new GUIStyle(GUI.skin.button);
         buttonStyle.normal.textColor = Color.white;
-        buttonStyle.fontSize = 15;
+        buttonStyle.fontSize = 12;
 
         var layerProperty = serializedObject.FindProperty("specifiedLayer");
         EditorGUILayout.PropertyField(layerProperty);
@@ -101,11 +101,29 @@ public class SegmentManagerEditor : Editor
         //Overall horizontal shelf to hold buttons/other UI.
         using (new EditorGUILayout.HorizontalScope())
         {
-            if (GUILayout.Button("Select all Specific Segments", buttonStyle))
+            if (GUILayout.Button("Select all Segments", buttonStyle))
             {
                 var allSegments = targetObject.GetAllSegments();
                 var allSegmentObjects = allSegments.Select(seg => seg.gameObject).ToArray();
                 Selection.objects = allSegmentObjects;
+            }
+
+            if (GUILayout.Button("Select all Segment Bases", buttonStyle))
+            {
+                var segments = targetObject.GetAllSegments();
+                var segmentObjects = new List<GameObject>();
+
+                foreach (var seg in segments)
+                {
+                    // Get the third child of each segment
+                    var firstChild = seg.transform.GetChild(0);
+                    if (firstChild != null)
+                    {
+                        segmentObjects.Add(firstChild.gameObject);
+                    }
+                }
+
+                Selection.objects = segmentObjects.ToArray();
             }
 
             if (GUILayout.Button("Select all Segment Crack blocks", buttonStyle))

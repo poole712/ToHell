@@ -118,7 +118,6 @@ public class SegmentManager : MonoBehaviour
         //Check if any unused segments available
         if(Segments.Count > 1) 
         {
-            Debug.Log("Spawn Next Segment");
 
             //Get random in the range of the Segments list for next segment
             int index = Random.Range(0, Segments.Count - 1);
