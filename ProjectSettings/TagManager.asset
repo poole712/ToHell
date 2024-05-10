@@ -12,6 +12,7 @@ TagManager:
   - Layer 5 (Bottom)
   - Obstacle
   - Enemy
+  - Coin
   layers:
   - Default
   - TransparentFX

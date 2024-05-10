@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,9 +6,11 @@ public class PlayerHealth : MonoBehaviour
 {
     public float MaxHealth = 100f;
     public Image HealthBar;
+    public TextMeshPro CoinCounterText;
     public GameObject DeathMenu;
 
     private float _health;
+    private int _coins;
 
     private void Start()
     {
@@ -28,5 +29,12 @@ public class PlayerHealth : MonoBehaviour
         HealthBar.fillAmount = _health / MaxHealth;
     }
 
+    private void OnTriggerEnter(Collider other) {
+        if(other.CompareTag("Coin"))
+        {
+            _coins++;
+            CoinCounterText.text = _coins.ToString();
+        }
+    }
 
 }
