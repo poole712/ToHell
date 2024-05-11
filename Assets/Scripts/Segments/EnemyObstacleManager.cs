@@ -31,16 +31,16 @@ public class EnemyObstacleManager : MonoBehaviour
             switch (spawnIndex)
             {
                 case 0:
-                    Instantiate(Enemies[Random.Range(0, Enemies.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5, 10), _player.transform.position.y + 0.1f), Quaternion.identity);
+                    Instantiate(Enemies[Random.Range(0, Enemies.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.1f), Quaternion.identity);
                     SpawnCoinRandomly();
                     break;
                 case 1:
-                    Instantiate(Obstacles[Random.Range(0, Obstacles.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5, 10), _player.transform.position.y + 0.25f), Quaternion.identity);
+                    Instantiate(Obstacles[Random.Range(0, Obstacles.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.25f), Quaternion.identity);
                     SpawnCoinRandomly();
                     break;
                 case 2:
-                    Instantiate(Enemies[Random.Range(0, Enemies.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5, 10), _player.transform.position.y + 0.1f), Quaternion.identity);
-                    Instantiate(Obstacles[Random.Range(0, Obstacles.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5, 10), _player.transform.position.y + 0.25f), Quaternion.identity);
+                    Instantiate(Enemies[Random.Range(0, Enemies.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.1f), Quaternion.identity);
+                    Instantiate(Obstacles[Random.Range(0, Obstacles.Count - 1)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.25f), Quaternion.identity);
                     SpawnCoinRandomly();
                     break;
             }
@@ -52,10 +52,10 @@ public class EnemyObstacleManager : MonoBehaviour
     {
         if (Random.Range(0, 2) == 0)
         {
-            Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5, 10), _player.transform.position.y + 0.5f), Quaternion.identity);
+            Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.5f), Quaternion.identity);
             return;
         }
-        Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5, 10), _player.transform.position.y + 1.25f), Quaternion.identity);
+        Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 1.25f), Quaternion.identity);
 
     }
 
