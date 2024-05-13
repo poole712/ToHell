@@ -14,6 +14,7 @@ public class SegmentManager : MonoBehaviour
 
     public PlayerAttack Player;
     public float MaxHealth = 100f;
+    public float DecorOffset;
     public Image LayerHealthBar;
 
     public List<GameObject> Segments;
@@ -81,7 +82,7 @@ public class SegmentManager : MonoBehaviour
         {
             //Update health value and UI bar
             _layerHealth -= damage;
-            LayerHealthBar.fillAmount = _layerHealth / 100;
+            LayerHealthBar.fillAmount = _layerHealth / MaxHealth;
 
             //Check if needs deactivating
             if (_layerHealth <= 0)

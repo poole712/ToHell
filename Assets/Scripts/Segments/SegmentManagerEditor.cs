@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using Unity.VisualScripting;
 
 
 #if UNITY_EDITOR
@@ -83,6 +84,9 @@ public class SegmentManagerEditor : Editor
 
         var backgroundColor = serializedObject.FindProperty("BackgroundColor");
         EditorGUILayout.PropertyField(backgroundColor, true);
+
+        var decorOffset = serializedObject.FindProperty("DecorOffset");
+        EditorGUILayout.PropertyField(decorOffset, true);
 
         serializedObject.ApplyModifiedProperties();
 
@@ -182,7 +186,7 @@ public class SegmentManagerEditor : Editor
                         var sprite = groundDecor.GetArrayElementAtIndex(i).objectReferenceValue as Sprite;
                         seg.GetComponent<S_Segment>().GroundDecorSprites[i] = sprite;
                     }
-                    seg.GetComponent<S_Segment>().RandomizeDecor();
+                    seg.GetComponent<S_Segment>().RandomizeDecor(decorOffset.floatValue);
                 }
             }
             if (GUILayout.Button("Set Ground Material", buttonStyle))

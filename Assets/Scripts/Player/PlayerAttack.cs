@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
 
     public GameObject segmentManager;
     public float MaxDamage = 15f;
+    public float ChargeSpeed = 0.005f;
     public Image PowerBar;
 
     private Animator _animator;
@@ -45,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
             if (_power < MaxDamage && _isCharging)
             {
                 PowerBar.fillAmount = _power / MaxDamage;
-                _power += 0.005f;
+                _power += ChargeSpeed;
                 //Debug.Log(_power);
             }
         }
