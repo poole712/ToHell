@@ -6,14 +6,15 @@ public class PlayerHealth : MonoBehaviour
 {
     public float MaxHealth = 100f;
     public Image HealthBar;
-    public TextMeshProUGUI CoinCounterText;
     public GameObject DeathMenu;
+    public User CoinHandler;
 
     private float _health;
     private int _coins;
 
     private void Start()
     {
+        CoinHandler.InitCoinDisplayer();
         _health = MaxHealth;
         HealthBar.fillAmount = _health / MaxHealth;
     }
@@ -33,8 +34,7 @@ public class PlayerHealth : MonoBehaviour
 
         if(other.CompareTag("Coin"))
         {
-            _coins++;
-            CoinCounterText.text = _coins.ToString();
+            CoinHandler.AddCoin(1);
             Destroy(other.gameObject);
         }
     }

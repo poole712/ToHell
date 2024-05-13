@@ -34,7 +34,7 @@ public class User : MonoBehaviour
 
     public void UpdateCoinDisplayer(int coins)
     {
-        CoinDisplayer.text = "Coins: " + coins + "";
+        CoinDisplayer.text = coins.ToString();
     }
 
     public void SaveCoinToDatabase()
