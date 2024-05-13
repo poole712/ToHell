@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class User : MonoBehaviour
 {
     private int _coins;
-    public Text CoinDisplayer;
+    public TextMeshProUGUI CoinDisplayer;
 
     public void InitCoinDisplayer()
     {
