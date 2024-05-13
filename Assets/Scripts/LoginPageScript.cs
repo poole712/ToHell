@@ -42,7 +42,6 @@ public class LoginPageScript : MonoBehaviour
 
     private void ClickedEnter(ClickEvent evt)
     {
-        CurrentUser.SetUsername(_userInput.text);
-        SceneHandler.StartGame();
+        
     }
 }

@@ -7,24 +7,26 @@ using UnityEngine.UI;
 public class User : MonoBehaviour
 {
     private int _coins;
-    private string _username;
-    public Text CoinText;
-    public DatabaseHandler DBHandler;
+    public Text CoinDisplayer;
 
     public void InitCoinDisplayer()
     {
-        _coins = DBHandler.GetUserCoins(_username);
+        _coins = PlayerPrefs.GetInt("Coins", 0);    
         UpdateCoinDisplayer(_coins);
     }
-    public void AddCoin()
+
+    //Debugging Purposes
+    public void AddCoin(int toAdd)
     {
-        _coins = _coins + 10;
+        _coins = _coins + toAdd;
+        SaveCoinToDatabase();
         UpdateCoinDisplayer(_coins);
     }
 
     public void SubtractCoin(int toSubtract) 
     {
         _coins = _coins - toSubtract;
+        SaveCoinToDatabase();
         UpdateCoinDisplayer(_coins);
     }
 
@@ -35,20 +37,13 @@ public class User : MonoBehaviour
 
     public void UpdateCoinDisplayer(int coins)
     {
-        CoinText.text = "Coins: " + coins + "";
+        CoinDisplayer.text = "Coins: " + coins + "";
     }
 
     public void SaveCoinToDatabase()
     {
-        DBHandler.SaveUserData(_username, _coins);
+        PlayerPrefs.SetInt("Coins", _coins);
+        PlayerPrefs.Save();
     }
 
-    public void SetUsername(string username)
-    {
-        this._username = username;
-    }
-    public string GetUsername() 
-    {
-        return _username;
-    }
 }
