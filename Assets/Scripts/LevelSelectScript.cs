@@ -6,18 +6,17 @@ using UnityEngine.SceneManagement;
 public class LevelSelectScript : MonoBehaviour
 {
     public  SceneHandler SceneHandler;
-    public GameObject LevelSelect;
+    public GameObject LevelSelect, warning;
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   void OnDisable()
+   {
+        warning.SetActive(false);   
+   }
 
     public void ClickedReturn()
     {
@@ -27,5 +26,10 @@ public class LevelSelectScript : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void ClickedUnlockLevel()
+    {
+        warning.SetActive(true);
     }
 }
