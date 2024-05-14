@@ -4475,8 +4475,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -30.7, y: -35.201797}
-  m_SizeDelta: {x: 44.715195, y: 43.596497}
+  m_AnchoredPosition: {x: -39.3093, y: -35.201797}
+  m_SizeDelta: {x: 61.9337, y: 43.596}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1351466798
 MonoBehaviour:
@@ -4561,7 +4561,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -13.945557, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4983,6 +4983,10 @@ PrefabInstance:
       propertyPath: mainMenu
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5670634943844811989, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
+      propertyPath: CoinHandler
+      value: 
+      objectReference: {fileID: 1791085283}
     - target: {fileID: 5670634943844811989, guid: de56a10012740d2418e4aa107a4adb4a, type: 3}
       propertyPath: UserHandler
       value: 
@@ -6522,6 +6526,7 @@ MonoBehaviour:
   - {fileID: 684987635}
   - {fileID: 699497778}
   - {fileID: 374981539}
+  databaseHandler: {fileID: 452992677}
 --- !u!1 &1830471423
 GameObject:
   m_ObjectHideFlags: 0

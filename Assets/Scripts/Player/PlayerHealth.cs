@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
     public float MaxHealth = 100f;
     public Image HealthBar;
     public GameObject DeathMenu;
-    public User CoinHandler;
+    public CoinHandler CoinHandler;
 
     private float _health;
     private int _coins;

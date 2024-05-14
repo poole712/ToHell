@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public class MainMenuScript : MonoBehaviour
 {
     public DatabaseHandler DBHandler;
-    public User UserHandler;
+    public CoinHandler UserHandler;
     public SceneHandler SceneManager;
    
     void OnEnable()

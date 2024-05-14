@@ -10,7 +10,7 @@ public class ShopManager : MonoBehaviour
     public ShopTemplate[] shopPanels;
     public Button[] purchaseButtons;
     public GameObject Shop;
-    public User UserHandler;
+    public CoinHandler CoinHandler;
     public SceneHandler SceneHandler;
 
     // Start is called before the first frame update
@@ -41,7 +41,7 @@ public class ShopManager : MonoBehaviour
         for (int i = 0; i < shopItemSO.Length; i++)
         {
             //If player has enough money to buy the item
-            if (UserHandler.GetCoins() >= shopItemSO[i].basePrice)
+            if (CoinHandler.GetCoins() >= shopItemSO[i].basePrice)
             {
                 //set button to be interatable
                 purchaseButtons[i].interactable = true;
@@ -55,9 +55,9 @@ public class ShopManager : MonoBehaviour
 
     public void PurchaseItem(int buttonN)
     {
-        if (UserHandler.GetCoins() >= shopItemSO[buttonN].basePrice)
+        if (CoinHandler.GetCoins() >= shopItemSO[buttonN].basePrice)
         {
-            UserHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
+            CoinHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
             //REST OF IMPLEMENTATION
 
         }
@@ -65,7 +65,7 @@ public class ShopManager : MonoBehaviour
 
     public void ClickedReturn() 
     {
-        UserHandler.SaveCoinToDatabase();
+        CoinHandler.SaveCoinToDatabase();
         SceneHandler.DisplayMainMenu(Shop);
     }
 

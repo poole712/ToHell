@@ -13,7 +13,7 @@ public class LoginPageScript : MonoBehaviour
     private Button _enterButton;
     private TextField _userInput;
     public SceneHandler SceneHandler;
-    public User CurrentUser;
+    public CoinHandler CurrentUser;
 
     void OnEnable()
     {

@@ -23,17 +23,17 @@ public class DatabaseHandler : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "CREATE TABLE IF NOT EXISTS toHellUsers (name VARCHAR(30), coins INT NOT NULL DEFAULT 0);";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS toHellLeaderboard (name VARCHAR(30), score INT NOT NULL DEFAULT 0);";
                 command.ExecuteNonQuery();
             }
 
-            Debug.Log("Succesfuly Connected to the Database");
+            Debug.Log("Created toHellLeadboard Database.");
             connection.Close();
         }
     }
 
-    //INSERT INTO DATABASE
-    public void AddUser(String userName)
+    //ADDING NEW SCORE TO LEADERBOARD
+    public void SaveUserData(String userName, int score)
     {
         using (var connection = new SqliteConnection(_databaseName))
         {
@@ -41,24 +41,10 @@ public class DatabaseHandler : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "INSERT INTO toHellUsers (name) VALUES ('" + userName + "');";
-                command.ExecuteNonQuery();
-            }
+                command.CommandText = "INSERT INTO toHellLeaderboard (name, score) VALUES (@userName, @score)";
+                command.Parameters.AddWithValue("@userName", userName);
+                command.Parameters.AddWithValue("@score", score);
 
-            Debug.Log("User " + userName + " succesfully updated.");
-            connection.Close();
-        }
-    }
-
-    public void SaveUserData(String userName, int coins)
-    {
-        using (var connection = new SqliteConnection(_databaseName))
-        {
-            connection.Open();
-
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = "UPDATE toHellUsers SET coins = " + coins + " WHERE name = '" + userName + "'";
                 command.ExecuteNonQuery();
             }
 
@@ -67,65 +53,31 @@ public class DatabaseHandler : MonoBehaviour
         }
     }
 
-    public Boolean CheckUserExist(String userName)
+    //Retrieving Top 5 Names and Scores
+    public List<(string userName, int score)> GetTopScores()
     {
+        var topScores = new List<(string userName, int score)>();
+
         using (var connection = new SqliteConnection(_databaseName))
         {
             connection.Open();
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM toHellUsers WHERE name = ('" + userName + "');";
+                command.CommandText = "SELECT name, score FROM toHellLeaderboard ORDER BY score DESC LIMIT 5";
+
                 using (var reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        // User exists in the database
-                        connection.Close();
-                        return true;
-                    }
-                    else
-                    {
-                        // User does not exist, add them to the database
-                        reader.Close();
-                        AddUser(userName);
-                        connection.Close();
-                        return false;
+                        string userName = reader.GetString(0);
+                        int score = reader.GetInt32(1);
+                        topScores.Add((userName, score));
                     }
                 }
             }
         }
-    }
 
-    public int GetUserCoins(string userName)
-    {
-        int coinsToReturn = 0;
-        using (var connection = new SqliteConnection(_databaseName))
-        {
-            connection.Open();
-
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = "SELECT coins FROM toHellUsers WHERE name = '" + userName + "'";
-
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {  // If a record is found
-                        coinsToReturn = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);  // Get the coins value
-                    }
-                }
-            }
-
-            connection.Close();
-        }
-
-        return coinsToReturn;  // Return the retrieved coins value
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        return topScores;
     }
 }

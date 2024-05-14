@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class User : MonoBehaviour
+public class CoinHandler : MonoBehaviour
 {
     private int _coins;
     public TextMeshProUGUI CoinDisplayer;
