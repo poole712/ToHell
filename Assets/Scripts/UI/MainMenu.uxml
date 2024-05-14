@@ -1,9 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Sean&apos;s%20Folder/UI/MainMenuStyleSheet.uss?fileID=7433441132597879392&amp;guid=1d778e9e0e18fe44dade122991489e8a&amp;type=3#MainMenuStyleSheet" />
-    <ui:VisualElement name="MainMenu" style="flex-grow: 1; justify-content: flex-start;">
-        <ui:Button text="PLAY" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Start" class="button" style="top: 310px;" />
-        <ui:Button text="SHOP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Shop" class="button" style="top: 320px;" />
-        <ui:Button text="SETTINGS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Settings" class="button" style="top: 330px;" />
-        <ui:Button text="LOGOUT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Logout" class="button" style="left: 71px; bottom: -778px; right: 7px; -unity-text-align: lower-center; top: 510px;" />
-    </ui:VisualElement>
-</ui:UXML>

@@ -27,7 +27,6 @@ public class DatabaseHandler : MonoBehaviour
                 command.ExecuteNonQuery();
             }
 
-            Debug.Log("Created toHellLeadboard Database.");
             connection.Close();
         }
     }
@@ -48,12 +47,11 @@ public class DatabaseHandler : MonoBehaviour
                 command.ExecuteNonQuery();
             }
 
-            Debug.Log("User " + userName + " succesfully saved.");
             connection.Close();
         }
     }
 
-    //Retrieving Top 5 Names and Scores
+    //RETRIEVE TOP 5 NAMES AND SCORES AND RETURN AS LIST
     public List<(string userName, int score)> GetTopScores()
     {
         var topScores = new List<(string userName, int score)>();

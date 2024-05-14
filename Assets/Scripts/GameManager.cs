@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject pauseMenu, pauseBtn, playBtn;
+    public GameObject pauseMenu, pauseBtn, playBtn, leaderboardPrompt;
+    public TMP_InputField inputField;
+    public DatabaseHandler databaseHandler;
+    //sort out later
+    int score = 89;
     
     public void OnEnable() 
     {
@@ -38,5 +43,13 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(false); 
         pauseBtn.SetActive(true);
         playBtn.SetActive(false);  
+    }
+
+    public void UpdateLeaderboard()
+    {
+        String username = inputField.text;
+        databaseHandler.SaveUserData(username, score);
+        leaderboardPrompt.SetActive(false);
+        QuitToMenu();
     }
 }

@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Scripts/UI/MainMenuStyleSheet.uss?fileID=7433441132597879392&amp;guid=1d778e9e0e18fe44dade122991489e8a&amp;type=3#MainMenuStyleSheet" />
-    <ui:VisualElement name="LoginPage" style="flex-grow: 1; background-color: rgba(55, 21, 21, 0); align-items: flex-start;">
-        <ui:Button text="Continue" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Enter" class="button" style="left: 828px; top: 604px; right: 0; width: 252px; height: 70px; -unity-slice-left: 0; -unity-text-align: lower-center; margin-top: 4px; margin-right: 4px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
-        <ui:TextField picking-mode="Ignore" value="Enter Username Here" password="false" is-delayed="true" name="Username" style="width: 426px; top: 403px; left: 742px; height: 73px; -unity-text-align: middle-right; -unity-text-outline-width: -76px; letter-spacing: 0; word-spacing: 0; -unity-paragraph-spacing: 21px; font-size: 39px; background-image: none; background-color: rgba(255, 255, 255, 0); -unity-background-image-tint-color: rgb(255, 255, 255); align-items: auto;" />
-    </ui:VisualElement>
-</ui:UXML>
