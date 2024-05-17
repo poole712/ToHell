@@ -7,12 +7,11 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject pauseMenu, pauseBtn, playBtn, leaderboardPrompt;
+    public GameObject pauseMenu, pauseBtn, playBtn, leaderboardPrompt, Settings;
     public TMP_InputField inputField;
     public DatabaseHandler databaseHandler;
+    public SettingsScript settingsHandler;
     public PlayerStats score;
-    
-    
     
     public void OnEnable() 
     {
@@ -44,6 +43,17 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(false); 
         pauseBtn.SetActive(true);
         playBtn.SetActive(false);  
+    }
+
+    public void ClickedSettings()
+    {
+        Settings.SetActive(true);
+    }
+
+    public void QuitFromSettings()
+    {
+        settingsHandler.SaveVolumeSettings();   
+        Settings.SetActive(false); 
     }
 
     public void UpdateLeaderboard()

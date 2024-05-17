@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SceneHandler : MonoBehaviour
 {
-    public GameObject MainMenu, GameShop, LevelSelect, CoinDisplay;
+    public GameObject MainMenu, GameShop, LevelSelect, CoinDisplay, Settings;
 
     public void DisplayLevelSelect()
     {
@@ -18,6 +18,11 @@ public class SceneHandler : MonoBehaviour
         MainMenu.SetActive(false);
     }
 
+    public void DisplaySettings()
+    {
+        Settings.SetActive(true);    
+        MainMenu.SetActive(false);
+    }
 
     public void DisplayMainMenu(GameObject toDeactivate)
     {
