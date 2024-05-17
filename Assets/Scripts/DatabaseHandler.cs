@@ -78,4 +78,35 @@ public class DatabaseHandler : MonoBehaviour
 
         return topScores;
     }
+
+    public float GetLowestLeaderboardScore(){
+
+        var lowestLBScore = 0;
+
+        using (var connection = new SqliteConnection(_databaseName))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT name, score FROM toHellLeaderboard ORDER BY score DESC LIMIT 5";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    int i = 0;
+
+                    while (reader.Read())
+                    {
+                        if(i == 4) {
+                            return (float) reader.GetInt32(1);
+                        }
+
+                        i++;
+                    }
+                }
+            }
+        }
+
+        return lowestLBScore;
+    }
 }

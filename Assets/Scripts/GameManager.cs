@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu, pauseBtn, playBtn, leaderboardPrompt;
     public TMP_InputField inputField;
     public DatabaseHandler databaseHandler;
+    public PlayerStats score;
     
-    //sort out later
-    int score = 89;
+    
     
     public void OnEnable() 
     {
@@ -48,8 +48,9 @@ public class GameManager : MonoBehaviour
 
     public void UpdateLeaderboard()
     {
+        int currentScore = score.GetCurrentScore(); 
         String username = inputField.text;
-        databaseHandler.SaveUserData(username, score);
+        databaseHandler.SaveUserData(username, currentScore);
         leaderboardPrompt.SetActive(false);
         QuitToMenu();
     }
