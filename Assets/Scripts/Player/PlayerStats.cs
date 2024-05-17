@@ -11,7 +11,7 @@ public class PlayerStats : MonoBehaviour
     public TextMeshProUGUI OverallScore;
     public DatabaseHandler databaseHandler;
     public GameObject GameOverUI, LeaderboardPrompt;
-
+    private float _overallScore;
     private GameObject _player;
     // Start is called before the first frame update
     void Start()
@@ -34,28 +34,17 @@ public class PlayerStats : MonoBehaviour
         float layerFloat = float.Parse(finalLayerName);
         FinalLayersText.text = layerFloat.ToString();
 
-        float overallScore = finalDistance * layerFloat;
-        OverallScore.text = overallScore.ToString("0.00");
+        _overallScore = finalDistance * layerFloat;
+        OverallScore.text = _overallScore.ToString("0.00");
 
-        GameOverUI.SetActive(true); 
-
-        if(overallScore > databaseHandler.GetLowestLeaderboardScore()) {
+        if(_overallScore > databaseHandler.GetLowestLeaderboardScore()) {
             LeaderboardPrompt.SetActive(true);  
         } 
 
+        GameOverUI.SetActive(true); 
     }
 
     public int GetCurrentScore() {
-        float finalDistance = _player.transform.position.x;
-        FinalDistanceText.text = finalDistance.ToString("0.00" + "m");
-
-        string finalLayerName = FindObjectOfType<SegmentManager>().name.Substring(5);
-        float layerFloat = float.Parse(finalLayerName);
-        FinalLayersText.text = layerFloat.ToString();
-
-        float overallScore = finalDistance * layerFloat;
-
-        return (int) overallScore;
-
+        return (int) _overallScore;
     }
 }
