@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu, pauseBtn, playBtn, leaderboardPrompt;
     public TMP_InputField inputField;
     public DatabaseHandler databaseHandler;
+    
     //sort out later
     int score = 89;
     

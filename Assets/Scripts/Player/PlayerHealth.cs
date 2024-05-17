@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public Image HealthBar;
     public GameObject DeathMenu;
     public CoinHandler CoinHandler;
+    public PlayerStats PlayerStats;
 
     private float _health;
     private int _coins;
@@ -26,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
         {
             Time.timeScale = 0.0f;
             DeathMenu.SetActive(true);
+            PlayerStats.UpdateFinalStats();
         }
         HealthBar.fillAmount = _health / MaxHealth;
     }

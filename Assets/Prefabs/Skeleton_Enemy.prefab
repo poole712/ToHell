@@ -1238,7 +1238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 0.25
-  Damage: 15
+  Damage: 30
   DestroyParticle: {fileID: 5932651201773762474, guid: e7b9976f22d55b94b83788da919cfef7, type: 3}
 --- !u!212 &5891810144988273864
 SpriteRenderer:
