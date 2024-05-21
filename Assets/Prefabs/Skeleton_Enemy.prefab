@@ -1131,6 +1131,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 35320a7e9c5060d49bd270b0e8c9265d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3009927933668747133}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 35320a7e9c5060d49bd270b0e8c9265d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1955509579733242312}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 35320a7e9c5060d49bd270b0e8c9265d, type: 3}
 --- !u!4 &389413148778335448 stripped
 Transform:
@@ -1281,15 +1284,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -8591258743513342933, guid: 35320a7e9c5060d49bd270b0e8c9265d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.21, y: 1.82}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &7434716438694643035
@@ -1354,10 +1357,10 @@ BoxCollider2D:
   m_Offset: {x: -0.4669665, y: 2.809267}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.36, y: 2.26}
+    newSize: {x: 2.21, y: 1.82}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -1399,16 +1402,30 @@ BoxCollider2D:
   m_Offset: {x: -2, y: 2.809267}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.36, y: 2.26}
+    newSize: {x: 2.21, y: 1.82}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1.5953348, y: 4.2140007}
   m_EdgeRadius: 0
+--- !u!114 &-1955509579733242312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3445039682706275858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 9ea3058c0bad0734194795fa88c92a20, type: 3}
 --- !u!4 &4256251852565561169 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1385362708354752766, guid: 35320a7e9c5060d49bd270b0e8c9265d, type: 3}
