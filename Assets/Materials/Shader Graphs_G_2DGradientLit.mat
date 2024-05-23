@@ -50,10 +50,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Color01Influence: 0.458
-    - _Color02Influence: 0.112
+    - _Color01Influence: 0.306
+    - _Color02Influence: 0.346
     m_Colors:
     - _Color01: {r: 0, g: 0.18835998, b: 1, a: 1}
-    - _Color02: {r: 0.31043077, g: 0.31043077, b: 0.6037736, a: 1}
-    - _Color03: {r: 1, g: 0.6797637, b: 0, a: 1}
+    - _Color02: {r: 0.21586053, g: 0.07227186, b: 0, a: 1}
+    - _Color03: {r: 0.69803923, g: 0.0265157, b: 0, a: 1}
   m_BuildTextureStacks: []

@@ -14,9 +14,12 @@ public class Enemy : GameEntities
         }
     }
 
-    protected void OnDestroy() 
+    protected void OnDestroy()
     {
-        if(!this.gameObject.scene.isLoaded) return;
-        Instantiate(DestroyParticle, transform.position, Quaternion.identity);
+        if (!this.gameObject.scene.isLoaded) return;
+        if (DestroyParticle != null)
+        {
+            Instantiate(DestroyParticle, transform.position, Quaternion.identity);
+        }
     }
 }

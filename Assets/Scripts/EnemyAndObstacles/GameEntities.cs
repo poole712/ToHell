@@ -19,7 +19,10 @@ public abstract class GameEntities : MonoBehaviour
 
     protected virtual void InitializeMovement()
     {
-        _rb.velocity = Vector2.left * Speed;  // Move left by default
+        if (_rb != null)
+        {
+            _rb.velocity = Vector2.left * Speed;  // Move left by default
+        }
     }
 
     protected virtual void Update()
@@ -30,7 +33,7 @@ public abstract class GameEntities : MonoBehaviour
     protected void CheckOutOfScreen()
     {
         Vector3 screenPoint = _mainCamera.WorldToViewportPoint(transform.position);
-        if (screenPoint.x < -0.1)  // A little buffer to ensure it's fully off-screen
+        if (screenPoint.x < -1)  // A little buffer to ensure it's fully off-screen
         {
             OnExitScreen();
         }
@@ -38,17 +41,9 @@ public abstract class GameEntities : MonoBehaviour
 
     protected virtual void OnExitScreen()
     {
-        gameObject.SetActive(false);  // Make the entity inactive
-        Invoke(nameof(Respawn), 5f);  // Respawn the entity after 5 seconds
+        Destroy(gameObject);
     }
 
-    protected virtual void Respawn()
-    {
-        float spawnY = Random.Range(-4f, 4f);  // Respawn at a random height within the camera view
-        transform.position = new Vector2(10f, spawnY);  // Reset the position offscreen to the right
-        gameObject.SetActive(true);  // Make the entity active again
-        InitializeMovement();  // Reinitialize the movement to ensure it continues moving left
-    }
 
     // Add this virtual method
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -56,5 +51,5 @@ public abstract class GameEntities : MonoBehaviour
         // Base implementation, if any general behavior is needed
     }
 
-    
+
 }
