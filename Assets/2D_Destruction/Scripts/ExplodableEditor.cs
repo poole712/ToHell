@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(Explodable))]
 public class ExplodableEditor : Editor {
 
@@ -42,3 +43,4 @@ public class ExplodableEditor : Editor {
         
     }
 }
+#endif
