@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4782146eb4aeb57448ea40244c524d5c, type: 3}
   m_Name: Item #3
   m_EditorClassIdentifier: 
-  title: Character #2
-  desc: Custom Skins. Coming soon!
+  title: Default
+  desc: You can't go wrong with our original hero!
   basePrice: 30

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4782146eb4aeb57448ea40244c524d5c, type: 3}
   m_Name: Item #4
   m_EditorClassIdentifier: 
-  title: Hammer #1
-  desc: Custom Skins. Coming soon!
+  title: Hammer
+  desc: Look cooler breaking through layers with this hammer!
   basePrice: 50
