@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player2DMovement : MonoBehaviour
 {
     private Rigidbody2D rb2d;
-    [HideInInspector]public bool InAir;
+    [HideInInspector] public bool InAir;
     private Animator _animator;
 
     public Vector2 JumpHeight = new Vector2(1, 5f);
@@ -26,26 +26,35 @@ public class Player2DMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && !InAir)
         {
-            _animator.SetTrigger("Jump");
+            _animator.SetBool("Jump", true);
             InAir = true;
             rb2d.AddForce(JumpHeight, ForceMode2D.Impulse);
             Camera.Jump();
+            StartCoroutine(SetInAir(true));
         }
+    }
+
+    IEnumerator SetInAir(bool toggle)
+    {
+        yield return new WaitForSeconds(0.25f);
+        _animator.SetBool("InAir", toggle);
+
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
         //Debug.Log(rb2d.velocity.x);
-        if(rb2d.velocity.x < MaxSpeed)
+        if (rb2d.velocity.x < MaxSpeed)
         {
             rb2d.AddForce(Speed, ForceMode2D.Force);
         }
-        
+
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Landed();
         }
@@ -54,6 +63,9 @@ public class Player2DMovement : MonoBehaviour
     public void Landed()
     {
         InAir = false;
+        _animator.SetBool("Jump", false);
+        StartCoroutine(SetInAir(false));
+
     }
 
 }

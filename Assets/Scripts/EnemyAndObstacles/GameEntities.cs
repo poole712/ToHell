@@ -33,7 +33,7 @@ public abstract class GameEntities : MonoBehaviour
     protected void CheckOutOfScreen()
     {
         Vector3 screenPoint = _mainCamera.WorldToViewportPoint(transform.position);
-        if (screenPoint.x < -1)  // A little buffer to ensure it's fully off-screen
+        if (screenPoint.x < -3)  // A little buffer to ensure it's fully off-screen
         {
             OnExitScreen();
         }

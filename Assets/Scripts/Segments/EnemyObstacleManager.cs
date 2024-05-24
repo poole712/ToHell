@@ -11,40 +11,42 @@ public class EnemyObstacleManager : MonoBehaviour
 
     private GameObject _player;
     private Player2DMovement _playerMovement;
+    private SegmentManager _segmentManager;
 
     // Start is called before the first frame update
     void OnEnable()
     {
         _playerMovement = FindFirstObjectByType<Player2DMovement>();
+        _segmentManager = GetComponent<SegmentManager>();
         _player = _playerMovement.gameObject;
     }
 
     public void SpawnObstacleAndOrEnemy()
     {
-        if (_playerMovement.InAir)
+
+        int spawnIndex = Random.Range(0, 3);
+        switch (spawnIndex)
         {
-            StartCoroutine(DelayedRespawn());
+            case 0:
+                Instantiate(Enemies[Random.Range(0, Enemies.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _segmentManager.StartOffset.y + 0.1f), Quaternion.identity);
+                SpawnCoinRandomly();
+                break;
+            case 1:
+                Instantiate(Obstacles[Random.Range(0, Obstacles.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _segmentManager.StartOffset.y + 0.4f), Quaternion.identity);
+                SpawnCoinRandomly();
+                break;
+            case 2:
+                Instantiate(Enemies[Random.Range(0, Enemies.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _segmentManager.StartOffset.y + 0.1f), Quaternion.identity);
+                Instantiate(Obstacles[Random.Range(0, Obstacles.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _segmentManager.StartOffset.y + 0.4f), Quaternion.identity);
+                SpawnCoinRandomly();
+                break;
         }
-        else
-        {
-            int spawnIndex = Random.Range(0, 3);
-            switch (spawnIndex)
-            {
-                case 0:
-                    Instantiate(Enemies[Random.Range(0, Enemies.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.1f), Quaternion.identity);
-                    SpawnCoinRandomly();
-                    break;
-                case 1:
-                    Instantiate(Obstacles[Random.Range(0, Obstacles.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.45f), Quaternion.identity);
-                    SpawnCoinRandomly();
-                    break;
-                case 2:
-                    Instantiate(Enemies[Random.Range(0, Enemies.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.1f), Quaternion.identity);
-                    Instantiate(Obstacles[Random.Range(0, Obstacles.Count)], new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.45f), Quaternion.identity);
-                    SpawnCoinRandomly();
-                    break;
-            }
-        }
+
+
+    }
+
+    private void SpawnEnemy()
+    {
 
     }
 
@@ -52,16 +54,11 @@ public class EnemyObstacleManager : MonoBehaviour
     {
         if (Random.Range(0, 2) == 0)
         {
-            Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 0.5f), Quaternion.identity);
+            Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _segmentManager.StartOffset.y + 0.5f), Quaternion.identity);
             return;
         }
-        Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _player.transform.position.y + 1.25f), Quaternion.identity);
+        Instantiate(Coin, new Vector2(_player.transform.position.x + Random.Range(5.0f, 10.0f), _segmentManager.StartOffset.y + 1.25f), Quaternion.identity);
 
     }
 
-    private IEnumerator DelayedRespawn()
-    {
-        yield return new WaitForSeconds(0.75f);
-        SpawnObstacleAndOrEnemy();
-    }
 }

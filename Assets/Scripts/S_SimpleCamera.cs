@@ -8,6 +8,7 @@ public class S_SimpleCamera : MonoBehaviour
 
     public float XOffset;
     public float YOffset;
+    public SegmentManager SegmentManager;
 
     private Animator _animator;
 
@@ -18,9 +19,10 @@ public class S_SimpleCamera : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void LateUpdate() {
-
-        transform.position = new Vector3(player.transform.position.x + XOffset, player.transform.position.y + YOffset, -10);
+    private void LateUpdate() 
+    {
+        
+        transform.position = new Vector3(player.transform.position.x + XOffset, Mathf.Clamp(player.transform.position.y + YOffset, SegmentManager.StartOffset.y + 1, 1), -10);
     }
 
     public void Shake()

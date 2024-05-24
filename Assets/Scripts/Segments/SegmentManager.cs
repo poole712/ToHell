@@ -36,6 +36,8 @@ public class SegmentManager : MonoBehaviour
     //When layer becomes active/enabled
     private void OnEnable()
     {
+        FindObjectOfType<S_SimpleCamera>().SegmentManager = this;
+
         if(_enemyObstacleManager == null)
         {
             _enemyObstacleManager = GetComponent<EnemyObstacleManager>();
@@ -108,9 +110,20 @@ public class SegmentManager : MonoBehaviour
                 {
                     crack.GetComponent<S_VisualLayerDamage>().ChangeSprite();
                 }
-                _crackThreshold -= 20;
+                _crackThreshold -= MaxHealth / 5;
             }
         }
+        
+    }
+
+    public int GetRandomSegmentArt(int previousIndex)
+    {
+        int randNum = Random.Range(0,3);
+        if(randNum == previousIndex)
+        {
+            return GetRandomSegmentArt(previousIndex);
+        }
+        return randNum;
         
     }
 
