@@ -14,13 +14,14 @@ public class PlayerAttack : MonoBehaviour
 
     public GameObject segmentManager;
     public float MaxDamage = 15f;
-    public float ChargeSpeed = 0.005f;
+    public float ChargeSpeed = 0.05f;
     public Image PowerBar;
 
     private Animator _animator;
     private bool _isCharging;
     private float _power;
-
+    private bool _chargeInputDown;
+    private Coroutine _chargingCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -32,72 +33,125 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if the player clicks right 
-        if (Input.GetMouseButton(0))
+        // Mouse input for editor or desktop
+        if (Input.GetMouseButtonDown(0))
         {
-
-            // Start charging if not already charging
-            if (!_isCharging)
+            if (_chargingCoroutine != null)
             {
-                _isCharging = true;
-                // Trigger the "Hold" animation
-                _animator.SetBool("Holding", true);
+                StopCoroutine(_chargingCoroutine);
             }
-            if (_power < MaxDamage && _isCharging)
-            {
-                PowerBar.fillAmount = _power / MaxDamage;
-                _power += ChargeSpeed;
-                //Debug.Log(_power);
-            }
+            _chargingCoroutine = StartCoroutine(CheckIfStillHolding());
         }
         if (Input.GetMouseButtonUp(0))
         {
-            // If the player was charging, trigger the "Release" animation
-            if (_isCharging)
+            EndCharging();
+        }
+
+#if UNITY_ANDROID || UNITY_IOS
+        // Touch input for mobile
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
             {
-                _isCharging = false;
-
-
-                _animator.SetBool("Holding", false);
-
+                if (_chargingCoroutine != null)
+                {
+                    StopCoroutine(_chargingCoroutine);
+                }
+                _chargingCoroutine = StartCoroutine(CheckIfStillHolding());
+            }
+            if (touch.phase == TouchPhase.Ended)
+            {
+                EndCharging();
             }
         }
+#endif
     }
 
-    //Can be useful for seeing where the attack sphere is located
-    // void OnDrawGizmos()
-    // {  
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireSphere(new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), 3f);
-
-    // }
-
-    //Called in the Attack animation event!
-    public void Attack()
+    private IEnumerator CheckIfStillHolding()
     {
-        RaycastHit2D rayHit = Physics2D.Raycast(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
-        new Vector2(Vector2.down.x + 1, Vector2.down.y), 0.1f, HitLayerMask);
+        _chargeInputDown = true;
+        yield return new WaitForSeconds(0.25f);
 
-        RaycastHit2D sphereHit = Physics2D.CircleCast(new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z),
-        1f, new Vector2(Vector2.down.x + 5, Vector2.down.y), 0, AttackLayerMask);
-
-        Debug.DrawRay(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
-        new Vector2(Vector2.down.x + 1, Vector2.down.y * 0.1f), Color.green, 3f);
-
-        if (sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
+        if (_chargeInputDown)
         {
-            Debug.Log("Hit enemy");
-            sphereHit.collider.gameObject.GetComponent<Enemy>().Speed = 0;
-            Destroy(sphereHit.collider.gameObject);
+            StartCharging();
         }
-        else if(rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
-        {
-            Instantiate(slamParticle, rayHit.point, Quaternion.identity);
-            segmentManager.GetComponent<SegmentManager>().DamageLayer(_power);
-            Camera.main.GetComponent<S_SimpleCamera>().Shake();
-        }
-
-        _power = 0;
-        PowerBar.fillAmount = _power / MaxDamage;
     }
+
+    private void EndCharging()
+    {
+        _chargeInputDown = false;
+
+        if (_isCharging)
+        {
+            _isCharging = false;
+            _animator.SetBool("Holding", false);
+        }
+
+        if (_chargingCoroutine != null)
+        {
+            StopCoroutine(_chargingCoroutine);
+            _chargingCoroutine = null;
+        }
+    }
+
+    private void StartCharging()
+    {
+        if (!_isCharging)
+        {
+            _isCharging = true;
+            _animator.SetBool("Holding", true);
+            _power = 0f; // Reset power when starting a new charge
+            StartCoroutine(ChargeRoutine());
+        }
+    }
+
+    private IEnumerator ChargeRoutine()
+    {
+        while (_isCharging && _power < MaxDamage)
+        {
+            _power += ChargeSpeed;
+            PowerBar.fillAmount = _power / MaxDamage;
+            yield return null; // Wait until the next frame
+        }
+    }
+
+//Can be useful for seeing where the attack sphere is located
+// void OnDrawGizmos()
+// {  
+//     Gizmos.color = Color.red;
+//     Gizmos.DrawWireSphere(new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), 3f);
+
+// }
+
+//Called in the Attack animation event!
+public void Attack()
+{
+    RaycastHit2D rayHit = Physics2D.Raycast(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
+    new Vector2(Vector2.down.x + 1, Vector2.down.y), 0.1f, HitLayerMask);
+
+    RaycastHit2D sphereHit = Physics2D.CircleCast(new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z),
+    1f, new Vector2(Vector2.down.x + 5, Vector2.down.y), 0, AttackLayerMask);
+
+    Debug.DrawRay(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
+    new Vector2(Vector2.down.x + 1, Vector2.down.y * 0.1f), Color.green, 3f);
+
+    if (sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
+    {
+        Debug.Log("Hit enemy");
+        sphereHit.collider.gameObject.GetComponent<Enemy>().Speed = 0;
+        Destroy(sphereHit.collider.gameObject);
+    }
+    else if (rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
+    {
+        Instantiate(slamParticle, rayHit.point, Quaternion.identity);
+        segmentManager.GetComponent<SegmentManager>().DamageLayer(_power);
+        Camera.main.GetComponent<S_SimpleCamera>().Shake();
+    }
+
+    _power = 0;
+    PowerBar.fillAmount = _power / MaxDamage;
+}
 }

@@ -7,6 +7,8 @@ public class Player2DMovement : MonoBehaviour
     private Rigidbody2D rb2d;
     [HideInInspector] public bool InAir;
     private Animator _animator;
+    private Vector2 _startTouchPosition;
+    private Vector2 _endTouchPosition;
 
     public Vector2 JumpHeight = new Vector2(1, 5f);
     public Vector2 Speed = new Vector2(5, 0);
@@ -24,14 +26,35 @@ public class Player2DMovement : MonoBehaviour
 
     private void Update()
     {
+
+#if UNITY_ANDROID || UNITY_IOS
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            _startTouchPosition = Input.GetTouch(0).position;
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            _endTouchPosition = Input.GetTouch(0).position;
+
+            if (_endTouchPosition.y > _startTouchPosition.y && !InAir)
+            {
+                Jump();
+            }
+        }
+#endif
         if (Input.GetButtonDown("Jump") && !InAir)
         {
-            _animator.SetBool("Jump", true);
-            InAir = true;
-            rb2d.AddForce(JumpHeight, ForceMode2D.Impulse);
-            Camera.Jump();
-            StartCoroutine(SetInAir(true));
+            Jump();
         }
+    }
+
+    private void Jump()
+    {
+        _animator.SetBool("Jump", true);
+        InAir = true;
+        rb2d.AddForce(JumpHeight, ForceMode2D.Impulse);
+        Camera.Jump();
+        StartCoroutine(SetInAir(true));
     }
 
     IEnumerator SetInAir(bool toggle)

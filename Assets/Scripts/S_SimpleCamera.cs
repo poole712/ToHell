@@ -22,7 +22,7 @@ public class S_SimpleCamera : MonoBehaviour
     private void LateUpdate() 
     {
         
-        transform.position = new Vector3(player.transform.position.x + XOffset, Mathf.Clamp(player.transform.position.y + YOffset, SegmentManager.StartOffset.y + 1, 1), -10);
+        transform.position = new Vector3(player.transform.position.x + XOffset, Mathf.Clamp(player.transform.position.y + YOffset, SegmentManager.StartOffset.y + YOffset, 1), -10);
     }
 
     public void Shake()

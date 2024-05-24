@@ -12,6 +12,12 @@ public class GameManager : MonoBehaviour
     public DatabaseHandler databaseHandler;
     public SettingsScript settingsHandler;
     public PlayerStats score;
+
+    void Awake()
+     {
+         QualitySettings.vSyncCount = 0;
+         Application.targetFrameRate = 60;
+     }
     
     public void OnEnable() 
     {
