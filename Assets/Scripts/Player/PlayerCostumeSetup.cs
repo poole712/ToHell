@@ -10,6 +10,7 @@ public class PlayerCostumeSetup : MonoBehaviour
 
     private void Awake()
     {
+        _costumeIndex = PlayerPrefs.GetInt("EquippedCharacter", -1);
         if (_costumeIndex >= 0)
         {
             for (int i = 0; i < transform.childCount - 2; i++)
