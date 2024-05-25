@@ -390,11 +390,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 220192124594036137}
-  - {fileID: 7346233924286159140}
   - {fileID: 7108855259580697389}
-  - {fileID: 2073753312134739562}
+  - {fileID: 220192124594036137}
   - {fileID: 298198187964369388}
+  - {fileID: 7346233924286159140}
+  - {fileID: 2073753312134739562}
   - {fileID: 564175497086163006}
   - {fileID: 8131673027861843872}
   - {fileID: 6194439178605050432}
@@ -7737,12 +7737,7 @@ MonoBehaviour:
   - {fileID: 1031859694355719299}
   - {fileID: 3725449555513955239}
   - {fileID: 4357163862782917334}
-  equipButtons:
-  - {fileID: 1717184232039557891}
-  - {fileID: 8143183513994972881}
-  - {fileID: 5589453525979225277}
-  - {fileID: 3919393918508956140}
-  - {fileID: 556760241413081253}
+  equippableUI: []
   purchaseableUI:
   - {fileID: 8040426819815181474}
   - {fileID: 4998078707301574070}
@@ -7776,6 +7771,9 @@ MonoBehaviour:
   Shop: {fileID: 7617645114799541180}
   CoinHandler: {fileID: 0}
   SceneHandler: {fileID: 0}
+  equippedCharacter: 0
+  equippedHammer: 0
+  itemStates: 0000000000000000000000000000000000000000
 --- !u!1 &7687666255421869562
 GameObject:
   m_ObjectHideFlags: 0
