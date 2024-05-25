@@ -66,7 +66,10 @@ public class ShopManager : MonoBehaviour
             {
                 equippableUI[i].SetActive(true);
                 purchaseableUI[i].SetActive(false);
-            } 
+            } else {
+                equippableUI[i].SetActive(false);
+                purchaseableUI[i].SetActive(true);
+            }
         }
     }
 
@@ -143,5 +146,30 @@ public class ShopManager : MonoBehaviour
         equippedUI[buttonN].SetActive(true);
         equippedHammer = buttonN;
         SaveEquippedItems();
+    }
+
+    //DEBUGGING FUNCTION, DELETE LATER
+    public void ResetToDefault()
+    {
+        // Set default item states
+        for (int i = 0; i < itemStates.Length; i++)
+        {
+            itemStates[i] = (i == 1 || i == 2) ? 1 : 0;
+        }
+        SaveItemStates();
+
+        //Disable Old Cues
+        equippedUI[equippedCharacter].SetActive(false);
+        equippedUI[equippedHammer].SetActive(false);
+
+        // Set default equipped character and hammer
+        equippedCharacter = 2;
+        equippedHammer = 1;
+        SaveEquippedItems();
+
+        // Update UI
+        CheckEquipable();
+        EquipCharacterSkin(equippedCharacter);
+        EquipHammerSkin(equippedHammer);
     }
 }
