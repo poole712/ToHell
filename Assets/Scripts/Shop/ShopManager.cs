@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
     public ShopItemSO[] shopItemSO;
-    public GameObject[] shopPanelsGO, equipButtons, purchaseableUI, equippedUI;
+    public GameObject[] shopPanelsGO, equippableUI, purchaseableUI, equippedUI;
     public ShopTemplate[] shopPanels;
     public Button[] purchaseButtons;
     public GameObject Shop;
@@ -15,26 +15,27 @@ public class ShopManager : MonoBehaviour
 
     int equippedCharacter = 2;
     int equippedHammer = 1;
+    int[] itemStates = new int[5]; // 0 = not purchased, 1 = purchased
+
 
     // Start is called before the first frame update
     void OnEnable()
     {
+        LoadItemStates();
         DisplayShop();
+        CheckEquipable();
         CheckPurchaseable();
         LoadPanels();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        CheckPurchaseable();
-        //CHECK EQUIPABLE
+        LoadEquippedItems();
+        EquipCharacterSkin(equippedCharacter);
+        EquipHammerSkin(equippedHammer);
     }
 
     public void DisplayShop()
     {
         //for loop ensures that only those with assign SO's will be displayed in the shop
-        for (int i = 0; i < shopItemSO.Length; i++) {
+        for (int i = 0; i < shopItemSO.Length; i++)
+        {
             shopPanelsGO[i].SetActive(true);
         }
     }
@@ -57,19 +58,61 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public void CheckEquipable()
+    {
+        for (int i = 0; i < itemStates.Length; i++)
+        {
+            if (itemStates[i] == 1) 
+            {
+                equippableUI[i].SetActive(true);
+                purchaseableUI[i].SetActive(false);
+            } 
+        }
+    }
+
+    public void LoadItemStates() 
+    {
+        for(int i = 0; i < itemStates.Length; i++) 
+        {
+            //Load the saved Item States from previous session
+            itemStates[i] = PlayerPrefs.GetInt("ItemState_" + i, (i == 1 || i == 2) ? 1 : 0);
+        }
+    }
+
+    void SaveItemStates()
+    {
+        for (int i = 0; i < itemStates.Length; i++)
+        {
+            // Save item states
+            PlayerPrefs.SetInt("ItemState_" + i, itemStates[i]);
+        }
+    }
+
+    public void LoadEquippedItems()
+    {
+        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", equippedCharacter);
+        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", equippedHammer);
+    }
+
+    void SaveEquippedItems()
+    {
+        PlayerPrefs.SetInt("EquippedCharacter", equippedCharacter);
+        PlayerPrefs.SetInt("EquippedHammer", equippedHammer);
+    }
+
     public void PurchaseItem(int buttonN)
     {
         if (CoinHandler.GetCoins() >= shopItemSO[buttonN].basePrice)
         {
             CoinHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
-            equipButtons[buttonN].SetActive(true);  
+            itemStates[buttonN] = 1;
+            SaveItemStates();
+            equippableUI[buttonN].SetActive(true);
             purchaseableUI[buttonN].SetActive(false);
-        
-            //SAVE ITEM AS EQUIPPABLE
         }
     }
 
-    public void ClickedReturn() 
+    public void ClickedReturn()
     {
         CoinHandler.SaveCoinToDatabase();
         SceneHandler.DisplayMainMenu(Shop);
@@ -86,19 +129,19 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void EquipCharacterSkin(int buttonN) {
-        if(buttonN != equippedCharacter) {
-            equippedUI[equippedCharacter].SetActive(false);
-            equippedUI[buttonN].SetActive(true);
-            equippedCharacter = buttonN;
-        }
+    public void EquipCharacterSkin(int buttonN)
+    {
+        equippedUI[equippedCharacter].SetActive(false);
+        equippedUI[buttonN].SetActive(true);
+        equippedCharacter = buttonN;
+        SaveEquippedItems();
     }
 
-    public void EquipHammerSkin(int buttonN) {
-        if(buttonN != equippedHammer) {
-            equippedUI[equippedHammer].SetActive(false);
-            equippedUI[buttonN].SetActive(true);
-            equippedHammer = buttonN;
-        }
+    public void EquipHammerSkin(int buttonN)
+    {
+        equippedUI[equippedHammer].SetActive(false);
+        equippedUI[buttonN].SetActive(true);
+        equippedHammer = buttonN;
+        SaveEquippedItems();
     }
 }
