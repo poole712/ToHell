@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
@@ -13,20 +14,24 @@ public class ShopManager : MonoBehaviour
     public CoinHandler CoinHandler;
     public SceneHandler SceneHandler;
 
-    int equippedCharacter, equippedHammer;
-    int[] itemStates = new int[5]; // 0 = not purchased, 1 = purchased
+    public int equippedCharacter, equippedHammer;
+    public int[] itemStates = new int[5]; // 0 = not purchased, 1 = purchased
 
 
     // Start is called before the first frame update
-    void OnEnable()
+    public void OnEnable()
     {
         LoadItemStates();
         DisplayShop();
         UpdateUI();
         LoadPanels();
-        LoadItemStates();
         EquipCharacterSkin(equippedCharacter);
         EquipHammerSkin(equippedHammer);
+    }
+
+    void Update()
+    {
+        UpdateUI();
     }
 
     public void DisplayShop()
@@ -56,7 +61,7 @@ public class ShopManager : MonoBehaviour
             bool isPurchaseable = CoinHandler.GetCoins() >= shopItemSO[i].basePrice;
             bool isEquippable = itemStates[i] == 1;
 
-            purchaseButtons[i].interactable = isPurchaseable && !isEquippable;
+            purchaseButtons[i].interactable = isPurchaseable;
             equippableUI[i].SetActive(isEquippable);
             purchaseableUI[i].SetActive(!isEquippable);
         }
@@ -70,8 +75,8 @@ public class ShopManager : MonoBehaviour
             itemStates[i] = PlayerPrefs.GetInt("ItemState_" + i, (i == 1 || i == 2) ? 1 : 0);
         }
 
-        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", equippedCharacter);
-        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", equippedHammer);
+        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", 2);
+        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", 1);
     }
 
     void SaveItemStates()
@@ -99,8 +104,7 @@ public class ShopManager : MonoBehaviour
             CoinHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
             itemStates[buttonN] = 1;
             SaveItemStates();
-            equippableUI[buttonN].SetActive(true);
-            purchaseableUI[buttonN].SetActive(false);
+            UpdateUI();
         }
     }
 

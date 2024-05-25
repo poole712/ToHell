@@ -2640,10 +2640,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1791085283}
-        m_TargetAssemblyTypeName: User, Assembly-CSharp
-        m_MethodName: AddCoin
-        m_Mode: 3
+      - m_Target: {fileID: 1168750069705161164}
+        m_TargetAssemblyTypeName: ShopManager, Scripts
+        m_MethodName: ResetToDefault
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4228,7 +4228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1228204978
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6900,6 +6900,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7617645114799541180, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
   m_PrefabInstance: {fileID: 7814079238471357150}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1168750069705161164 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3709495455885820357, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
+  m_PrefabInstance: {fileID: 7814079238471357150}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168750069705161163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29ea6456a4fdd24b812a1263f9319cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2909861633588836383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7112,7 +7123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1393682762670054480, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1630908417858316430, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -7408,7 +7419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7617645114799541180, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7725509446764229243, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
       propertyPath: m_FontData.m_MinSize
@@ -7440,11 +7451,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8605042913993192608, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8605042913993192608, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8692643860069826429, guid: 14cf9457bfa89ad459225490d44fa552, type: 3}
       propertyPath: m_AnchoredPosition.x
