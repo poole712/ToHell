@@ -17,6 +17,7 @@ public class ShopManager : MonoBehaviour
     public int equippedCharacter, equippedHammer;
     public int[] itemStates = new int[5]; // 0 = not purchased, 1 = purchased
 
+    //create new chracterSkinStates and hammerSkinStates
 
     // Start is called before the first frame update
     public void OnEnable()
@@ -75,8 +76,8 @@ public class ShopManager : MonoBehaviour
             itemStates[i] = PlayerPrefs.GetInt("ItemState_" + i, (i == 1 || i == 2) ? 1 : 0);
         }
 
-        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", 2);
-        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", 1);
+        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", 0);
+        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", 0);
     }
 
     void SaveItemStates()
@@ -118,8 +119,8 @@ public class ShopManager : MonoBehaviour
 
     public void EquipHammerSkin(int buttonN)
     {
-        equippedUI[equippedHammer].SetActive(false);
-        equippedUI[buttonN].SetActive(true);
+        equippedUI[equippedHammer + 3].SetActive(false);
+        equippedUI[buttonN + 3].SetActive(true);
         equippedHammer = buttonN;
         SaveItemStates();
     }
@@ -136,11 +137,11 @@ public class ShopManager : MonoBehaviour
 
         //Disable Old Cues
         equippedUI[equippedCharacter].SetActive(false);
-        equippedUI[equippedHammer].SetActive(false);
+        equippedUI[equippedHammer + 3].SetActive(false);
 
         // Set default equipped character and hammer
-        equippedCharacter = 2;
-        equippedHammer = 1;
+        equippedCharacter = 0;
+        equippedHammer = 0;
         SaveItemStates();
 
         // Update UI
