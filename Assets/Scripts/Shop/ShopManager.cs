@@ -13,8 +13,7 @@ public class ShopManager : MonoBehaviour
     public CoinHandler CoinHandler;
     public SceneHandler SceneHandler;
 
-    int equippedCharacter = 2;
-    int equippedHammer = 1;
+    int equippedCharacter, equippedHammer;
     int[] itemStates = new int[5]; // 0 = not purchased, 1 = purchased
 
 
@@ -23,10 +22,9 @@ public class ShopManager : MonoBehaviour
     {
         LoadItemStates();
         DisplayShop();
-        CheckEquipable();
-        CheckPurchaseable();
+        UpdateUI();
         LoadPanels();
-        LoadEquippedItems();
+        LoadItemStates();
         EquipCharacterSkin(equippedCharacter);
         EquipHammerSkin(equippedHammer);
     }
@@ -40,36 +38,27 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    //Check if item is purchasable function
-    public void CheckPurchaseable()
+    //Assign the data in the ShopItemSO to the corresponding  ShopPanel's Text Component
+    public void LoadPanels()
     {
         for (int i = 0; i < shopItemSO.Length; i++)
         {
-            //If player has enough money to buy the item
-            if (CoinHandler.GetCoins() >= shopItemSO[i].basePrice)
-            {
-                //set button to be interatable
-                purchaseButtons[i].interactable = true;
-            }
-            else
-            {
-                purchaseButtons[i].interactable = false;
-            }
+            shopPanels[i].title.text = shopItemSO[i].title;
+            shopPanels[i].desc.text = shopItemSO[i].desc;
+            shopPanels[i].basePrice.text = "$" + shopItemSO[i].basePrice.ToString();
         }
     }
 
-    public void CheckEquipable()
+    public void UpdateUI()
     {
-        for (int i = 0; i < itemStates.Length; i++)
+        for (int i = 0; i < shopItemSO.Length; i++)
         {
-            if (itemStates[i] == 1) 
-            {
-                equippableUI[i].SetActive(true);
-                purchaseableUI[i].SetActive(false);
-            } else {
-                equippableUI[i].SetActive(false);
-                purchaseableUI[i].SetActive(true);
-            }
+            bool isPurchaseable = CoinHandler.GetCoins() >= shopItemSO[i].basePrice;
+            bool isEquippable = itemStates[i] == 1;
+
+            purchaseButtons[i].interactable = isPurchaseable && !isEquippable;
+            equippableUI[i].SetActive(isEquippable);
+            purchaseableUI[i].SetActive(!isEquippable);
         }
     }
 
@@ -80,6 +69,9 @@ public class ShopManager : MonoBehaviour
             //Load the saved Item States from previous session
             itemStates[i] = PlayerPrefs.GetInt("ItemState_" + i, (i == 1 || i == 2) ? 1 : 0);
         }
+
+        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", equippedCharacter);
+        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", equippedHammer);
     }
 
     void SaveItemStates()
@@ -89,18 +81,15 @@ public class ShopManager : MonoBehaviour
             // Save item states
             PlayerPrefs.SetInt("ItemState_" + i, itemStates[i]);
         }
-    }
 
-    public void LoadEquippedItems()
-    {
-        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", equippedCharacter);
-        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", equippedHammer);
-    }
-
-    void SaveEquippedItems()
-    {
         PlayerPrefs.SetInt("EquippedCharacter", equippedCharacter);
         PlayerPrefs.SetInt("EquippedHammer", equippedHammer);
+    }
+
+    public void ClickedReturn()
+    {
+        CoinHandler.SaveCoinToDatabase();
+        SceneHandler.DisplayMainMenu(Shop);
     }
 
     public void PurchaseItem(int buttonN)
@@ -115,29 +104,12 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void ClickedReturn()
-    {
-        CoinHandler.SaveCoinToDatabase();
-        SceneHandler.DisplayMainMenu(Shop);
-    }
-
-    //Assign the data in the ShopItemSO to the corresponding  ShopPanel's Text Component
-    public void LoadPanels()
-    {
-        for (int i = 0; i < shopItemSO.Length; i++)
-        {
-            shopPanels[i].title.text = shopItemSO[i].title;
-            shopPanels[i].desc.text = shopItemSO[i].desc;
-            shopPanels[i].basePrice.text = "$" + shopItemSO[i].basePrice.ToString();
-        }
-    }
-
     public void EquipCharacterSkin(int buttonN)
     {
         equippedUI[equippedCharacter].SetActive(false);
         equippedUI[buttonN].SetActive(true);
         equippedCharacter = buttonN;
-        SaveEquippedItems();
+        SaveItemStates();
     }
 
     public void EquipHammerSkin(int buttonN)
@@ -145,7 +117,7 @@ public class ShopManager : MonoBehaviour
         equippedUI[equippedHammer].SetActive(false);
         equippedUI[buttonN].SetActive(true);
         equippedHammer = buttonN;
-        SaveEquippedItems();
+        SaveItemStates();
     }
 
     //DEBUGGING FUNCTION, DELETE LATER
@@ -165,10 +137,10 @@ public class ShopManager : MonoBehaviour
         // Set default equipped character and hammer
         equippedCharacter = 2;
         equippedHammer = 1;
-        SaveEquippedItems();
+        SaveItemStates();
 
         // Update UI
-        CheckEquipable();
+        UpdateUI();
         EquipCharacterSkin(equippedCharacter);
         EquipHammerSkin(equippedHammer);
     }
