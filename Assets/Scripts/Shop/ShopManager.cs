@@ -6,18 +6,17 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
-    public ShopItemSO[] shopItemSO;
-    public GameObject[] shopPanelsGO, equippableUI, purchaseableUI, equippedUI;
-    public ShopTemplate[] shopPanels;
-    public Button[] purchaseButtons;
+    private const int FORSALE = 0, PURCHASED = 1, HAMMER_OFFSET = 3, DEFAULT_HAMMER_VAL = 0, DEFAULT_CHARACTER_VAL = 0;
+
+    public ShopItemSO[] ShopItemSO;
+    public GameObject[] ShopPanelsGO, EquippableUI, PurchaseableUI, EquippedUI;
+    public ShopTemplate[] ShopPanels;
     public GameObject Shop;
     public CoinHandler CoinHandler;
     public SceneHandler SceneHandler;
 
-    public int equippedCharacter, equippedHammer;
-    public int[] itemStates = new int[5]; // 0 = not purchased, 1 = purchased
-
-    //create new chracterSkinStates and hammerSkinStates
+    private int _equippedCharacter, _equippedHammer;
+    public int[] itemStates = new int[5]; // Use Constants FORSALE, PURCHASED to indicate item state
 
     // Start is called before the first frame update
     public void OnEnable()
@@ -26,8 +25,8 @@ public class ShopManager : MonoBehaviour
         DisplayShop();
         UpdateUI();
         LoadPanels();
-        EquipCharacterSkin(equippedCharacter);
-        EquipHammerSkin(equippedHammer);
+        EquipCharacterSkin(_equippedCharacter);
+        EquipHammerSkin(_equippedHammer);
     }
 
     void Update()
@@ -35,61 +34,70 @@ public class ShopManager : MonoBehaviour
         UpdateUI();
     }
 
+    // Ensures that only those with assign SO's will be displayed in the shop
     public void DisplayShop()
     {
-        //for loop ensures that only those with assign SO's will be displayed in the shop
-        for (int i = 0; i < shopItemSO.Length; i++)
+        for (int i = 0; i < ShopItemSO.Length; i++)
         {
-            shopPanelsGO[i].SetActive(true);
+            ShopPanelsGO[i].SetActive(true);
         }
     }
 
-    //Assign the data in the ShopItemSO to the corresponding  ShopPanel's Text Component
+    // Assign the data in the ShopItemSO to the corresponding ShopPanel's Text Component
     public void LoadPanels()
     {
-        for (int i = 0; i < shopItemSO.Length; i++)
+        if (ShopItemSO != null)
         {
-            shopPanels[i].title.text = shopItemSO[i].title;
-            shopPanels[i].desc.text = shopItemSO[i].desc;
-            shopPanels[i].basePrice.text = "$" + shopItemSO[i].basePrice.ToString();
+            for (int i = 0; i < ShopItemSO.Length; i++)
+            {
+                ShopPanels[i].title.text = ShopItemSO[i].title;
+                ShopPanels[i].desc.text = ShopItemSO[i].desc;
+                ShopPanels[i].basePrice.text = "$" + ShopItemSO[i].basePrice.ToString();
+            }
         }
     }
 
+    // Update the UI to ensure that the right UI (purchase or equip button) is displayed in relevance to item state
     public void UpdateUI()
     {
-        for (int i = 0; i < shopItemSO.Length; i++)
+        if (ShopItemSO != null)
         {
-            bool isPurchaseable = CoinHandler.GetCoins() >= shopItemSO[i].basePrice;
-            bool isEquippable = itemStates[i] == 1;
+            for (int i = 0; i < ShopItemSO.Length; i++)
+            {
+                bool isEquippable = itemStates[i] == PURCHASED;
 
-            purchaseButtons[i].interactable = isPurchaseable;
-            equippableUI[i].SetActive(isEquippable);
-            purchaseableUI[i].SetActive(!isEquippable);
+                EquippableUI[i].SetActive(isEquippable);
+                PurchaseableUI[i].SetActive(!isEquippable);
+            }
         }
     }
 
-    public void LoadItemStates() 
+    // Function for loading previous game session's item states and equipped skins
+    // If first time playing, label the default hammer and character skins as purchased
+    public void LoadItemStates()
     {
-        for(int i = 0; i < itemStates.Length; i++) 
+        for (int i = 0; i < itemStates.Length; i++)
         {
-            //Load the saved Item States from previous session
-            itemStates[i] = PlayerPrefs.GetInt("ItemState_" + i, (i == 1 || i == 2) ? 1 : 0);
+            //Load the saved Item States saved in PlayerPrefs
+            itemStates[i] = PlayerPrefs.GetInt("ItemState_" + i, (i == 0 || i == 3) ? PURCHASED : FORSALE);
         }
 
-        equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", 0);
-        equippedHammer = PlayerPrefs.GetInt("EquippedHammer", 0);
+        _equippedCharacter = PlayerPrefs.GetInt("EquippedCharacter", DEFAULT_CHARACTER_VAL);
+        _equippedHammer = PlayerPrefs.GetInt("EquippedHammer", DEFAULT_HAMMER_VAL);
     }
 
+    // Function for saving item states and equipped skin upon manipulation
     void SaveItemStates()
     {
         for (int i = 0; i < itemStates.Length; i++)
         {
-            // Save item states
+
             PlayerPrefs.SetInt("ItemState_" + i, itemStates[i]);
         }
 
-        PlayerPrefs.SetInt("EquippedCharacter", equippedCharacter);
-        PlayerPrefs.SetInt("EquippedHammer", equippedHammer);
+        //Save last equipped hammer and character skin
+        PlayerPrefs.SetInt("EquippedCharacter", _equippedCharacter);
+        PlayerPrefs.SetInt("EquippedHammer", _equippedHammer);
     }
 
     public void ClickedReturn()
@@ -98,55 +106,68 @@ public class ShopManager : MonoBehaviour
         SceneHandler.DisplayMainMenu(Shop);
     }
 
-    public void PurchaseItem(int buttonN)
+    // Function to Handle Item Purchase base on Button Pressed
+    public void PurchaseItem(int buttonNumber)
     {
-        if (CoinHandler.GetCoins() >= shopItemSO[buttonN].basePrice)
+        if (CoinHandler.GetCoins() >= ShopItemSO[buttonNumber].basePrice)
         {
-            CoinHandler.SubtractCoin(shopItemSO[buttonN].basePrice);
-            itemStates[buttonN] = 1;
+            CoinHandler.SubtractCoin(ShopItemSO[buttonNumber].basePrice);
+            itemStates[buttonNumber] = PURCHASED;
             SaveItemStates();
-            UpdateUI();
         }
     }
 
-    public void EquipCharacterSkin(int buttonN)
+    // Change the equipped character skin based on button pressed
+    public void EquipCharacterSkin(int buttonNumber)
     {
-        equippedUI[equippedCharacter].SetActive(false);
-        equippedUI[buttonN].SetActive(true);
-        equippedCharacter = buttonN;
+        EquippedUI[_equippedCharacter].SetActive(false);
+        EquippedUI[buttonNumber].SetActive(true);
+        _equippedCharacter = buttonNumber;
         SaveItemStates();
     }
 
-    public void EquipHammerSkin(int buttonN)
+    // Change the equipped hammer skin based on button pressed
+    public void EquipHammerSkin(int buttonNumber)
     {
-        equippedUI[equippedHammer + 3].SetActive(false);
-        equippedUI[buttonN + 3].SetActive(true);
-        equippedHammer = buttonN;
+        EquippedUI[_equippedHammer + HAMMER_OFFSET].SetActive(false);
+        EquippedUI[buttonNumber + HAMMER_OFFSET].SetActive(true);
+        _equippedHammer = buttonNumber;
         SaveItemStates();
     }
 
-    //DEBUGGING FUNCTION, DELETE LATER
+    // Getter functions for testing purposes
+    public int GetEquippedCharacter()
+    {
+        return _equippedCharacter;
+    }
+
+    public int GetEquippedHammer()
+    {
+        return _equippedHammer;
+    }
+
+    // DEBUGGING FUNCTION, DELETE LATER
     public void ResetToDefault()
     {
         // Set default item states
         for (int i = 0; i < itemStates.Length; i++)
         {
-            itemStates[i] = (i == 1 || i == 2) ? 1 : 0;
+            itemStates[i] = (i == 0 || i == 3) ? PURCHASED : FORSALE;
         }
         SaveItemStates();
 
         //Disable Old Cues
-        equippedUI[equippedCharacter].SetActive(false);
-        equippedUI[equippedHammer + 3].SetActive(false);
+        EquippedUI[_equippedCharacter].SetActive(false);
+        EquippedUI[_equippedHammer + HAMMER_OFFSET].SetActive(false);
 
         // Set default equipped character and hammer
-        equippedCharacter = 0;
-        equippedHammer = 0;
+        _equippedCharacter = DEFAULT_CHARACTER_VAL;
+        _equippedHammer = DEFAULT_HAMMER_VAL;
         SaveItemStates();
 
         // Update UI
         UpdateUI();
-        EquipCharacterSkin(equippedCharacter);
-        EquipHammerSkin(equippedHammer);
+        EquipCharacterSkin(_equippedCharacter);
+        EquipHammerSkin(_equippedHammer);
     }
 }
