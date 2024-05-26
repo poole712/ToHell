@@ -20,14 +20,23 @@ public class Enemy : GameEntities
         if (!this.gameObject.scene.isLoaded) return;
         if (DestroyParticle != null)
         {
-            Instantiate(DestroyParticle, transform.position, Quaternion.identity);
-            int cointAmount = Random.Range(0, 4);
-            for (int i = 0; i < cointAmount; i++)
+            ParticleSystem particleInstance = Instantiate(DestroyParticle, transform.position, Quaternion.identity);
+            Destroy(particleInstance.gameObject, particleInstance.main.duration); // Destroy the particle system after its duration
+        }
+
+        if (Coin != null)
+        {
+            int coinAmount = Random.Range(0, 4);
+            for (int i = 0; i < coinAmount; i++)
             {
                 GameObject coin = Instantiate(Coin, new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), Quaternion.identity);
-                coin.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(1, 5), Random.Range(2, 5)), ForceMode2D.Impulse);
+                Rigidbody2D rb = coin.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    rb.AddForce(new Vector2(Random.Range(1, 5), Random.Range(2, 5)), ForceMode2D.Impulse);
+                }
+                Destroy(coin, 5.0f); // Destroy the coin after 5 seconds to prevent memory leak
             }
-
         }
     }
 }
