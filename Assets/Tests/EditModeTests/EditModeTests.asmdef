@@ -21,11 +21,4 @@
     ],
     "versionDefines": [],
     "noEngineReferences": false
-    
-    "name": "EditorTests",
-    "references": [
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "nunit.framework"
-    ]
 }

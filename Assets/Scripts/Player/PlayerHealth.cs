@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +12,6 @@ public class PlayerHealth : MonoBehaviour
 
     private float _health;
     private int _coins;
-    private bool isInvincible = false;
 
     private void Start()
     {
@@ -32,19 +30,6 @@ public class PlayerHealth : MonoBehaviour
             PlayerStats.UpdateFinalStats();
         }
         HealthBar.fillAmount = _health / MaxHealth;
-    }
-
-    public void EnableInvincibility(float duration)
-    {
-        StartCoroutine(Invincibility(duration));
-    }
-
-    private IEnumerator Invincibility(float duration)
-    {
-        isInvincible = true;
-        yield return new WaitForSeconds(duration);
-        isInvincible = false;
-        Debug.Log("Invincibility ended");
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

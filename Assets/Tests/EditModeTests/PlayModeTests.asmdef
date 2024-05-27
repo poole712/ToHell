@@ -1,8 +1,0 @@
-{
-    "name": "PlayModeTests",
-    "references": [
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "nunit.framework"
-    ]
-}

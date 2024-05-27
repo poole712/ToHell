@@ -16,14 +16,12 @@ public class Player2DMovement : MonoBehaviour
 
     public S_SimpleCamera Camera;
 
-    private float originalSpeed;
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = Speed;
-        originalSpeed = Speed.x;
     }
 
     private void Update()
@@ -91,20 +89,6 @@ public class Player2DMovement : MonoBehaviour
         _animator.SetBool("Jump", false);
         StartCoroutine(SetInAir(false));
 
-    }
-
-    // Speed boost methods
-    public void IncreaseSpeed(float amount, float duration)
-    {
-        StartCoroutine(SpeedBoost(amount, duration));
-    }
-
-    private IEnumerator SpeedBoost(float amount, float duration)
-    {
-        Speed = new Vector2(Speed.x + amount, Speed.y);
-        yield return new WaitForSeconds(duration);
-        Speed = new Vector2(originalSpeed, Speed.y);
-        Debug.Log("Speed boost ended");
     }
 
 }

@@ -13,13 +13,10 @@ public class PlayerStats : MonoBehaviour
     public GameObject GameOverUI, LeaderboardPrompt;
     private float _overallScore;
     private GameObject _player;
-    public int maxHealth = 100;
-    private int currentHealth;
     // Start is called before the first frame update
     void Start()
     {
         _player = FindObjectOfType<PlayerHealth>().gameObject;
-        currentHealth = maxHealth; // Initialize current health
     }
 
     // Update is called once per frame
@@ -49,17 +46,5 @@ public class PlayerStats : MonoBehaviour
 
     public int GetCurrentScore() {
         return (int) _overallScore;
-    }
-
-    // Health management methods
-    public void IncreaseHealth(int amount)
-    {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log("Health increased: " + currentHealth);
-    }
-
-    public int GetCurrentHealth()
-    {
-        return currentHealth;
     }
 }
