@@ -26,14 +26,19 @@ public class PlayerHealth : MonoBehaviour
 
     public void Damage(float dmg)
     {
-        _health -= dmg;
-        if(_health <= 0 )
+        if (!isInvincible)
         {
-            Time.timeScale = 0.0f;
-            DeathMenu.SetActive(true);
-            PlayerStats.UpdateFinalStats();
+            _health -= dmg;
+            if (_health <= 0)
+            {
+                Time.timeScale = 0.0f;
+                DeathMenu.SetActive(true);
+                PlayerStats.UpdateFinalStats();
+            }
+            HealthBar.fillAmount = _health / MaxHealth;
         }
-        HealthBar.fillAmount = _health / MaxHealth;
+
+
     }
 
     public void EnableInvincibility(float duration)
@@ -49,13 +54,22 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Invincibility ended");
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
 
-        if(other.CompareTag("Coin"))
+        if (other.CompareTag("Coin"))
         {
             CoinHandler.AddCoin(1);
             Destroy(other.gameObject);
         }
+    }
+
+    // Health management methods
+    public void IncreaseHealth(int amount)
+    {
+        _health = Mathf.Min(_health + amount, MaxHealth);
+        HealthBar.fillAmount = _health / MaxHealth;
+
     }
 
 }

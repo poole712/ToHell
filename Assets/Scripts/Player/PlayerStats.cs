@@ -53,12 +53,7 @@ public class PlayerStats : MonoBehaviour
         return (int) _overallScore;
     }
 
-    // Health management methods
-    public void IncreaseHealth(int amount)
-    {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log("Health increased: " + currentHealth);
-    }
+    
 
     public int GetCurrentHealth()
     {

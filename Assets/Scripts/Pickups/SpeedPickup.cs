@@ -5,12 +5,13 @@ public class SpeedPickup : Pickup
     [SerializeField] private float speedIncrease = 2.0f;
     [SerializeField] private float duration = 5.0f;
 
-    protected override void ApplyEffect(GameObject player)
+    protected override void ApplyEffect(GameObject player, PlayerMaterialManager playerMatMgr)
     {
-        Player2DMovement playerMovement = player.GetComponent<Player2DMovement>();
-        if (playerMovement != null)
+        PlayerAttack playerAttack = player.GetComponent<PlayerAttack>();
+        if (playerAttack != null)
         {
-            playerMovement.IncreaseSpeed(speedIncrease, duration);
+            playerMatMgr.SetMaterial("Speed", duration);
+            playerAttack.IncreaseSpeed(speedIncrease, duration);
         }
     }
 }

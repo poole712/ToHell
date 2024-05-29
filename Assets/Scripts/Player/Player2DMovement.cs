@@ -95,18 +95,6 @@ public class Player2DMovement : MonoBehaviour
 
     }
 
-    // Speed boost methods
-    public void IncreaseSpeed(float amount, float duration)
-    {
-        StartCoroutine(SpeedBoost(amount, duration));
-    }
-
-    private IEnumerator SpeedBoost(float amount, float duration)
-    {
-        Speed = new Vector2(Speed.x + amount, Speed.y);
-        yield return new WaitForSeconds(duration);
-        Speed = new Vector2(originalSpeed, Speed.y);
-        Debug.Log("Speed boost ended");
-    }
+  
 
 }

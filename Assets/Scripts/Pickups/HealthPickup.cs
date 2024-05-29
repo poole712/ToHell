@@ -4,12 +4,13 @@ public class HealthPickup : Pickup
 {
     [SerializeField] private int healthAmount = 20;
 
-    protected override void ApplyEffect(GameObject player)
+    protected override void ApplyEffect(GameObject player, PlayerMaterialManager playerMatMgr)
     {
-        PlayerStats playerStats = player.GetComponent<PlayerStats>();
-        if (playerStats != null)
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            playerStats.IncreaseHealth(healthAmount);
+            playerMatMgr.SetMaterial("Health", 3);
+            playerHealth.IncreaseHealth(healthAmount);
         }
     }
 }

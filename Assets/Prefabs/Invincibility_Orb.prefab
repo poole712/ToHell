@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1281083776877862173
+--- !u!1001 &2642486258348579033
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -14,19 +14,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8623
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.852
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1704
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1232
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -82,26 +82,29 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8234962149532380052}
+      addedObject: {fileID: 8669703904738344020}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 738530181600872056}
+      addedObject: {fileID: 1553155464666928767}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4283928958785415361}
+      addedObject: {fileID: 8578372608453152390}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1686863246517080979}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
---- !u!1 &1594447130100808864 stripped
+--- !u!1 &2543461351870265700 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 4f8af360736fa21468034a018421a0b0, type: 3}
-  m_PrefabInstance: {fileID: 1281083776877862173}
+  m_PrefabInstance: {fileID: 2642486258348579033}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &8234962149532380052
+--- !u!212 &8669703904738344020
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594447130100808864}
+  m_GameObject: {fileID: 2543461351870265700}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -147,13 +150,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &738530181600872056
+--- !u!58 &1553155464666928767
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594447130100808864}
+  m_GameObject: {fileID: 2543461351870265700}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -176,20 +179,20 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.035
---- !u!50 &4283928958785415361
+--- !u!50 &8578372608453152390
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594447130100808864}
+  m_GameObject: {fileID: 2543461351870265700}
   m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -209,3 +212,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1686863246517080979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543461351870265700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f9d7ea165b0a249b08321fe070c5c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 15

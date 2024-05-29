@@ -47,6 +47,7 @@ public class PlayerAttack : MonoBehaviour
             EndCharging();
         }
 
+//Precautions to ensure these are only run when playing on a mobile device
 #if UNITY_ANDROID || UNITY_IOS
         // Touch input for mobile
         if (Input.touchCount > 0)
@@ -118,40 +119,49 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-//Can be useful for seeing where the attack sphere is located
-// void OnDrawGizmos()
-// {  
-//     Gizmos.color = Color.red;
-//     Gizmos.DrawWireSphere(new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), 3f);
-
-// }
-
-//Called in the Attack animation event!
-public void Attack()
-{
-    RaycastHit2D rayHit = Physics2D.Raycast(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
-    new Vector2(Vector2.down.x + 1, Vector2.down.y), 0.1f, HitLayerMask);
-
-    RaycastHit2D sphereHit = Physics2D.CircleCast(new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z),
-    1f, new Vector2(Vector2.down.x + 5, Vector2.down.y), 0, AttackLayerMask);
-
-    Debug.DrawRay(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
-    new Vector2(Vector2.down.x + 1, Vector2.down.y * 0.1f), Color.green, 3f);
-
-    if (sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
+    //Called in the Attack animation event!
+    public void Attack()
     {
-        Debug.Log("Hit enemy");
-        sphereHit.collider.gameObject.GetComponent<Enemy>().Speed = 0;
-        Destroy(sphereHit.collider.gameObject);
-    }
-    else if (rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
-    {
-        Instantiate(slamParticle, rayHit.point, Quaternion.identity);
-        segmentManager.GetComponent<SegmentManager>().DamageLayer(_power);
-        Camera.main.GetComponent<S_SimpleCamera>().Shake();
+        //Ray for shooting out ahead of player where the hammer would hit
+        RaycastHit2D rayHit = Physics2D.Raycast(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
+        new Vector2(Vector2.down.x + 1, Vector2.down.y), 0.1f, HitLayerMask);
+
+        //Ray to check for enemy hits
+        RaycastHit2D sphereHit = Physics2D.CircleCast(new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z),
+        1f, new Vector2(Vector2.down.x + 5, Vector2.down.y), 0, AttackLayerMask);
+
+        //Just for debugging where the ray is going in the editor
+        Debug.DrawRay(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
+        new Vector2(Vector2.down.x + 1, Vector2.down.y * 0.1f), Color.green, 3f);
+
+        //Check if enemy hit before checking if layer been hit as player can only hit layer OR enemy not both.
+        if (sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit enemy");
+            sphereHit.collider.gameObject.GetComponent<Enemy>().Speed = 0;
+            Destroy(sphereHit.collider.gameObject);
+        }
+        else if (rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
+        {
+            Instantiate(slamParticle, rayHit.point, Quaternion.identity);
+            segmentManager.GetComponent<SegmentManager>().DamageLayer(_power);
+            Camera.main.GetComponent<S_SimpleCamera>().Shake();
+        }
+
+        _power = 0;
+        PowerBar.fillAmount = _power / MaxDamage;
     }
 
-    _power = 0;
-    PowerBar.fillAmount = _power / MaxDamage;
-}
+    // Speed boost methods
+    public void IncreaseSpeed(float amount, float duration)
+    {
+        StartCoroutine(SpeedBoost(amount, duration));
+    }
+
+    private IEnumerator SpeedBoost(float amount, float duration)
+    {
+        ChargeSpeed += amount;
+        yield return new WaitForSeconds(duration);
+        ChargeSpeed = 0.05f;
+    }
 }
