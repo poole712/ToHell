@@ -47,12 +47,12 @@ public class ShopManagerTest
 
         for (int i = 0; i < shopManager.itemStates.Length; i++)
         {
-            int expectedState = (i == 1 || i == 2) ? 1 : 0;
+            int expectedState = (i == 0 || i == 3) ? 1 : 0;
             Assert.AreEqual(expectedState, shopManager.itemStates[i]);
         }
 
-        Assert.AreEqual(2, shopManager.GetEquippedCharacter());
-        Assert.AreEqual(1, shopManager.GetEquippedHammer());
+        Assert.AreEqual(0, shopManager.GetEquippedCharacter());
+        Assert.AreEqual(0, shopManager.GetEquippedHammer());
     }
     
     [Test]

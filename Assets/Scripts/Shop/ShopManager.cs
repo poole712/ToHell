@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -14,7 +15,8 @@ public class ShopManager : MonoBehaviour
     public GameObject Shop;
     public CoinHandler CoinHandler;
     public SceneHandler SceneHandler;
-
+    public Button[] purchaseButtons;
+    public Text[] equippedUIText;
     private int _equippedCharacter, _equippedHammer;
     public int[] itemStates = new int[5]; // Use Constants FORSALE, PURCHASED to indicate item state
 
@@ -64,8 +66,10 @@ public class ShopManager : MonoBehaviour
         {
             for (int i = 0; i < ShopItemSO.Length; i++)
             {
+                bool isPurchaseable = CoinHandler.GetCoins() >= ShopItemSO[i].basePrice;
                 bool isEquippable = itemStates[i] == PURCHASED;
 
+                purchaseButtons[i].interactable = isPurchaseable;
                 EquippableUI[i].SetActive(isEquippable);
                 PurchaseableUI[i].SetActive(!isEquippable);
             }
@@ -120,8 +124,7 @@ public class ShopManager : MonoBehaviour
     // Change the equipped character skin based on button pressed
     public void EquipCharacterSkin(int buttonNumber)
     {
-        EquippedUI[_equippedCharacter].SetActive(false);
-        EquippedUI[buttonNumber].SetActive(true);
+        HandleUIEquipment(_equippedCharacter, buttonNumber);
         _equippedCharacter = buttonNumber;
         SaveItemStates();
     }
@@ -129,10 +132,19 @@ public class ShopManager : MonoBehaviour
     // Change the equipped hammer skin based on button pressed
     public void EquipHammerSkin(int buttonNumber)
     {
-        EquippedUI[_equippedHammer + HAMMER_OFFSET].SetActive(false);
-        EquippedUI[buttonNumber + HAMMER_OFFSET].SetActive(true);
+        HandleUIEquipment(_equippedHammer + HAMMER_OFFSET, buttonNumber + HAMMER_OFFSET);
         _equippedHammer = buttonNumber;
         SaveItemStates();
+    }
+
+    // Handle UI Displays upon equipping an item
+    private void HandleUIEquipment(int revertIndex, int updateIndex)
+    {
+        // Disable old Equipped Cue and Activate new Equipped Cue
+        EquippedUI[revertIndex].SetActive(false);
+        EquippedUI[updateIndex].SetActive(true);
+        equippedUIText[revertIndex].text = "EQUIP";
+        equippedUIText[updateIndex].text = "EQUIPPED";
     }
 
     // Getter functions for testing purposes
@@ -146,7 +158,7 @@ public class ShopManager : MonoBehaviour
         return _equippedHammer;
     }
 
-    // DEBUGGING FUNCTION, DELETE LATER
+    // Debigging Function
     public void ResetToDefault()
     {
         // Set default item states
