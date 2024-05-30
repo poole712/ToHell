@@ -12,25 +12,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireBall
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: f1ece4801140d21478ad581903ca348c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: f1ece4801140d21478ad581903ca348c, type: 3}
+      propertyPath: m_TagString
+      value: Fireball
+      objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.16117206
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.16117206
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.16117206
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.638
+      value: -3.4354753
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.562
+      value: -4.080443
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -63,6 +71,10 @@ PrefabInstance:
     - target: {fileID: -7552582706839291426, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6221682054774474198, guid: f1ece4801140d21478ad581903ca348c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 125255801806630202, guid: f1ece4801140d21478ad581903ca348c, type: 3}
       propertyPath: m_LocalScale.x
@@ -222,7 +234,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -1.6517136, y: 0}
@@ -240,5 +252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b19812871a80a84283d668cd0ee4304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 1
   damage: 10
+  GoingForward: 1

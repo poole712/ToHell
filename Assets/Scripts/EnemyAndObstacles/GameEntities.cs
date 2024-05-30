@@ -28,6 +28,18 @@ public abstract class GameEntities : MonoBehaviour
     protected virtual void Update()
     {
         CheckOutOfScreen();
+        if (_rb != null)
+        {
+            if (Speed > 0)
+            {
+                _rb.velocity = Vector2.left * Speed;
+            }
+            else
+            {
+
+                _rb.velocity = Vector2.right * (Speed * -1);
+            }
+        }
     }
 
     protected void CheckOutOfScreen()

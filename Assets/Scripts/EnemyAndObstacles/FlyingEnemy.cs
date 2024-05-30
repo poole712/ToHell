@@ -33,7 +33,7 @@ public class FlyingEnemy : GameEntities
             }
             Destroy(gameObject);
         }
-        else if (other.CompareTag("PlayerBullet"))
+        else if (other.CompareTag("Fireball"))
         {
             Destroy(gameObject);
         }

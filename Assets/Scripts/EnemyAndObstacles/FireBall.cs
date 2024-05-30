@@ -5,9 +5,30 @@ public class Fireball : MonoBehaviour
     public float speed = 5f;
     public float damage = 10f; // Set appropriate damage value
 
-    private void OnEnable()
+    private bool GoingForward = true;
+    private Rigidbody2D rb;
+
+    private void Start()
     {
-        GetComponent<Rigidbody2D>().velocity = Vector2.left * speed;
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        if (GoingForward)
+        {
+            rb.velocity = Vector2.left * speed;
+        }
+        else
+        {
+            rb.velocity = Vector2.right * speed * 5;
+        }
+    }
+
+    public void FlipBall()
+    {
+        GoingForward = false;
+        GetComponent<SpriteRenderer>().flipX = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -21,9 +42,10 @@ public class Fireball : MonoBehaviour
             }
             gameObject.SetActive(false);
         }
-        else if (other.CompareTag("OutOfBounds"))
-        {
-            gameObject.SetActive(false);
-        }
+        //? No idea how this is meant to work
+        // else if (other.CompareTag("OutOfBounds"))
+        // {
+        //     gameObject.SetActive(false);
+        // }
     }
 }

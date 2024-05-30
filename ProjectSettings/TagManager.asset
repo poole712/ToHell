@@ -13,6 +13,7 @@ TagManager:
   - Obstacle
   - Enemy
   - Coin
+  - Fireball
   layers:
   - Default
   - TransparentFX

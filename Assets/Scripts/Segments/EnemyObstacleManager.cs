@@ -9,6 +9,7 @@ public class EnemyObstacleManager : MonoBehaviour
     public List<GameObject> Obstacles;
     public List<GameObject> Abilities;
     public GameObject Coin;
+    public int Difficulty;
 
     private GameObject _player;
     private Player2DMovement _playerMovement;
@@ -42,12 +43,24 @@ public class EnemyObstacleManager : MonoBehaviour
                 SpawnCoinRandomly();
                 break;
         }
+        if (Random.Range(0, 2) == 0)
+        {
+            for(int i = 0; i < Difficulty; i++)
+            {
+                StartCoroutine(DelayedSpawn());
+            } 
+        }
         int abilitySpawnProb = Random.Range(0, 5);
-        if(abilitySpawnProb == 0)
+        if (abilitySpawnProb == 0)
         {
             SpawnAbility();
         }
 
+    }
+    private IEnumerator DelayedSpawn()
+    {
+        yield return new WaitForSeconds(Random.Range(2.0f, 6.0f));
+        SpawnEnemy();
     }
 
     private void SpawnEnemy()

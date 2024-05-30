@@ -73,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator CheckIfStillHolding()
     {
         _chargeInputDown = true;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.2f);
 
         if (_chargeInputDown)
         {
@@ -138,8 +138,11 @@ public class PlayerAttack : MonoBehaviour
         if (sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
         {
             Debug.Log("Hit enemy");
-            sphereHit.collider.gameObject.GetComponent<Enemy>().Speed = 0;
             Destroy(sphereHit.collider.gameObject);
+        }
+        if(sphereHit.collider != null && sphereHit.collider.CompareTag("Fireball"))
+        {
+            sphereHit.collider.GetComponent<Fireball>().FlipBall();
         }
         else if (rayHit.collider != null && !rayHit.collider.CompareTag("Layer 5 (Bottom)"))
         {
