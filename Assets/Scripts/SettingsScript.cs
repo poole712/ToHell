@@ -8,10 +8,9 @@ using TMPro;
 public class SettingsScript : MonoBehaviour
 {
     public GameObject Settings;
-    public  SceneHandler SceneHandler;
+    public SceneHandler SceneHandler;
     public Slider masterVol, musicVol, SFXVol;
     public AudioMixer mainAudioMixer;
-    
     public void Start()
     {
         LoadVolumeSettings();
@@ -25,22 +24,25 @@ public class SettingsScript : MonoBehaviour
 
     public void ChangeMasterVolume()
     {
-        mainAudioMixer.SetFloat("Master Volume", masterVol.value);  
+        float volume = masterVol.value;
+        mainAudioMixer.SetFloat("Master Volume", volume);  
     }
 
     public void ChangeMusicVolume()
     {
-        mainAudioMixer.SetFloat("Music Volume", musicVol.value);  
+        float volume = musicVol.value;
+        mainAudioMixer.SetFloat("Music Volume", volume);  
     }
 
     public void ChangeSFXVolume()
     {
-        mainAudioMixer.SetFloat("SFX", SFXVol.value);  
+        float volume = SFXVol.value;
+        mainAudioMixer.SetFloat("SFX", volume);  
     }
 
     public void SaveVolumeSettings()
     {
-        //save volume settings so it carries throughout the whole game workflow
+        // Save volume settings so it carries throughout the whole game workflow
         PlayerPrefs.SetFloat("MasterVolume", masterVol.value);
         PlayerPrefs.SetFloat("MusicVolume", musicVol.value);
         PlayerPrefs.SetFloat("SFXVolume", SFXVol.value);
