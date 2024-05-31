@@ -6,7 +6,7 @@ public class Enemy : GameEntities
     public ParticleSystem DestroyParticle;
     public GameObject Coin;
 
-    protected override void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {

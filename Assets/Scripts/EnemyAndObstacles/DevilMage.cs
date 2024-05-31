@@ -6,39 +6,43 @@ public class DevilMage : GameEntities
 {
     public GameObject Fireball; // Tag for the fireball in the pool
     public Transform FirePoint;
-    private float attackCooldown = 5f;
+    public float AttackCooldown = 5f;
+    public float SpeedUpMultiplier = 5f;
+    public float AttackDelay = 1;
     private float nextAttackTime = 0f;
-    private bool inView = false;
+    private Transform _player;
+    private bool _canAttack = false;
 
     protected override void Start()
     {
         base.Start();
-        StartCoroutine(WaitToBeInView());
+        _player = FindObjectOfType<Player2DMovement>().transform;
     }
 
     protected override void Update()
     {
-        base.Update();
+        CheckOutOfScreen();
 
-        if (Time.time >= nextAttackTime && inView)
+        transform.position = new Vector2(_player.transform.position.x + 3.25f, _player.transform.position.y + 0.25f);
+        if (Time.time >= nextAttackTime && _canAttack)
         {
             Attack();
-            nextAttackTime = Time.time + attackCooldown;
+            nextAttackTime = Time.time + AttackCooldown;
         }
     }
 
-    IEnumerator WaitToBeInView()
+    public void EnableAttack()
     {
-        yield return new WaitForSeconds(1);
-        inView = true;
+        _canAttack = true;
+        Debug.Log("Enabling mage attack");
     }
 
     void Attack()
     {
-        Instantiate(Fireball, FirePoint.transform.position, quaternion.identity); 
+        Instantiate(Fireball, FirePoint.transform.position, quaternion.identity);
     }
 
-    protected override void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Fireball"))
         {

@@ -11,6 +11,7 @@ public class Fireball : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Destroy(gameObject, 3);
     }
 
     void Update()
@@ -24,6 +25,8 @@ public class Fireball : MonoBehaviour
             rb.velocity = Vector2.right * speed * 5;
         }
     }
+
+
 
     public void FlipBall()
     {
@@ -42,10 +45,6 @@ public class Fireball : MonoBehaviour
             }
             gameObject.SetActive(false);
         }
-        //? No idea how this is meant to work
-        // else if (other.CompareTag("OutOfBounds"))
-        // {
-        //     gameObject.SetActive(false);
-        // }
+
     }
 }

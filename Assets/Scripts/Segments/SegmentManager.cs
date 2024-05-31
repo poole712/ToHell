@@ -94,6 +94,7 @@ public class SegmentManager : MonoBehaviour
                 {
                     segment.GetComponent<S_Segment>().Explode();
                 }
+                _enemyObstacleManager.DestroyAllObjects();
                 //Change to deeper color in BG
                 BackgroundColor.ChangeColor();
 

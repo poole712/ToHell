@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-using Unity.VisualScripting;
-
 
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(S_SegmentManagerAttribute))]
@@ -45,18 +42,40 @@ public class FloatPickerAttributeDrawer : PropertyDrawer
 public class SegmentManagerEditor : Editor
 {
     GUIStyle buttonStyle;
+    GUIStyle titleStyle;
+
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
+        buttonStyle = new GUIStyle(GUI.skin.button);
+        buttonStyle.normal.textColor = Color.white;
+        buttonStyle.fontSize = 12;
+
+        titleStyle = new GUIStyle(GUI.skin.label)
+        {
+            fontSize = 18,
+            fontStyle = FontStyle.Bold,
+            padding = new RectOffset(0, 0, 10, 10)
+        };
+        titleStyle.normal.textColor = Color.black;
+        titleStyle.alignment = TextAnchor.MiddleCenter;
+        titleStyle.padding = new RectOffset(10, 10, 1, 1);
+        titleStyle.normal.background = EditorGUIUtility.whiteTexture;
+
         //How to actually display every variable used in this script.
         //Apparently this is required as soon as you turn the class into a Editor subclass.
+
+        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Height(15));
+        EditorGUILayout.LabelField("Setup: ", titleStyle, GUILayout.ExpandWidth(true));
+        GUILayout.EndVertical();
+
         var layerHealth = serializedObject.FindProperty("MaxHealth");
         EditorGUILayout.PropertyField(layerHealth, true);
 
-        var segmentsProperty = serializedObject.FindProperty("Segments");
-        EditorGUILayout.PropertyField(segmentsProperty, true);
+        var startOffset = serializedObject.FindProperty("StartOffset");
+        EditorGUILayout.PropertyField(startOffset, true);
 
         var layerHealthBar = serializedObject.FindProperty("LayerHealthBar");
         EditorGUILayout.PropertyField(layerHealthBar, true);
@@ -64,43 +83,31 @@ public class SegmentManagerEditor : Editor
         var usedSegments = serializedObject.FindProperty("UsedSegments");
         EditorGUILayout.PropertyField(usedSegments, true);
 
-        var crackBlocks = serializedObject.FindProperty("CrackBlocks");
-        EditorGUILayout.PropertyField(crackBlocks, true);
-
-        var groundDecor = serializedObject.FindProperty("GroundDecor");
-        EditorGUILayout.PropertyField(groundDecor, true);
-
-        var groundSprite = serializedObject.FindProperty("GroundSprite");
-        EditorGUILayout.PropertyField(groundSprite, true);
-
-        var startOffset = serializedObject.FindProperty("StartOffset");
-        EditorGUILayout.PropertyField(startOffset, true);
-
         var nextLayer = serializedObject.FindProperty("NextLayer");
         EditorGUILayout.PropertyField(nextLayer, true);
 
         var player = serializedObject.FindProperty("Player");
         EditorGUILayout.PropertyField(player, true);
 
-        var backgroundColor = serializedObject.FindProperty("BackgroundColor");
-        EditorGUILayout.PropertyField(backgroundColor, true);
-
-        var decorOffset = serializedObject.FindProperty("DecorOffset");
-        EditorGUILayout.PropertyField(decorOffset, true);
-
         serializedObject.ApplyModifiedProperties();
-
-        buttonStyle = new GUIStyle(GUI.skin.button);
-        buttonStyle.normal.textColor = Color.white;
-        buttonStyle.fontSize = 12;
-
-        var layerProperty = serializedObject.FindProperty("specifiedLayer");
-        EditorGUILayout.PropertyField(layerProperty);
 
         var targetObject = (SegmentManager)target;
         var specifiedLayer = targetObject.specifiedLayer;
 
+        EditorGUILayout.Space(20);
+        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Height(15));
+        EditorGUILayout.LabelField("Segment Management: ", titleStyle, GUILayout.ExpandWidth(true));
+        GUILayout.EndVertical();
 
+        var layerProperty = serializedObject.FindProperty("specifiedLayer");
+        EditorGUILayout.PropertyField(layerProperty);
+
+        var segmentsProperty = serializedObject.FindProperty("Segments");
+        EditorGUILayout.PropertyField(segmentsProperty, true);
+
+
+        var crackBlocks = serializedObject.FindProperty("CrackBlocks");
+        EditorGUILayout.PropertyField(crackBlocks, true);
 
         //Overall horizontal shelf to hold buttons/other UI.
         using (new EditorGUILayout.HorizontalScope())
@@ -157,6 +164,11 @@ public class SegmentManagerEditor : Editor
             }
         }
 
+        EditorGUILayout.Space(20);
+        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Height(15));
+        EditorGUILayout.LabelField("Destruction: ", titleStyle);
+        GUILayout.EndVertical();
+
         using (new EditorGUILayout.HorizontalScope())
         {
             if (GUILayout.Button("Regenerate Segment/s Destruction", buttonStyle))
@@ -169,6 +181,23 @@ public class SegmentManagerEditor : Editor
             }
 
         }
+
+        EditorGUILayout.Space(20);
+        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Height(15));
+        EditorGUILayout.LabelField("Layer Art: ", titleStyle);
+        GUILayout.EndVertical();
+
+        var groundDecor = serializedObject.FindProperty("GroundDecor");
+        EditorGUILayout.PropertyField(groundDecor, true);
+
+        var groundSprite = serializedObject.FindProperty("GroundSprite");
+        EditorGUILayout.PropertyField(groundSprite, true);
+
+        var backgroundColor = serializedObject.FindProperty("BackgroundColor");
+        EditorGUILayout.PropertyField(backgroundColor, true);
+
+        var decorOffset = serializedObject.FindProperty("DecorOffset");
+        EditorGUILayout.PropertyField(decorOffset, true);
 
         using (new EditorGUILayout.HorizontalScope())
         {

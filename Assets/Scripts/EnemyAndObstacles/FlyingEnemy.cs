@@ -22,7 +22,7 @@ public class FlyingEnemy : GameEntities
         transform.position = new Vector3(transform.position.x, startPosition.y + newY, transform.position.z);
     }
 
-    protected override void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {

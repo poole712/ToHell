@@ -330,11 +330,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4a99d81e6eb47bc4dab29b30d8571373, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.11672489
+      value: -2.6225126
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4a99d81e6eb47bc4dab29b30d8571373, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.034056723
+      value: -4.031704
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4a99d81e6eb47bc4dab29b30d8571373, type: 3}
       propertyPath: m_LocalPosition.z
@@ -694,10 +694,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40a3f53f7af9234ab2aa28b918e5638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: -1
+  Speed: 0.25
   Fireball: {fileID: 8509919313027942173, guid: 8bf7293a46b3094438d38dd216c73616, type: 3}
   FirePoint: {fileID: 8049917273665879250}
-  MaxSpeed: -2
+  AttackCooldown: 3
+  SpeedUpMultiplier: 5
+  AttackDelay: 0.75
 --- !u!61 &-258916348059591965
 BoxCollider2D:
   m_ObjectHideFlags: 0

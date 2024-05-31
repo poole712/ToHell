@@ -57,11 +57,4 @@ public abstract class GameEntities : MonoBehaviour
     }
 
 
-    // Add this virtual method
-    protected virtual void OnTriggerEnter2D(Collider2D other)
-    {
-        // Base implementation, if any general behavior is needed
-    }
-
-
 }

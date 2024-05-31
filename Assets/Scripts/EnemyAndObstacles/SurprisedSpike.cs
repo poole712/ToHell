@@ -39,7 +39,7 @@ public class SurprisedSpike : GameEntities
         }
     }
 
-    protected override void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (isActive && other.CompareTag("Player"))
         {
