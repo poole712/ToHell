@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Item #2
   m_EditorClassIdentifier: 
   title: Hammer
-  desc: Look cooler breaking through layers with this hammer!
+  desc: Break through the layers with our original hammer!
   basePrice: 50
