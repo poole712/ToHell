@@ -15,7 +15,7 @@ The main game level is located and developed in this scene. It houses the main g
 #### Getting Started 
 
 #### 1. Setup Unity
-The Unity Editor is required. [Download Unity Editor]w(https://unity.com/products/unity-engine)
+The Unity Editor is required. [Download Unity Editor](https://unity.com/products/unity-engine)
 
 1. In UnityHub, if building for Android or IOS, ensure the right SDKs are installed (Installs -> Platforms -> IOS or Android Build Support -> Done).
 3. Open the Unity Project of `./ToHell/` in Unity Version 2022.3.20f1
