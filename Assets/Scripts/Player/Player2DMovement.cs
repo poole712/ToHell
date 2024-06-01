@@ -9,6 +9,7 @@ public class Player2DMovement : MonoBehaviour
     private Animator _animator;
     private Vector2 _startTouchPosition;
     private Vector2 _endTouchPosition;
+    public AudioSource JumpSource, LandSource;
 
     public Vector2 JumpHeight = new Vector2(1, 5f);
     public Vector2 Speed = new Vector2(5, 0);
@@ -54,6 +55,7 @@ public class Player2DMovement : MonoBehaviour
 
     private void Jump()
     {
+        JumpSource.Play();
         _animator.SetBool("Jump", true);
         InAir = true;
         rb2d.AddForce(JumpHeight, ForceMode2D.Impulse);
@@ -89,11 +91,12 @@ public class Player2DMovement : MonoBehaviour
 
     public void Landed()
     {
+        LandSource.Play();
         InAir = false;
         _animator.SetBool("Jump", false);
         StartCoroutine(SetInAir(false));
-
     }
+
 
   
 

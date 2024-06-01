@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMaterialManager : MonoBehaviour
 {
     public List<MaterialEntry> materialEntries;
+    public AudioSource audioSource;
 
     private Dictionary<string, MaterialEntry> Materials;
 
@@ -32,6 +33,9 @@ public class PlayerMaterialManager : MonoBehaviour
             case "Health":
                 ApplyMaterials("Health", time);
                 break;
+            case "Damaged":
+                ApplyMaterials("Damaged", time);
+                break;
             default:
                 break;
         }
@@ -41,6 +45,8 @@ public class PlayerMaterialManager : MonoBehaviour
     {
         if (Materials.ContainsKey(type))
         {
+            audioSource.clip = Materials[type].audio;
+            audioSource.Play();
             var materialEntry = Materials[type];
             for (int i = 0; i < transform.childCount - 2; i++)
             {
@@ -66,4 +72,5 @@ public class MaterialEntry
 {
     public string key;
     public Material material;
+    public AudioClip audio;
 }

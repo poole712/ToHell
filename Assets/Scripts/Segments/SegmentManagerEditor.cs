@@ -71,6 +71,9 @@ public class SegmentManagerEditor : Editor
         EditorGUILayout.LabelField("Setup: ", titleStyle, GUILayout.ExpandWidth(true));
         GUILayout.EndVertical();
 
+        var audioSource = serializedObject.FindProperty("AudioSource");
+        EditorGUILayout.PropertyField(audioSource, true);
+
         var layerHealth = serializedObject.FindProperty("MaxHealth");
         EditorGUILayout.PropertyField(layerHealth, true);
 

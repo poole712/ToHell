@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +8,9 @@ public class PlayerAttack : MonoBehaviour
 
     public float MaxChargeTime = 3f;
     public ParticleSystem slamParticle;
-    public LayerMask HitLayerMask;
-    public LayerMask AttackLayerMask;
+    public LayerMask HitLayerMask, AttackLayerMask;
+    public AudioClip[] slamClips;
+    public AudioSource slamSource, chargeSource, skeleHitSource;
 
     public GameObject segmentManager;
     public float MaxDamage = 15f;
@@ -22,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     private float _power;
     private bool _chargeInputDown;
     private Coroutine _chargingCoroutine;
+    private AudioSource _audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,7 @@ public class PlayerAttack : MonoBehaviour
             EndCharging();
         }
 
-//Precautions to ensure these are only run when playing on a mobile device
+        //Precautions to ensure these are only run when playing on a mobile device
 #if UNITY_ANDROID || UNITY_IOS
         // Touch input for mobile
         if (Input.touchCount > 0)
@@ -74,7 +75,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _chargeInputDown = true;
         yield return new WaitForSeconds(0.2f);
-
+        chargeSource.Play();
         if (_chargeInputDown)
         {
             StartCharging();
@@ -84,7 +85,7 @@ public class PlayerAttack : MonoBehaviour
     private void EndCharging()
     {
         _chargeInputDown = false;
-
+        chargeSource.Stop();
         if (_isCharging)
         {
             _isCharging = false;
@@ -102,6 +103,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!_isCharging)
         {
+            slamSource.clip = slamClips[Random.Range(0, 2)];
             _isCharging = true;
             _animator.SetBool("Holding", true);
             _power = 0f; // Reset power when starting a new charge
@@ -122,6 +124,7 @@ public class PlayerAttack : MonoBehaviour
     //Called in the Attack animation event!
     public void Attack()
     {
+        slamSource.Play();
         //Ray for shooting out ahead of player where the hammer would hit
         RaycastHit2D rayHit = Physics2D.Raycast(new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z),
         new Vector2(Vector2.down.x + 1, Vector2.down.y), 0.1f, HitLayerMask);
@@ -138,9 +141,10 @@ public class PlayerAttack : MonoBehaviour
         if (sphereHit.collider != null && sphereHit.collider.CompareTag("Enemy"))
         {
             Debug.Log("Hit enemy");
+            skeleHitSource.Play();
             Destroy(sphereHit.collider.gameObject);
         }
-        if(sphereHit.collider != null && sphereHit.collider.CompareTag("Fireball"))
+        if (sphereHit.collider != null && sphereHit.collider.CompareTag("Fireball"))
         {
             sphereHit.collider.GetComponent<Fireball>().FlipBall();
         }
@@ -150,7 +154,6 @@ public class PlayerAttack : MonoBehaviour
             segmentManager.GetComponent<SegmentManager>().DamageLayer(_power);
             Camera.main.GetComponent<S_SimpleCamera>().Shake();
         }
-
         _power = 0;
         PowerBar.fillAmount = _power / MaxDamage;
     }

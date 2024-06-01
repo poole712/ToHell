@@ -12,23 +12,29 @@ public class PlayerHealth : MonoBehaviour
     public PlayerStats PlayerStats;
 
     private float _health;
+    private AudioSource audioSource;
     private int _coins;
+    private PlayerMaterialManager playerMatMgr;
 
     //
     private bool isInvincible = false;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         CoinHandler.InitCoinDisplayer();
         _health = MaxHealth;
         HealthBar.fillAmount = _health / MaxHealth;
+        playerMatMgr = GetComponent<PlayerMaterialManager>();    
     }
 
     public void Damage(float dmg)
     {
         if (!isInvincible)
         {
+            playerMatMgr.SetMaterial("Damaged", 1.5f);
             _health -= dmg;
+
             if (_health <= 0)
             {
                 Time.timeScale = 0.0f;
@@ -59,6 +65,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (other.CompareTag("Coin"))
         {
+            audioSource.Play();
             CoinHandler.AddCoin(1);
             Destroy(other.gameObject);
         }

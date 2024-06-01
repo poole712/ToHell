@@ -6,6 +6,7 @@ public class Enemy : GameEntities
     public ParticleSystem DestroyParticle;
     public GameObject Coin;
 
+
     protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -38,5 +39,6 @@ public class Enemy : GameEntities
                 Destroy(coin, 5.0f); // Destroy the coin after 5 seconds to prevent memory leak
             }
         }
+
     }
 }

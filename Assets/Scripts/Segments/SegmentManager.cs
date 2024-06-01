@@ -16,6 +16,7 @@ public class SegmentManager : MonoBehaviour
     public float MaxHealth = 100f;
     public float DecorOffset;
     public Image LayerHealthBar;
+    public AudioSource AudioSource;
 
     public List<GameObject> Segments;
     public List<GameObject> CrackBlocks;
@@ -32,6 +33,7 @@ public class SegmentManager : MonoBehaviour
     private float _layerHealth = 100;
     private float _crackThreshold = 80f;
     private EnemyObstacleManager _enemyObstacleManager;
+
     
     //When layer becomes active/enabled
     private void OnEnable()
@@ -89,6 +91,7 @@ public class SegmentManager : MonoBehaviour
             //Check if needs deactivating
             if (_layerHealth <= 0)
             {
+                AudioSource.Play();
                 //Explode fragments in the Segment object
                 foreach (GameObject segment in UsedSegments)
                 {
