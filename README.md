@@ -25,15 +25,15 @@ The Unity Editor is required. [Download Unity Editor](https://unity.com/products
 **Unity Editor Play**
 1. Open the project in the Unity Editor.
 2. Set display to "(Full HD 1920 x 1080)" to maximize UI experience.
-3. Open the scene of [Assets/Scenes/SeanSecene.unity]
+3. Open the scene of `./Assets/Scenes/SeanSecene.unity`
 4. Run Unity Editor for To Hell.
 
 **Standalone Build Play**
 1. Open the project in the Unity Editor.
 2. Make a Unity StandAlone Build
-  - Select the correct platform if playing on a mobile device.
-3. Find the executable and run it.
-  - For mobile devices, transfer the .apk (Android) or .ipa (iOS) file to the device, set it      up, and run it as directed.
+   * Select the correct platform if playing on a mobile device.
+4. Find the executable and run it.
+    * For mobile devices, transfer the .apk (Android) or .ipa (iOS) file to the device, set it      up, and run it as directed.
     
 #### License
 The project source code is developed and owned by our 2024 Semester 1 COMP602 Software Development Practice group.
