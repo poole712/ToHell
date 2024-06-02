@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMaterialManager : MonoBehaviour
 {
     public List<MaterialEntry> materialEntries;
     public AudioSource audioSource;
+    public GameObject AbilityPanel;
+    public TextMeshProUGUI AbilityText;
 
     private Dictionary<string, MaterialEntry> Materials;
 
@@ -26,12 +29,15 @@ public class PlayerMaterialManager : MonoBehaviour
         {
             case "Invincibility":
                 ApplyMaterials("Invincibility", time);
+                StartCoroutine(SetAbilityUI("Invincibility pickup!"));
                 break;
-            case "Speed":
-                ApplyMaterials("Speed", time);
+            case "Hammer Speed":
+                ApplyMaterials("Hammer Speed", time);
+                StartCoroutine(SetAbilityUI("Hammer Speed pickup!"));
                 break;
             case "Health":
                 ApplyMaterials("Health", time);
+                StartCoroutine(SetAbilityUI("Health pickup!"));
                 break;
             case "Damaged":
                 ApplyMaterials("Damaged", time);
@@ -39,6 +45,15 @@ public class PlayerMaterialManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private IEnumerator SetAbilityUI(string name)
+    {
+        AbilityPanel.SetActive(true);
+        AbilityText.text = name;
+        yield return new WaitForSeconds(2);
+        AbilityPanel.SetActive(false);
+        AbilityText.text = "";
     }
 
     private void ApplyMaterials(string type, float time)

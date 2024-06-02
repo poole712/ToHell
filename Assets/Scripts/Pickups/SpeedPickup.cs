@@ -10,7 +10,7 @@ public class SpeedPickup : Pickup
         PlayerAttack playerAttack = player.GetComponent<PlayerAttack>();
         if (playerAttack != null)
         {
-            playerMatMgr.SetMaterial("Speed", duration);
+            playerMatMgr.SetMaterial("Hammer Speed", duration);
             playerAttack.IncreaseSpeed(speedIncrease, duration);
         }
     }
