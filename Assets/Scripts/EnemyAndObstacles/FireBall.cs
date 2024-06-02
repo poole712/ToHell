@@ -3,18 +3,18 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
     public float speed = 5f;
-    public float damage = 10f; // Set appropriate damage value
+    public float damage = 10f;
 
     private bool GoingForward = true;
     private Rigidbody2D rb;
 
-    private void Start()
+    public void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, 3);
     }
 
-    void Update()
+    public void Update()
     {
         if (GoingForward)
         {
@@ -26,15 +26,13 @@ public class Fireball : MonoBehaviour
         }
     }
 
-
-
     public void FlipBall()
     {
         GoingForward = false;
         GetComponent<SpriteRenderer>().flipX = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -45,6 +43,5 @@ public class Fireball : MonoBehaviour
             }
             gameObject.SetActive(false);
         }
-
     }
 }

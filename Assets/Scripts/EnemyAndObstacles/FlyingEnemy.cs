@@ -16,13 +16,17 @@ public class FlyingEnemy : GameEntities
     protected override void Update()
     {
         base.Update();
+        MoveInSineWave();
+    }
 
+    public void MoveInSineWave()
+    {
         // Make the enemy fly in a sine wave pattern
         float newY = Mathf.Sin(Time.time * verticalSpeed) * amplitude;
         transform.position = new Vector3(transform.position.x, startPosition.y + newY, transform.position.z);
     }
 
-    protected void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {

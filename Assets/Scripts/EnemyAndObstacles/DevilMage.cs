@@ -13,6 +13,8 @@ public class DevilMage : GameEntities
     private Transform _player;
     private bool _canAttack = false;
 
+    public bool CanAttack => _canAttack;
+
     protected override void Start()
     {
         base.Start();
@@ -37,12 +39,12 @@ public class DevilMage : GameEntities
         Debug.Log("Enabling mage attack");
     }
 
-    void Attack()
+    public void Attack()
     {
         Instantiate(Fireball, FirePoint.transform.position, quaternion.identity);
     }
 
-    protected void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Fireball"))
         {

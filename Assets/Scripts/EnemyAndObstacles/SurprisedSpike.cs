@@ -8,7 +8,7 @@ public class SurprisedSpike : GameEntities
     public float cooldownDuration = 3f;
     private Vector3 initialPosition;
     private Vector3 targetPosition;
-    private bool isActive = false;
+    public bool isActive = false;
 
     protected override void Start()
     {
@@ -18,7 +18,7 @@ public class SurprisedSpike : GameEntities
         StartCoroutine(ActivateSpike());
     }
 
-    IEnumerator ActivateSpike()
+    public IEnumerator ActivateSpike()
     {
         while (true)
         {
@@ -39,7 +39,7 @@ public class SurprisedSpike : GameEntities
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (isActive && other.CompareTag("Player"))
         {

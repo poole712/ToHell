@@ -6,8 +6,7 @@ public class Enemy : GameEntities
     public ParticleSystem DestroyParticle;
     public GameObject Coin;
 
-
-    protected void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -16,7 +15,7 @@ public class Enemy : GameEntities
         }
     }
 
-    protected void OnDestroy()
+    public void OnDestroy()
     {
         if (!this.gameObject.scene.isLoaded) return;
         if (DestroyParticle != null)
@@ -42,3 +41,4 @@ public class Enemy : GameEntities
 
     }
 }
+

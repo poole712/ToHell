@@ -28,6 +28,8 @@ public class PlayerHealth : MonoBehaviour
         playerMatMgr = GetComponent<PlayerMaterialManager>();    
     }
 
+    public float CurrentHealth => _health; // Add public getter for _health
+
     public void Damage(float dmg)
     {
         if (!isInvincible)
