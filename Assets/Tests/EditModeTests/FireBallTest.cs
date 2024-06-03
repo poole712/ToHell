@@ -36,36 +36,24 @@ public class FireballTests
     [UnityTest]
     public IEnumerator Fireball_Start_DestroyAfter3Seconds()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Fireball_Update_MovesInCorrectDirection()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Fireball_FlipBall_ChangesDirection()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Fireball_OnTriggerEnter2D_PlayerTakesDamage()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 }

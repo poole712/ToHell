@@ -13,4 +13,10 @@ public class InvincibilityPickup : Pickup
             playerHealth.EnableInvincibility(duration);
         }
     }
+
+    // Public method for testing
+    public void TestApplyEffect(GameObject player, PlayerMaterialManager playerMatMgr)
+    {
+        ApplyEffect(player, playerMatMgr);
+    }
 }

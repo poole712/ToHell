@@ -36,9 +36,6 @@ public class DevilMageTests
         // Enable attack and check if it is allowed
         devilMage.EnableAttack();
 
-        // Assert that the attack is enabled
-        Assert.Pass(); 
-
         yield return null;
     }
 
@@ -52,9 +49,6 @@ public class DevilMageTests
         // Enable attack and call the attack method
         devilMage.EnableAttack();
         devilMage.Attack();
-
-        // Assert that the fireball is instantiated
-        Assert.Pass(); 
 
         yield return null;
     }

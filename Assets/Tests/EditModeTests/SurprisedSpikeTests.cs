@@ -39,9 +39,6 @@ public class SurprisedSpikeTests
         // Start the coroutine manually
         surprisedSpike.StartCoroutine(surprisedSpike.ActivateSpike());
 
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 
@@ -53,9 +50,6 @@ public class SurprisedSpikeTests
 
         // Simulate collision with the player
         surprisedSpike.OnTriggerEnter2D(playerGameObject.GetComponent<Collider2D>());
-
-        // Assert pass to always pass the test
- 
 
         yield return null;
     }

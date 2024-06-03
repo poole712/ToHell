@@ -34,17 +34,12 @@ public class EnemyTests
     [UnityTest]
     public IEnumerator Enemy_OnDestroy_ParticlesAndCoinsAreSpawned()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Enemy_OnTriggerEnter2D_PlayerTakesDamage()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
 
         yield return null;
     }

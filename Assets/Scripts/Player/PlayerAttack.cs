@@ -170,4 +170,9 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(duration);
         ChargeSpeed = 0.05f;
     }
+
+    public float GetSpeed()
+    {
+        return ChargeSpeed;
+    }
 }

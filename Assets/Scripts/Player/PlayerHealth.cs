@@ -29,6 +29,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public float CurrentHealth => _health; // Add public getter for _health
+    public bool IsInvincible => isInvincible; // Add public getter for isInvincible
 
     public void Damage(float dmg)
     {

@@ -13,4 +13,10 @@ public class HealthPickup : Pickup
             playerHealth.IncreaseHealth(healthAmount);
         }
     }
+
+    // Public method for testing
+    public void TestApplyEffect(GameObject player, PlayerMaterialManager playerMatMgr)
+    {
+        ApplyEffect(player, playerMatMgr);
+    }
 }

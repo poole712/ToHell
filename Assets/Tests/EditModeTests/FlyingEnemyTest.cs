@@ -37,27 +37,18 @@ public class FlyingEnemyTests
     [UnityTest]
     public IEnumerator FlyingEnemy_MoveInSineWave_ChangesPosition()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator FlyingEnemy_OnTriggerEnter2D_PlayerTakesDamage()
-    {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
+    { 
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator FlyingEnemy_OnTriggerEnter2D_DestroyedByFireball()
     {
-        // Assert pass to always pass the test
-        Assert.Pass();
-
         yield return null;
     }
 }
